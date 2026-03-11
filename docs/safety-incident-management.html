@@ -183,12 +183,12 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 .feed-title { flex: 1; font-weight: 500; }
 .feed-meta { font-size: 0.68rem; color: var(--text-muted); font-family: var(--mono); }
 
-/* DETAIL PAGE WIREFRAME */
-.detail-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
-.detail-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 1rem; }
-.detail-tab { padding: 8px 16px; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: pointer; }
-.detail-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
-.detail-sidebar { display: flex; flex-direction: column; gap: 12px; }
+/* DETAIL PAGE WIREFRAME (prefixed to avoid clash with outer page layout) */
+.wf-detail-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; }
+.wf-detail-tabs { display: flex; gap: 0; border-bottom: 2px solid var(--border); margin-bottom: 1rem; }
+.wf-detail-tab { padding: 8px 16px; font-size: 0.75rem; font-weight: 600; color: var(--text-muted); border-bottom: 2px solid transparent; margin-bottom: -2px; cursor: pointer; }
+.wf-detail-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.wf-detail-sidebar { display: flex; flex-direction: column; gap: 12px; }
 .sidebar-card { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
 .sidebar-card h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 8px; }
 .sidebar-field { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid var(--border); font-size: 0.75rem; }
@@ -218,7 +218,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 
 /* RESPONSIVE */
 @media (max-width: 900px) {
-    .two-col, .detail-layout { grid-template-columns: 1fr; }
+    .two-col, .wf-detail-layout { grid-template-columns: 1fr; }
     .kpi-grid { grid-template-columns: repeat(2, 1fr); }
     .chart-grid { grid-template-columns: 1fr; }
     .wf-form-row.col2, .wf-form-row.col3, .wf-form-row.col4 { grid-template-columns: 1fr; }
@@ -554,15 +554,15 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                 </div>
             </div>
 
-            <div class="detail-layout">
+            <div class="wf-detail-layout">
                 <div>
-                    <div class="detail-tabs">
-                        <div class="detail-tab active">Details</div>
-                        <div class="detail-tab">Investigation</div>
-                        <div class="detail-tab">Corrective Actions</div>
-                        <div class="detail-tab">Activity</div>
-                        <div class="detail-tab">Files</div>
-                        <div class="detail-tab">Notes</div>
+                    <div class="wf-detail-tabs">
+                        <div class="wf-detail-tab active">Details</div>
+                        <div class="wf-detail-tab">Investigation</div>
+                        <div class="wf-detail-tab">Corrective Actions</div>
+                        <div class="wf-detail-tab">Activity</div>
+                        <div class="wf-detail-tab">Files</div>
+                        <div class="wf-detail-tab">Notes</div>
                     </div>
 
                     <div style="padding:0;">
@@ -590,7 +590,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                         </div>
                     </div>
                 </div>
-                <div class="detail-sidebar">
+                <div class="wf-detail-sidebar">
                     <div class="sidebar-card">
                         <h4>Status</h4>
                         <div style="text-align:center; padding:8px 0;"><span class="badge purple" style="font-size:0.78rem; padding:6px 14px;">Investigation Started</span></div>

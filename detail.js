@@ -82,11 +82,6 @@
         html += '<span class="badge ' + meta.cls + '">' + esc(meta.label) + '</span>';
         html += '</div>';
 
-        html += '<div class="sb-section">';
-        html += '<div class="sb-label">Spec</div>';
-        html += '<a href="#" class="sb-link active" data-view="spec">Design Specification</a>';
-        html += '</div>';
-
         var plans = documents.filter(function (d) { return d.doc_type === "plan"; });
         if (plans.length > 0) {
             html += '<div class="sb-section">';
@@ -97,15 +92,14 @@
             html += '</div>';
         }
 
+        html += '<div class="sb-section">';
+        html += '<div class="sb-label">Canvases</div>';
+        html += '<a href="#" class="sb-link active" data-view="spec">Design Specification</a>';
         var canvases = documents.filter(function (d) { return d.doc_type === "canvas"; });
-        if (canvases.length > 0) {
-            html += '<div class="sb-section">';
-            html += '<div class="sb-label">Canvases</div>';
-            canvases.forEach(function (doc) {
-                html += '<a href="#" class="sb-link" data-view="canvas" data-doc-id="' + doc.id + '">' + esc(doc.title) + '</a>';
-            });
-            html += '</div>';
-        }
+        canvases.forEach(function (doc) {
+            html += '<a href="#" class="sb-link" data-view="canvas" data-doc-id="' + doc.id + '">' + esc(doc.title) + '</a>';
+        });
+        html += '</div>';
 
         if (tickets.length > 0) {
             html += '<div class="sb-section">';
