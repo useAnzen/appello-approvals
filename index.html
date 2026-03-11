@@ -32,6 +32,12 @@
             padding: 24px 0;
         }
 
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
         .container {
             max-width: 960px;
             margin: 0 auto;
@@ -68,6 +74,31 @@
             font-weight: 400;
             font-size: 14px;
             margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            background: var(--accent-light);
+            color: var(--accent);
         }
 
         .content {
@@ -123,12 +154,12 @@
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
+            font-size: 20px;
         }
 
-        .doc-icon svg {
-            width: 24px;
-            height: 24px;
-            color: var(--accent);
+        .doc-info {
+            flex: 1;
+            min-width: 0;
         }
 
         .doc-info h3 {
@@ -162,27 +193,25 @@
             margin-top: 4px;
         }
 
-        .badge-pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
+        .badge-draft { background: #f1f5f9; color: #475569; }
+        .badge-pending_review { background: #fef3c7; color: #92400e; }
+        .badge-needs_changes { background: #fee2e2; color: #991b1b; }
+        .badge-approved { background: #d1fae5; color: #065f46; }
+        .badge-in_development { background: #dbeafe; color: #1e40af; }
+        .badge-in_review { background: #ede9fe; color: #5b21b6; }
+        .badge-deployed { background: #d1fae5; color: #065f46; }
 
-        .badge-approved {
-            background: #d1fae5;
-            color: #065f46;
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-secondary);
+            font-size: 14px;
         }
 
         .empty-state {
             text-align: center;
             padding: 80px 24px;
             color: var(--text-secondary);
-        }
-
-        .empty-state svg {
-            width: 64px;
-            height: 64px;
-            margin-bottom: 16px;
-            opacity: 0.4;
         }
 
         .empty-state h3 {
@@ -204,9 +233,15 @@
 <body>
     <header class="header">
         <div class="container">
-            <div class="brand">
-                <div class="brand-icon">A</div>
-                <h1>Appello <span>Approval Documents</span></h1>
+            <div class="header-inner">
+                <div class="brand">
+                    <div class="brand-icon">A</div>
+                    <h1>Appello <span>Approval Documents</span></h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="./" class="nav-link active">Documents</a>
+                    <a href="./pipeline.html" class="nav-link">Pipeline</a>
+                </nav>
             </div>
         </div>
     </header>
@@ -219,38 +254,7 @@
             </div>
 
             <div class="doc-grid" id="doc-list">
-                <a href="./docs/safety-incident-management.html" class="doc-card">
-                    <div class="doc-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
-                        </svg>
-                    </div>
-                    <div class="doc-info">
-                        <h3>Safety & Incident Management — Design Specification</h3>
-                        <p>Comprehensive safety incident tracking, OSHA compliance, investigation workflows, and corrective actions</p>
-                    </div>
-                    <div class="doc-meta">
-                        <div class="date">Mar 11, 2026</div>
-                        <div class="badge badge-pending">Pending Review</div>
-                    </div>
-                </a>
-
-                <a href="./docs/personnel-qr-codes.html" class="doc-card">
-                    <div class="doc-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 3.75 9.375v-4.5ZM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 0 1-1.125-1.125v-4.5ZM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0 1 13.5 9.375v-4.5Z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75ZM6.75 16.5h.75v.75h-.75v-.75ZM16.5 6.75h.75v.75h-.75v-.75ZM13.5 13.5h.75v.75h-.75v-.75ZM13.5 19.5h.75v.75h-.75v-.75ZM19.5 13.5h.75v.75h-.75v-.75ZM19.5 19.5h.75v.75h-.75v-.75ZM16.5 16.5h.75v.75h-.75v-.75Z" />
-                        </svg>
-                    </div>
-                    <div class="doc-info">
-                        <h3>Personnel QR Codes — Design Specification</h3>
-                        <p>Scannable QR stickers for personnel showing certifications, emergency contacts, and compliance status</p>
-                    </div>
-                    <div class="doc-meta">
-                        <div class="date">Mar 11, 2026</div>
-                        <div class="badge badge-pending">Pending Review</div>
-                    </div>
-                </a>
+                <div class="loading-spinner">Loading documents...</div>
             </div>
         </div>
     </main>
@@ -260,5 +264,93 @@
             &copy; 2026 Appello. All rights reserved.
         </div>
     </footer>
+
+    <script src="./feedback-config.js"></script>
+    <script>
+    (function () {
+        var cfg = window.FEEDBACK_CONFIG;
+        if (!cfg) return;
+
+        var API = cfg.supabaseUrl + "/rest/v1";
+        var headers = {
+            apikey: cfg.supabaseKey,
+            Authorization: "Bearer " + cfg.supabaseKey
+        };
+
+        var STATUS_LABELS = {
+            draft: "Draft",
+            pending_review: "Pending Review",
+            needs_changes: "Needs Changes",
+            approved: "Approved",
+            in_development: "In Development",
+            in_review: "In Review",
+            deployed: "Deployed"
+        };
+
+        var DOC_ICON = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:24px;height:24px;color:#2563eb"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>';
+
+        function formatDate(iso) {
+            var d = new Date(iso);
+            return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        }
+
+        function esc(s) {
+            var d = document.createElement("div");
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        function renderCards(packages) {
+            var grid = document.getElementById("doc-list");
+            if (!packages.length) {
+                grid.innerHTML = '<div class="empty-state"><h3>No documents yet</h3><p>Work packages will appear here once created.</p></div>';
+                return;
+            }
+            grid.innerHTML = packages.map(function (wp) {
+                var statusLabel = STATUS_LABELS[wp.status] || wp.status;
+                var badgeClass = "badge badge-" + wp.status;
+                return '<a href="' + esc(wp.spec_url) + '" class="doc-card">' +
+                    '<div class="doc-icon">' + DOC_ICON + '</div>' +
+                    '<div class="doc-info">' +
+                        '<h3>' + esc(wp.title) + '</h3>' +
+                        '<p>' + esc(wp.description) + '</p>' +
+                    '</div>' +
+                    '<div class="doc-meta">' +
+                        '<div class="date">' + formatDate(wp.created_at) + '</div>' +
+                        '<div class="' + badgeClass + '">' + esc(statusLabel) + '</div>' +
+                    '</div>' +
+                '</a>';
+            }).join("");
+        }
+
+        fetch(API + "/work_packages?select=*&order=created_at.desc", { headers: headers })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (Array.isArray(data)) {
+                    renderCards(data);
+                } else {
+                    renderFallback();
+                }
+            })
+            .catch(function () {
+                renderFallback();
+            });
+
+        function renderFallback() {
+            var grid = document.getElementById("doc-list");
+            grid.innerHTML =
+                '<a href="./docs/safety-incident-management.html" class="doc-card">' +
+                    '<div class="doc-icon">' + DOC_ICON + '</div>' +
+                    '<div class="doc-info"><h3>Safety & Incident Management — Design Specification</h3><p>Comprehensive safety incident tracking, OSHA compliance, investigation workflows, and corrective actions</p></div>' +
+                    '<div class="doc-meta"><div class="date">Mar 11, 2026</div><div class="badge badge-pending_review">Pending Review</div></div>' +
+                '</a>' +
+                '<a href="./docs/personnel-qr-codes.html" class="doc-card">' +
+                    '<div class="doc-icon">' + DOC_ICON + '</div>' +
+                    '<div class="doc-info"><h3>Personnel QR Codes — Design Specification</h3><p>Scannable QR stickers for personnel showing certifications, emergency contacts, and compliance status</p></div>' +
+                    '<div class="doc-meta"><div class="date">Mar 11, 2026</div><div class="badge badge-pending_review">Pending Review</div></div>' +
+                '</a>';
+        }
+    })();
+    </script>
 </body>
 </html>
