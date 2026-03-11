@@ -17,7 +17,7 @@ const SUPABASE_URL = "https://xqyixujilhaozfvepbbd.supabase.co";
 const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhxeWl4dWppbGhhb3pmdmVwYmJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyMzk5MzUsImV4cCI6MjA4ODgxNTkzNX0.nJM6eWClufeoxP58nszpuCHQTnwthFQJoyCGXgwsbTI";
 const AGENTC2_API_KEY = process.env.AGENTC2_API_KEY;
 const AGENTC2_WORKFLOW_SLUG = "sdlc-triage-claude-agentc2-urusj8";
-const TARGET_REPO = "useAnzen/application-mono-repo";
+const TARGET_REPO = process.env.TARGET_REPO || "useAnzen/application-mono-repo";
 
 const slug = process.argv[2];
 
