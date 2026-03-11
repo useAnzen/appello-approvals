@@ -209,7 +209,27 @@ DO $$ BEGIN
     END IF;
 END $$;
 
--- 9. Add work_package_id to feedback table for work-package-scoped feedback
+-- 9. RICE scoring and customer columns on work_packages
+DO $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'work_packages' AND column_name = 'rice_reach') THEN
+        ALTER TABLE work_packages ADD COLUMN rice_reach INTEGER;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'work_packages' AND column_name = 'rice_impact') THEN
+        ALTER TABLE work_packages ADD COLUMN rice_impact NUMERIC(3,1);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'work_packages' AND column_name = 'rice_confidence') THEN
+        ALTER TABLE work_packages ADD COLUMN rice_confidence INTEGER;
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'work_packages' AND column_name = 'rice_effort') THEN
+        ALTER TABLE work_packages ADD COLUMN rice_effort NUMERIC(4,1);
+    END IF;
+    IF NOT EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'work_packages' AND column_name = 'customer_affected') THEN
+        ALTER TABLE work_packages ADD COLUMN customer_affected TEXT;
+    END IF;
+END $$;
+
+-- 10. Add work_package_id to feedback table for work-package-scoped feedback
 ALTER TABLE feedback ADD COLUMN IF NOT EXISTS work_package_id UUID REFERENCES work_packages(id) ON DELETE SET NULL;
 
 -- Seed the 2 existing work packages

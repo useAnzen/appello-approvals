@@ -80,10 +80,17 @@
         });
     }
 
+    function calcRice(wp) {
+        if (wp.rice_reach == null || wp.rice_impact == null || wp.rice_confidence == null || wp.rice_effort == null) return null;
+        if (wp.rice_effort === 0) return null;
+        return (wp.rice_reach * wp.rice_impact * (wp.rice_confidence / 100)) / wp.rice_effort;
+    }
+
     function renderCard(wp, tickets, prs, fb) {
         var pendingFb = fb.filter(function (f) { return !f.is_addressed; });
         var prOpen = prs.filter(function (p) { return p.pr_status === "open"; }).length;
         var prMerged = prs.filter(function (p) { return p.pr_status === "merged"; }).length;
+        var rice = calcRice(wp);
 
         var tags = "";
         if (tickets.length > 0) {
@@ -94,6 +101,13 @@
         }
         if (prMerged > 0) {
             tags += '<span class="card-tag tag-pr-merged">' + prMerged + ' merged</span>';
+        }
+        if (wp.customer_affected) {
+            tags += '<span class="card-tag" style="background:#fef3c7;color:#92400e">' + esc(wp.customer_affected) + '</span>';
+        }
+        if (rice != null) {
+            var riceColor = rice >= 5 ? "background:#d1fae5;color:#065f46" : rice >= 2 ? "background:#fef3c7;color:#92400e" : "background:#fee2e2;color:#991b1b";
+            tags += '<span class="card-tag" style="' + riceColor + '">RICE ' + rice.toFixed(1) + '</span>';
         }
         if (pendingFb.length > 0) {
             tags += '<span class="card-tag tag-feedback">' + pendingFb.length + ' feedback</span>';

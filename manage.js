@@ -90,6 +90,15 @@
             '<button class="btn-secondary" id="mg-add-dep">Add Dep</button>' +
             '<div class="mg-tickets" id="mg-dep-list"></div>' +
             '<div class="mg-sep"></div>' +
+            '<div class="mg-group"><label>Customer</label><input id="mg-customer" placeholder="Customer name" style="width:140px"></div>' +
+            '<div class="mg-sep"></div>' +
+            '<div class="mg-group"><label>RICE — Reach</label><input id="mg-rice-reach" type="number" min="0" placeholder="# users" style="width:70px"></div>' +
+            '<div class="mg-group"><label>Impact</label><select id="mg-rice-impact" style="width:90px"><option value="">—</option><option value="3">Massive (3)</option><option value="2">High (2)</option><option value="1">Medium (1)</option><option value="0.5">Low (0.5)</option><option value="0.25">Minimal (0.25)</option></select></div>' +
+            '<div class="mg-group"><label>Confidence</label><select id="mg-rice-confidence" style="width:80px"><option value="">—</option><option value="100">100%</option><option value="80">80%</option><option value="50">50%</option><option value="20">20%</option></select></div>' +
+            '<div class="mg-group"><label>Effort</label><input id="mg-rice-effort" type="number" min="0.1" step="0.5" placeholder="person-mo" style="width:80px"></div>' +
+            '<span id="mg-rice-score" style="font-size:12px;font-weight:700;color:#e2e8f0;min-width:80px"></span>' +
+            '<button class="btn-secondary" id="mg-save-rice">Save RICE</button>' +
+            '<div class="mg-sep"></div>' +
             '<button class="btn-secondary" id="mg-add-plan">+ Implementation Plan</button>' +
             '<div class="mg-tickets" id="mg-doc-list"></div>' +
             '<div class="mg-sep"></div>' +
@@ -141,8 +150,13 @@
         document.getElementById("mg-save-urls").addEventListener("click", saveUrls);
         document.getElementById("mg-save-planning").addEventListener("click", savePlanning);
         document.getElementById("mg-add-dep").addEventListener("click", addDependency);
+        document.getElementById("mg-save-rice").addEventListener("click", saveRice);
         document.getElementById("mg-trigger-sdlc").addEventListener("click", triggerSdlc);
         document.getElementById("mg-add-plan").addEventListener("click", function () { openDocModal("plan"); });
+
+        ["mg-rice-reach", "mg-rice-impact", "mg-rice-confidence", "mg-rice-effort"].forEach(function (id) {
+            document.getElementById(id).addEventListener("input", updateRicePreview);
+        });
         document.getElementById("dm-cancel").addEventListener("click", closeDocModal);
         document.getElementById("dm-save").addEventListener("click", saveDocument);
         document.getElementById("dm-delete").addEventListener("click", deleteDocument);
@@ -175,6 +189,12 @@
                 document.getElementById("mg-planned-start").value = wp.planned_start || "";
                 document.getElementById("mg-planned-end").value = wp.planned_end || "";
                 document.getElementById("mg-priority").value = wp.priority || 0;
+                document.getElementById("mg-customer").value = wp.customer_affected || "";
+                document.getElementById("mg-rice-reach").value = wp.rice_reach != null ? wp.rice_reach : "";
+                document.getElementById("mg-rice-impact").value = wp.rice_impact != null ? wp.rice_impact : "";
+                document.getElementById("mg-rice-confidence").value = wp.rice_confidence != null ? wp.rice_confidence : "";
+                document.getElementById("mg-rice-effort").value = wp.rice_effort != null ? wp.rice_effort : "";
+                updateRicePreview();
                 loadTickets();
                 loadReleases();
                 loadAllWorkPackages();
@@ -545,6 +565,55 @@
                 loadDocuments();
             })
             .catch(function () { toast("Failed to delete document", false); });
+    }
+
+    function updateRicePreview() {
+        var reach = parseFloat(document.getElementById("mg-rice-reach").value);
+        var impact = parseFloat(document.getElementById("mg-rice-impact").value);
+        var confidence = parseFloat(document.getElementById("mg-rice-confidence").value);
+        var effort = parseFloat(document.getElementById("mg-rice-effort").value);
+        var el = document.getElementById("mg-rice-score");
+        if (isNaN(reach) || isNaN(impact) || isNaN(confidence) || isNaN(effort) || effort === 0) {
+            el.textContent = "";
+            return;
+        }
+        var score = (reach * impact * (confidence / 100)) / effort;
+        var color = score >= 5 ? "#4ade80" : score >= 2 ? "#fbbf24" : "#f87171";
+        el.innerHTML = 'Score: <span style="color:' + color + '">' + score.toFixed(1) + '</span>';
+    }
+
+    function saveRice() {
+        if (!wp) return;
+        var reach = document.getElementById("mg-rice-reach").value;
+        var impact = document.getElementById("mg-rice-impact").value;
+        var confidence = document.getElementById("mg-rice-confidence").value;
+        var effort = document.getElementById("mg-rice-effort").value;
+        var customer = document.getElementById("mg-customer").value.trim();
+
+        var body = {
+            rice_reach: reach ? parseInt(reach) : null,
+            rice_impact: impact ? parseFloat(impact) : null,
+            rice_confidence: confidence ? parseInt(confidence) : null,
+            rice_effort: effort ? parseFloat(effort) : null,
+            customer_affected: customer || null,
+            updated_at: new Date().toISOString()
+        };
+
+        fetch(API + "/work_packages?id=eq." + wp.id, {
+            method: "PATCH",
+            headers: headers,
+            body: JSON.stringify(body)
+        })
+        .then(function (r) {
+            if (!r.ok) throw new Error();
+            wp.rice_reach = body.rice_reach;
+            wp.rice_impact = body.rice_impact;
+            wp.rice_confidence = body.rice_confidence;
+            wp.rice_effort = body.rice_effort;
+            wp.customer_affected = body.customer_affected;
+            toast("RICE & customer saved", true);
+        })
+        .catch(function () { toast("Failed to save RICE data", false); });
     }
 
     function triggerSdlc() {
