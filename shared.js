@@ -9,8 +9,6 @@
     var placeholder = document.getElementById("app-header");
     if (!placeholder) return;
 
-    var isFullWidth = placeholder.hasAttribute("data-full-width");
-
     var path = window.location.pathname;
     var page = path.split("/").pop() || "index.html";
     if (page === "" || page === "appello-approvals") page = "index.html";
@@ -30,7 +28,7 @@
         return '<a href="' + href + '"' + (isActive ? ' class="active"' : '') + '>' + item.label + '</a>';
     }).join("");
 
-    placeholder.className = "app-header" + (isFullWidth ? " full-width" : "");
+    placeholder.className = "app-header";
     placeholder.innerHTML =
         '<div class="app-header-inner">' +
             '<a href="' + (isDocPage ? "../" : "./") + '" class="app-brand">' +

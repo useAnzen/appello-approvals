@@ -55,14 +55,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 32px;
     height: 60px;
-}
-
-.app-header.full-width .app-header-inner {
-    max-width: 100%;
 }
 
 .app-brand {
@@ -94,7 +88,7 @@ body {
 
 .app-nav {
     display: flex;
-    gap: 4px;
+    gap: 6px;
 }
 
 .app-nav a {
@@ -102,7 +96,7 @@ body {
     font-weight: 600;
     color: var(--text-secondary);
     text-decoration: none;
-    padding: 8px 14px;
+    padding: 8px 16px;
     border-radius: 6px;
     transition: all 0.15s;
 }
@@ -121,7 +115,7 @@ body {
 .app-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 32px;
 }
 
 /* ── Page Content ─────────────────────────────────────────────────── */
