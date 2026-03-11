@@ -83,6 +83,13 @@
             '.fbp-item-badge{display:inline-flex;align-items:center;gap:3px;font-size:0.62rem;font-weight:600;padding:2px 7px;border-radius:4px}' +
             '.fbp-item-time{font-size:0.65rem;color:#cbd5e1;margin-left:auto}' +
             '.fbp-item-text{font-size:0.8rem;color:#334155;line-height:1.55;white-space:pre-wrap}' +
+            '.fbp-item.resolved{opacity:0.7}' +
+            '.fbp-item.resolved .fbp-item-text{color:#94a3b8}' +
+            '.fbp-resolved-bar{display:flex;align-items:center;gap:6px;margin-top:8px;padding:8px 10px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:6px}' +
+            '.fbp-resolved-icon{font-size:0.75rem;color:#16a34a;font-weight:700;flex-shrink:0}' +
+            '.fbp-resolved-label{font-size:0.68rem;font-weight:600;color:#16a34a;text-transform:uppercase;letter-spacing:0.04em;flex-shrink:0}' +
+            '.fbp-resolved-notes{font-size:0.75rem;color:#166534;line-height:1.5;white-space:pre-wrap}' +
+            '.fbp-resolved-time{font-size:0.62rem;color:#86efac;margin-left:auto;flex-shrink:0}' +
             '.fbp-empty{text-align:center;padding:3rem 1.5rem;color:#cbd5e1;font-size:0.85rem}' +
             '.fbp-empty-icon{font-size:2rem;margin-bottom:8px;opacity:0.5}' +
 
@@ -234,16 +241,31 @@
                 return;
             }
 
+            var pending = data.filter(function (i) { return !i.is_addressed; });
+            badge.textContent = pending.length;
+
             feed.innerHTML = data.map(function (item) {
                 var m = STATUS_META[item.status];
-                return '<div class="fbp-item">' +
+                var isResolved = item.is_addressed;
+                var resolvedBar = "";
+                if (isResolved) {
+                    resolvedBar = '<div class="fbp-resolved-bar">' +
+                        '<span class="fbp-resolved-icon">\u2713</span>' +
+                        '<span class="fbp-resolved-label">Resolved</span>' +
+                        (item.resolution_notes ? '<span class="fbp-resolved-notes">' + esc(item.resolution_notes) + '</span>' : '') +
+                        (item.resolved_at ? '<span class="fbp-resolved-time">' + timeAgo(item.resolved_at) + '</span>' : '') +
+                    '</div>';
+                }
+                return '<div class="fbp-item' + (isResolved ? ' resolved' : '') + '">' +
                     '<div class="fbp-item-top">' +
                         '<span class="fbp-item-name">' + esc(item.reviewer_name) + '</span>' +
                         (item.reviewer_company ? '<span class="fbp-item-co">' + esc(item.reviewer_company) + '</span>' : '') +
                         '<span class="fbp-item-badge" style="background:' + m.bg + ';color:' + m.color + '">' + m.icon + ' ' + m.label + '</span>' +
+                        (isResolved ? '<span class="fbp-item-badge" style="background:#f0fdf4;color:#16a34a">\u2713 Resolved</span>' : '') +
                         '<span class="fbp-item-time">' + timeAgo(item.created_at) + '</span>' +
                     '</div>' +
                     '<div class="fbp-item-text">' + esc(item.comment) + '</div>' +
+                    resolvedBar +
                 '</div>';
             }).join("");
         })

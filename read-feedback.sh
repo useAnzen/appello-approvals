@@ -16,16 +16,34 @@ API="$SUPABASE_URL/rest/v1/feedback"
 
 mark_addressed() {
     local id="$1"
+    shift
+    local notes="${*:-}"
+    local now
+    now=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+    local payload="{\"is_addressed\":true,\"resolved_at\":\"$now\""
+    if [ -n "$notes" ]; then
+        local escaped_notes
+        escaped_notes=$(python3 -c "import json,sys; print(json.dumps(sys.argv[1]))" "$notes")
+        payload="$payload,\"resolution_notes\":$escaped_notes"
+    fi
+    payload="$payload}"
+
     curl -s -X PATCH "$API?id=eq.$id" \
         -H "apikey: $SUPABASE_KEY" \
         -H "Authorization: Bearer $SUPABASE_KEY" \
         -H "Content-Type: application/json" \
-        -d '{"is_addressed": true}' > /dev/null
+        -d "$payload" > /dev/null
     echo "Marked $id as addressed."
+    if [ -n "$notes" ]; then
+        echo "Notes: $notes"
+    fi
 }
 
 if [ "${1:-}" = "--mark-addressed" ] && [ -n "${2:-}" ]; then
-    mark_addressed "$2"
+    local_id="$2"
+    shift 2
+    mark_addressed "$local_id" "$@"
     exit 0
 fi
 
