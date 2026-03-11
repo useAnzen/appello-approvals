@@ -36,3 +36,4 @@ To use a custom domain like `approvals.useappello.com`:
 1. Add a `CNAME` file to the repo root with the domain name
 2. Configure a CNAME DNS record pointing to `useanzen.github.io`
 3. Enable "Enforce HTTPS" in the repo's GitHub Pages settings
+
