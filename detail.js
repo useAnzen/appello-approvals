@@ -132,6 +132,25 @@
         }
         html += '</div>';
 
+        var sdlcRuns = prs.filter(function (p) { return p.agentc2_run_id && p.agentc2_run_id !== "pending"; });
+        if (sdlcRuns.length > 0 || wp.status === "in_development" || wp.status === "in_review") {
+            html += '<div class="sb-section" id="sdlc-pipeline-section">';
+            html += '<div class="sb-label">SDLC Pipeline</div>';
+            if (sdlcRuns.length === 0) {
+                html += '<p class="sb-empty">Waiting for pipeline data...</p>';
+            } else {
+                sdlcRuns.forEach(function (run) {
+                    var label = run.pr_title || "Run " + run.agentc2_run_id.substring(0, 8);
+                    html += '<div class="sdlc-run" data-run-id="' + esc(run.agentc2_run_id) + '">';
+                    html += '<div class="sdlc-run-header">' + esc(label) + '</div>';
+                    html += '<div class="sdlc-run-status">Loading...</div>';
+                    html += '<div class="sdlc-run-steps"></div>';
+                    html += '</div>';
+                });
+            }
+            html += '</div>';
+        }
+
         if (location.search.indexOf("manage=true") === -1) {
             html += '<div class="sb-section sb-manage">';
             html += '<a href="?' + 'manage=true" class="sb-link sb-manage-link">Manage</a>';
@@ -139,6 +158,10 @@
         }
 
         sidebar.innerHTML = html;
+
+        if (sdlcRuns.length > 0) {
+            startSdlcPolling(sdlcRuns);
+        }
 
         sidebar.querySelectorAll(".sb-link[data-view]").forEach(function (link) {
             link.addEventListener("click", function (e) {
@@ -172,6 +195,138 @@
             }
         }
 
+    }
+
+    var pollInterval = null;
+
+    function startSdlcPolling(runs) {
+        var apiKey = localStorage.getItem("agentc2_api_key");
+        if (!apiKey) {
+            apiKey = prompt("Enter your AgentC2 API key to view pipeline status:");
+            if (apiKey) localStorage.setItem("agentc2_api_key", apiKey);
+        }
+        if (!apiKey) return;
+
+        var apiBase = cfg.agentc2ApiBase || "https://agentc2.ai/api/v1";
+        var workflowSlug = cfg.agentc2WorkflowSlug || "sdlc-triage-claude-agentc2-urusj8";
+
+        function poll() {
+            runs.forEach(function (run) {
+                var el = document.querySelector('.sdlc-run[data-run-id="' + run.agentc2_run_id + '"]');
+                if (!el) return;
+
+                fetch(apiBase + "/workflows/" + workflowSlug + "/runs/" + run.agentc2_run_id, {
+                    headers: { Authorization: "Bearer " + apiKey }
+                })
+                .then(function (r) {
+                    if (!r.ok) throw new Error("API " + r.status);
+                    return r.json();
+                })
+                .then(function (data) {
+                    renderRunStatus(el, data, run.agentc2_run_id, apiKey, apiBase, workflowSlug);
+                })
+                .catch(function (err) {
+                    el.querySelector(".sdlc-run-status").textContent = "Error: " + err.message;
+                });
+            });
+        }
+
+        poll();
+        pollInterval = setInterval(poll, 15000);
+    }
+
+    var STEP_STATUS_ICONS = {
+        completed: "\u2705",
+        running: "\u23F3",
+        pending: "\u23F8",
+        failed: "\u274C",
+        suspended: "\u270B",
+        skipped: "\u23ED"
+    };
+
+    function renderRunStatus(el, data, runId, apiKey, apiBase, workflowSlug) {
+        var run = data.run || data;
+        var status = run.status || "unknown";
+        var statusEl = el.querySelector(".sdlc-run-status");
+        var stepsEl = el.querySelector(".sdlc-run-steps");
+
+        var statusIcon = STEP_STATUS_ICONS[status] || "\u2753";
+        statusEl.innerHTML = statusIcon + " <strong>" + esc(status.toUpperCase()) + "</strong>";
+        if (status === "completed" || status === "failed") {
+            statusEl.style.color = status === "completed" ? "var(--success-text)" : "var(--danger-text)";
+        }
+
+        var steps = run.steps || [];
+        if (steps.length === 0) {
+            stepsEl.innerHTML = '<p class="sb-empty">No steps yet</p>';
+            return;
+        }
+
+        var html = '<div class="sdlc-steps-list">';
+        steps.forEach(function (step) {
+            var icon = STEP_STATUS_ICONS[step.status] || "\u2B55";
+            var name = step.name || step.id || "Step";
+            html += '<div class="sdlc-step">';
+            html += '<span class="sdlc-step-icon">' + icon + '</span>';
+            html += '<span class="sdlc-step-name">' + esc(name) + '</span>';
+
+            if (step.status === "suspended") {
+                html += '<div class="sdlc-gate">';
+                html += '<button class="sdlc-gate-btn approve" data-action="approve" data-step="' + esc(step.id) + '">Approve</button>';
+                html += '<button class="sdlc-gate-btn reject" data-action="reject" data-step="' + esc(step.id) + '">Reject</button>';
+                html += '</div>';
+            }
+
+            if (step.output) {
+                var issueUrl = step.output.issueUrl || step.output.issue_url;
+                var prUrl = step.output.prUrl || step.output.pr_url || step.output.pullRequestUrl;
+                if (issueUrl) {
+                    html += '<a href="' + esc(issueUrl) + '" target="_blank" class="sdlc-step-link">View Issue</a>';
+                }
+                if (prUrl) {
+                    html += '<a href="' + esc(prUrl) + '" target="_blank" class="sdlc-step-link">View PR</a>';
+                }
+            }
+
+            html += '</div>';
+        });
+        html += '</div>';
+        stepsEl.innerHTML = html;
+
+        stepsEl.querySelectorAll(".sdlc-gate-btn").forEach(function (btn) {
+            btn.addEventListener("click", function () {
+                var action = btn.dataset.action;
+                var approved = action === "approve";
+                btn.disabled = true;
+                btn.textContent = approved ? "Approving..." : "Rejecting...";
+
+                fetch(apiBase + "/workflows/" + workflowSlug + "/runs/" + runId + "/resume", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: "Bearer " + apiKey
+                    },
+                    body: JSON.stringify({
+                        resumeData: { approved: approved, decision: action, reviewer: "appello-ui" }
+                    })
+                })
+                .then(function (r) {
+                    if (!r.ok) throw new Error("Resume failed: " + r.status);
+                    btn.textContent = approved ? "Approved" : "Rejected";
+                })
+                .catch(function (err) {
+                    btn.textContent = "Error";
+                    alert("Failed to " + action + ": " + err.message);
+                });
+            });
+        });
+
+        if (status === "completed" || status === "failed") {
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+            }
+        }
     }
 
     if (document.readyState === "loading") {

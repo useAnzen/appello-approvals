@@ -626,8 +626,87 @@
             toast("Work package must be approved first", false);
             return;
         }
-        var cmd = 'AGENTC2_API_KEY="<key>" node trigger-sdlc.js ' + slug;
-        window.prompt("Run this command to trigger the SDLC pipeline:", cmd);
+        if (!confirm("Trigger the SDLC pipeline for this work package?\n\nThis will dispatch " + tickets.length + " ticket(s) to AgentC2.")) return;
+
+        var docsRes = fetch(API + "/wp_documents?work_package_id=eq." + wp.id, { headers: headersRead });
+        docsRes.then(function (r) { return r.json(); }).then(function (docs) {
+            var plans = Array.isArray(docs) ? docs.filter(function (d) { return d.doc_type === "plan"; }) : [];
+            var dispatched = 0;
+
+            function dispatchNext(idx) {
+                if (idx >= tickets.length) {
+                    fetch(API + "/work_packages?id=eq." + wp.id, {
+                        method: "PATCH",
+                        headers: headers,
+                        body: JSON.stringify({ status: "in_development", updated_at: new Date().toISOString() })
+                    }).then(function () {
+                        wp.status = "in_development";
+                        document.getElementById("mg-status").value = "in_development";
+                        toast("SDLC triggered for " + dispatched + " ticket(s)", true);
+                    });
+                    return;
+                }
+
+                var ticket = tickets[idx];
+                var desc = "## Work Package: " + wp.title + "\n\n" + (wp.description || "") + "\n\n";
+                desc += "### Design Spec\n" + (wp.spec_url || "N/A") + "\n\n";
+                if (plans.length > 0) {
+                    desc += "### Implementation Plan\n\n";
+                    plans.forEach(function (p) {
+                        var preview = p.content.length > 1000 ? p.content.substring(0, 1000) + "..." : p.content;
+                        desc += "#### " + p.title + "\n\n" + preview + "\n\n";
+                    });
+                }
+
+                var payload = {
+                    title: ticket.jira_key + " - " + (ticket.jira_summary || wp.title),
+                    description: desc,
+                    repository: "useAnzen/appello-approvals",
+                    sourceTicketId: ticket.jira_key,
+                    labels: ["work-package", wp.slug]
+                };
+
+                toast("Dispatching " + ticket.jira_key + "...", true);
+
+                fetch(cfg.agentc2WebhookUrl, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-Webhook-Secret": cfg.agentc2WebhookSecret
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(function (r) {
+                    if (!r.ok) return r.text().then(function (t) { throw new Error(t); });
+                    return r.json();
+                })
+                .then(function (run) {
+                    var runId = run.runId || run.id || run.run_id || "pending";
+                    return fetch(API + "/work_package_prs", {
+                        method: "POST",
+                        headers: headers,
+                        body: JSON.stringify({
+                            work_package_id: wp.id,
+                            ticket_id: ticket.id,
+                            pr_number: 0,
+                            pr_url: "",
+                            pr_title: "SDLC: " + ticket.jira_key,
+                            pr_status: "open",
+                            agentc2_run_id: runId
+                        })
+                    }).then(function () {
+                        dispatched++;
+                        dispatchNext(idx + 1);
+                    });
+                })
+                .catch(function (err) {
+                    toast("Failed: " + (err.message || "Unknown error"), false);
+                    dispatchNext(idx + 1);
+                });
+            }
+
+            dispatchNext(0);
+        });
     }
 
     if (document.readyState === "loading") {

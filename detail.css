@@ -224,6 +224,111 @@
     display: block;
 }
 
+/* ── SDLC Pipeline Sidebar ────────────────────────────────────────── */
+.sdlc-run {
+    margin-bottom: 12px;
+}
+
+.sdlc-run-header {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.sdlc-run-status {
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 8px;
+}
+
+.sdlc-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.sdlc-step {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    background: #f8fafc;
+    border: 1px solid #f1f5f9;
+}
+
+.sdlc-step-icon {
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.sdlc-step-name {
+    font-weight: 500;
+    color: var(--text-primary);
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sdlc-step-link {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.sdlc-step-link:hover {
+    text-decoration: underline;
+}
+
+.sdlc-gate {
+    display: flex;
+    gap: 4px;
+    width: 100%;
+    margin-top: 4px;
+}
+
+.sdlc-gate-btn {
+    flex: 1;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 8px;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.sdlc-gate-btn.approve {
+    background: var(--success-light, #d1fae5);
+    color: var(--success-text, #065f46);
+}
+
+.sdlc-gate-btn.approve:hover {
+    background: #a7f3d0;
+}
+
+.sdlc-gate-btn.reject {
+    background: var(--danger-light, #fee2e2);
+    color: var(--danger-text, #991b1b);
+}
+
+.sdlc-gate-btn.reject:hover {
+    background: #fecaca;
+}
+
+.sdlc-gate-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
     .detail-layout {
         flex-direction: column;
