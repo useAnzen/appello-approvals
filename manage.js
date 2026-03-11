@@ -29,6 +29,9 @@
 
     var wp = null;
     var tickets = [];
+    var releases = [];
+    var allWorkPackages = [];
+    var wpDependencies = [];
 
     function esc(s) {
         var d = document.createElement("div");
@@ -75,6 +78,17 @@
             '<div class="mg-group"><label>Canvas URL</label><input id="mg-canvas-url" placeholder="https://..." style="width:200px"></div>' +
             '<button class="btn-secondary" id="mg-save-urls">Save URLs</button>' +
             '<div class="mg-sep"></div>' +
+            '<div class="mg-group"><label>Release</label><select id="mg-release" style="width:140px"><option value="">None</option></select></div>' +
+            '<div class="mg-sep"></div>' +
+            '<div class="mg-group"><label>Planned Start</label><input id="mg-planned-start" type="date" style="width:140px"></div>' +
+            '<div class="mg-group"><label>Planned End</label><input id="mg-planned-end" type="date" style="width:140px"></div>' +
+            '<div class="mg-group"><label>Priority</label><input id="mg-priority" type="number" min="0" value="0" style="width:60px"></div>' +
+            '<button class="btn-secondary" id="mg-save-planning">Save Planning</button>' +
+            '<div class="mg-sep"></div>' +
+            '<div class="mg-group"><label>Depends On</label><select id="mg-dep-select" style="width:160px"><option value="">Add dependency...</option></select></div>' +
+            '<button class="btn-secondary" id="mg-add-dep">Add Dep</button>' +
+            '<div class="mg-tickets" id="mg-dep-list"></div>' +
+            '<div class="mg-sep"></div>' +
             '<button class="btn-success" id="mg-trigger-sdlc">Trigger SDLC</button>' +
             '<span class="mg-toast" id="mg-toast"></span>';
 
@@ -91,6 +105,8 @@
         document.getElementById("mg-save-status").addEventListener("click", saveStatus);
         document.getElementById("mg-add-ticket").addEventListener("click", addTicket);
         document.getElementById("mg-save-urls").addEventListener("click", saveUrls);
+        document.getElementById("mg-save-planning").addEventListener("click", savePlanning);
+        document.getElementById("mg-add-dep").addEventListener("click", addDependency);
         document.getElementById("mg-trigger-sdlc").addEventListener("click", triggerSdlc);
 
         loadData();
@@ -115,9 +131,149 @@
                 document.getElementById("mg-status").value = wp.status;
                 document.getElementById("mg-plan-url").value = wp.implementation_plan_url || "";
                 document.getElementById("mg-canvas-url").value = wp.canvas_url || "";
+                document.getElementById("mg-planned-start").value = wp.planned_start || "";
+                document.getElementById("mg-planned-end").value = wp.planned_end || "";
+                document.getElementById("mg-priority").value = wp.priority || 0;
                 loadTickets();
+                loadReleases();
+                loadAllWorkPackages();
+                loadDependencies();
             })
             .catch(function () { toast("Failed to load work package", false); });
+    }
+
+    function loadReleases() {
+        fetch(API + "/releases?select=*&order=sort_order.asc,target_date.asc", { headers: headersRead })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                releases = Array.isArray(data) ? data : [];
+                var sel = document.getElementById("mg-release");
+                sel.innerHTML = '<option value="">None</option>';
+                releases.forEach(function (r) {
+                    var opt = document.createElement("option");
+                    opt.value = r.id;
+                    opt.textContent = r.name + (r.target_date ? " (" + r.target_date + ")" : "");
+                    sel.appendChild(opt);
+                });
+                if (wp && wp.release_id) sel.value = wp.release_id;
+            });
+    }
+
+    function loadAllWorkPackages() {
+        fetch(API + "/work_packages?select=id,slug,title&order=title.asc", { headers: headersRead })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                allWorkPackages = Array.isArray(data) ? data : [];
+                populateDepSelect();
+            });
+    }
+
+    function populateDepSelect() {
+        var sel = document.getElementById("mg-dep-select");
+        sel.innerHTML = '<option value="">Add dependency...</option>';
+        allWorkPackages.forEach(function (other) {
+            if (wp && other.id === wp.id) return;
+            var alreadyDep = wpDependencies.some(function (d) { return d.predecessor_id === other.id; });
+            if (alreadyDep) return;
+            var opt = document.createElement("option");
+            opt.value = other.id;
+            opt.textContent = other.title;
+            sel.appendChild(opt);
+        });
+    }
+
+    function loadDependencies() {
+        if (!wp) return;
+        fetch(API + "/wp_dependencies?successor_id=eq." + wp.id + "&select=*", { headers: headersRead })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                wpDependencies = Array.isArray(data) ? data : [];
+                renderDependencies();
+                populateDepSelect();
+            });
+    }
+
+    function renderDependencies() {
+        var list = document.getElementById("mg-dep-list");
+        if (wpDependencies.length === 0) {
+            list.innerHTML = "";
+            return;
+        }
+        list.innerHTML = wpDependencies.map(function (dep) {
+            var predWp = allWorkPackages.find(function (w) { return w.id === dep.predecessor_id; });
+            var label = predWp ? predWp.title : dep.predecessor_id;
+            return '<span class="mg-ticket-pill">' +
+                esc(label) +
+                '<span class="mg-ticket-x" data-dep-id="' + dep.id + '">&times;</span>' +
+                '</span>';
+        }).join("");
+        list.querySelectorAll(".mg-ticket-x").forEach(function (x) {
+            x.addEventListener("click", function () { removeDependency(x.dataset.depId); });
+        });
+    }
+
+    function savePlanning() {
+        if (!wp) return;
+        var releaseId = document.getElementById("mg-release").value || null;
+        var plannedStart = document.getElementById("mg-planned-start").value || null;
+        var plannedEnd = document.getElementById("mg-planned-end").value || null;
+        var priority = parseInt(document.getElementById("mg-priority").value) || 0;
+
+        fetch(API + "/work_packages?id=eq." + wp.id, {
+            method: "PATCH",
+            headers: headers,
+            body: JSON.stringify({
+                release_id: releaseId,
+                planned_start: plannedStart,
+                planned_end: plannedEnd,
+                priority: priority,
+                updated_at: new Date().toISOString()
+            })
+        })
+        .then(function (r) {
+            if (!r.ok) throw new Error();
+            wp.release_id = releaseId;
+            wp.planned_start = plannedStart;
+            wp.planned_end = plannedEnd;
+            wp.priority = priority;
+            toast("Planning saved", true);
+        })
+        .catch(function () { toast("Failed to save planning", false); });
+    }
+
+    function addDependency() {
+        if (!wp) return;
+        var predecessorId = document.getElementById("mg-dep-select").value;
+        if (!predecessorId) { toast("Select a work package", false); return; }
+
+        fetch(API + "/wp_dependencies", {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify({
+                predecessor_id: predecessorId,
+                successor_id: wp.id,
+                dependency_type: "finish_to_start"
+            })
+        })
+        .then(function (r) {
+            if (!r.ok) throw new Error();
+            toast("Dependency added", true);
+            loadDependencies();
+        })
+        .catch(function () { toast("Failed to add dependency", false); });
+    }
+
+    function removeDependency(id) {
+        fetch(API + "/wp_dependencies?id=eq." + id, {
+            method: "DELETE",
+            headers: headers
+        })
+        .then(function (r) {
+            if (!r.ok) throw new Error();
+            toast("Dependency removed", true);
+            loadDependencies();
+        })
+        .catch(function () { toast("Failed to remove dependency", false); });
     }
 
     function loadTickets() {

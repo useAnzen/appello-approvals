@@ -1,372 +1,357 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appello — Software Factory</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface-2: #1c2333;
-  --surface-3: #242d3d;
-  --border: #30363d;
-  --text: #e6edf3;
-  --text-muted: #8b949e;
-  --accent-orange: #f0883e;
-  --accent-blue: #58a6ff;
-  --accent-green: #3fb950;
-  --accent-red: #f85149;
-  --accent-purple: #bc8cff;
-  --accent-yellow: #d29922;
-  --accent-cyan: #39d2c0;
-  --font: 'DM Sans', sans-serif;
-  --mono: 'Space Mono', monospace;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
-
-.header {
-  padding: 32px 48px 20px;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, #161b2288 0%, var(--bg) 100%);
-}
-.header h1 { font-family: var(--mono); font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-.header h1 span { color: var(--accent-orange); }
-.header-meta { display: flex; gap: 24px; margin-top: 6px; font-size: 12px; color: var(--text-muted); }
-.header-meta strong { color: var(--accent-blue); font-weight: 500; }
-
-.nav {
-  display: flex; gap: 0; padding: 0 48px; border-bottom: 1px solid var(--border); background: var(--surface);
-}
-.nav a {
-  padding: 12px 24px; font-size: 13px; font-weight: 500; color: var(--text-muted);
-  text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.2s;
-}
-.nav a:hover { color: var(--text); }
-.nav a.active { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
-
-.content { padding: 32px 48px; }
-
-.stats-bar {
-  display: flex; gap: 32px; padding: 20px 0; margin-bottom: 24px;
-  border-bottom: 1px solid var(--border); flex-wrap: wrap;
-}
-.stat { display: flex; flex-direction: column; }
-.stat-value { font-family: var(--mono); font-size: 28px; font-weight: 700; color: var(--accent-orange); }
-.stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-
-.controls {
-  display: flex; gap: 12px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;
-}
-.sort-btn {
-  padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 500;
-  cursor: pointer; border: 1px solid var(--border); background: var(--surface);
-  color: var(--text-muted); transition: all 0.2s; font-family: var(--font);
-}
-.sort-btn:hover { border-color: var(--accent-blue); color: var(--text); }
-.sort-btn.active { background: var(--accent-orange); color: #fff; border-color: var(--accent-orange); }
-.controls-label { font-family: var(--mono); font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-
-.wp-grid { display: flex; flex-direction: column; gap: 12px; }
-
-.wp-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
-  padding: 20px 24px; transition: border-color 0.2s; cursor: pointer; position: relative; overflow: hidden;
-}
-.wp-card:hover { border-color: var(--accent-blue); }
-.wp-card::before {
-  content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
-}
-.wp-card.status-draft::before { background: var(--text-muted); }
-.wp-card.status-pending_review::before { background: var(--accent-yellow); }
-.wp-card.status-needs_changes::before { background: var(--accent-red); }
-.wp-card.status-approved::before { background: var(--accent-green); }
-.wp-card.status-in_development::before { background: var(--accent-blue); }
-.wp-card.status-in_review::before { background: var(--accent-purple); }
-.wp-card.status-deployed::before { background: var(--accent-green); }
-
-.wp-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-.wp-title { font-size: 15px; font-weight: 700; max-width: 70%; }
-.wp-title a { color: var(--text); text-decoration: none; }
-.wp-title a:hover { color: var(--accent-orange); }
-
-.wp-score-area { display: flex; align-items: center; gap: 12px; }
-.rice-badge {
-  font-family: var(--mono); font-size: 20px; font-weight: 700; padding: 4px 12px;
-  border-radius: 6px; min-width: 50px; text-align: center;
-}
-.rice-badge.high { background: #3fb95022; color: var(--accent-green); }
-.rice-badge.mid { background: #d2992222; color: var(--accent-yellow); }
-.rice-badge.low { background: #f8514922; color: var(--accent-red); }
-
-.wp-status-badge {
-  font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 4px;
-  text-transform: uppercase; letter-spacing: 0.04em; font-family: var(--mono);
-}
-
-.wp-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; line-height: 1.5; }
-
-.wp-rice-bars { display: flex; gap: 16px; margin-bottom: 12px; }
-.rice-dim { display: flex; flex-direction: column; gap: 3px; min-width: 80px; }
-.rice-dim-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
-.rice-dim-bar { height: 4px; border-radius: 2px; background: var(--surface-3); overflow: hidden; }
-.rice-dim-fill { height: 100%; border-radius: 2px; }
-
-.wp-connections { display: flex; gap: 24px; flex-wrap: wrap; margin-bottom: 10px; }
-.conn-group { display: flex; flex-direction: column; gap: 4px; }
-.conn-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-family: var(--mono); }
-.conn-items { display: flex; gap: 4px; flex-wrap: wrap; }
-.conn-chip {
-  font-size: 10px; font-weight: 600; padding: 3px 8px; border-radius: 4px;
-  text-decoration: none; transition: opacity 0.15s;
-}
-.conn-chip:hover { opacity: 0.8; }
-.chip-ticket { background: #58a6ff22; color: var(--accent-blue); border: 1px solid #58a6ff33; }
-.chip-pr-open { background: #d2992222; color: var(--accent-yellow); border: 1px solid #d2992233; }
-.chip-pr-merged { background: #3fb95022; color: var(--accent-green); border: 1px solid #3fb95033; }
-.chip-pr-closed { background: #f8514922; color: var(--accent-red); border: 1px solid #f8514933; }
-.chip-customer { background: var(--surface-3); color: var(--text-muted); border: 1px solid var(--border); }
-
-.wp-links { display: flex; gap: 8px; margin-top: 10px; padding-top: 10px; border-top: 1px solid #1e252f; }
-.wp-link {
-  font-size: 11px; font-weight: 600; color: var(--accent-blue); text-decoration: none;
-  padding: 4px 10px; border-radius: 4px; background: #58a6ff11; transition: background 0.15s;
-}
-.wp-link:hover { background: #58a6ff22; }
-
-.loading { text-align: center; padding: 80px 24px; color: var(--text-muted); font-size: 14px; }
-.priority-rank {
-  font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-right: 8px;
-}
-
-@media (max-width: 768px) {
-  .header, .content { padding-left: 16px; padding-right: 16px; }
-  .nav { padding: 0 16px; }
-  .stats-bar { gap: 16px; }
-  .wp-rice-bars { flex-wrap: wrap; }
-  .wp-connections { flex-direction: column; }
-}
-</style>
-</head>
-<body>
-
-<div class="header">
-  <h1><span>APPELLO</span> SOFTWARE FACTORY</h1>
-  <div class="header-meta" id="header-meta">
-    <span>Loading...</span>
-  </div>
-</div>
-
-<nav class="nav">
-  <a href="./" class="active">Work Packages</a>
-  <a href="./pipeline.html">Pipeline</a>
-</nav>
-
-<div class="content">
-  <div class="stats-bar" id="stats-bar">
-    <div class="stat"><span class="stat-value" id="s-total">—</span><span class="stat-label">Packages</span></div>
-    <div class="stat"><span class="stat-value" id="s-tickets">—</span><span class="stat-label">Jira Tickets</span></div>
-    <div class="stat"><span class="stat-value" id="s-prs">—</span><span class="stat-label">Pull Requests</span></div>
-    <div class="stat"><span class="stat-value" id="s-customers">—</span><span class="stat-label">Customers</span></div>
-    <div class="stat"><span class="stat-value" id="s-avg-rice">—</span><span class="stat-label">Avg RICE</span></div>
-  </div>
-
-  <div class="controls">
-    <span class="controls-label">Sort by</span>
-    <button class="sort-btn active" data-sort="rice">RICE Score</button>
-    <button class="sort-btn" data-sort="status">Status</button>
-    <button class="sort-btn" data-sort="tickets">Ticket Count</button>
-    <button class="sort-btn" data-sort="newest">Newest</button>
-  </div>
-
-  <div class="wp-grid" id="wp-grid">
-    <div class="loading">Initializing factory...</div>
-  </div>
-</div>
-
-<script src="./feedback-config.js"></script>
-<script>
-(function () {
-    var cfg = window.FEEDBACK_CONFIG;
-    if (!cfg) return;
-
-    var API = cfg.supabaseUrl + "/rest/v1";
-    var headers = { apikey: cfg.supabaseKey, Authorization: "Bearer " + cfg.supabaseKey };
-
-    var STATUS_META = {
-        draft:          { label: "Draft",          bg: "#8b949e22", color: "#8b949e" },
-        pending_review: { label: "Pending Review", bg: "#d2992222", color: "#d29922" },
-        needs_changes:  { label: "Needs Changes",  bg: "#f8514922", color: "#f85149" },
-        approved:       { label: "Approved",       bg: "#3fb95022", color: "#3fb950" },
-        in_development: { label: "In Development", bg: "#58a6ff22", color: "#58a6ff" },
-        in_review:      { label: "In Review",      bg: "#bc8cff22", color: "#bc8cff" },
-        deployed:       { label: "Deployed",       bg: "#3fb95022", color: "#3fb950" }
-    };
-
-    var STATUS_ORDER = { draft: 0, pending_review: 1, needs_changes: 2, approved: 3, in_development: 4, in_review: 5, deployed: 6 };
-
-    function esc(s) { var d = document.createElement("div"); d.textContent = s || ""; return d.innerHTML; }
-
-    function riceClass(score) { return score >= 250 ? "high" : score >= 100 ? "mid" : "low"; }
-
-    function riceBarColor(score, max) {
-        var pct = score / max;
-        return pct > 0.7 ? "#3fb950" : pct > 0.4 ? "#d29922" : "#f85149";
-    }
-
-    var allData = {};
-
-    function loadAll() {
-        return Promise.all([
-            fetch(API + "/work_packages?select=*&order=rice_score.desc", { headers: headers }).then(function (r) { return r.json(); }),
-            fetch(API + "/work_package_tickets?select=*&order=created_at.asc", { headers: headers }).then(function (r) { return r.json(); }),
-            fetch(API + "/work_package_prs?select=*&order=created_at.asc", { headers: headers }).then(function (r) { return r.json(); })
-        ]);
-    }
-
-    function groupBy(arr, key) {
-        var map = {};
-        (arr || []).forEach(function (item) { var k = item[key]; if (!map[k]) map[k] = []; map[k].push(item); });
-        return map;
-    }
-
-    function updateStats(packages, tickets, prs) {
-        var allCustomers = {};
-        packages.forEach(function (wp) {
-            (wp.customer_sources || []).forEach(function (c) { allCustomers[c] = true; });
-        });
-        var totalRice = 0;
-        packages.forEach(function (wp) { totalRice += parseFloat(wp.rice_score || 0); });
-
-        document.getElementById("s-total").textContent = packages.length;
-        document.getElementById("s-tickets").textContent = tickets.length;
-        document.getElementById("s-prs").textContent = prs.length;
-        document.getElementById("s-customers").textContent = Object.keys(allCustomers).length;
-        document.getElementById("s-avg-rice").textContent = packages.length ? Math.round(totalRice / packages.length) : "—";
-
-        var inDev = packages.filter(function (wp) { return wp.status === "in_development" || wp.status === "in_review"; }).length;
-        var pending = packages.filter(function (wp) { return wp.status === "pending_review" || wp.status === "needs_changes"; }).length;
-        document.getElementById("header-meta").innerHTML =
-            "<span>Packages <strong>" + packages.length + "</strong></span>" +
-            "<span>In Flight <strong>" + inDev + "</strong></span>" +
-            "<span>Awaiting Review <strong>" + pending + "</strong></span>" +
-            "<span>Tickets Linked <strong>" + tickets.length + "</strong></span>";
-    }
-
-    function renderGrid(packages, ticketsByWp, prsByWp, sortKey) {
-        var sorted = packages.slice();
-        if (sortKey === "rice") sorted.sort(function (a, b) { return parseFloat(b.rice_score || 0) - parseFloat(a.rice_score || 0); });
-        else if (sortKey === "status") sorted.sort(function (a, b) { return (STATUS_ORDER[a.status] || 0) - (STATUS_ORDER[b.status] || 0); });
-        else if (sortKey === "tickets") sorted.sort(function (a, b) { return (ticketsByWp[b.id] || []).length - (ticketsByWp[a.id] || []).length; });
-        else if (sortKey === "newest") sorted.sort(function (a, b) { return new Date(b.created_at) - new Date(a.created_at); });
-
-        var grid = document.getElementById("wp-grid");
-        if (sorted.length === 0) {
-            grid.innerHTML = '<div class="loading">No work packages in the factory.</div>';
-            return;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appello — Work Packages</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --border: #e2e6ea;
+            --text-primary: #1a2332;
+            --text-secondary: #5a6577;
+            --accent: #2563eb;
+            --accent-light: #eff4ff;
         }
 
-        grid.innerHTML = sorted.map(function (wp, idx) {
-            var tickets = ticketsByWp[wp.id] || [];
-            var prs = prsByWp[wp.id] || [];
-            var meta = STATUS_META[wp.status] || STATUS_META.draft;
-            var score = parseFloat(wp.rice_score || 0);
-            var customers = wp.customer_sources || [];
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-            var html = '<div class="wp-card status-' + wp.status + '">';
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
 
-            html += '<div class="wp-top">';
-            html += '<div class="wp-title"><span class="priority-rank">#' + (idx + 1) + '</span><a href="' + esc(wp.spec_url) + '">' + esc(wp.title) + '</a></div>';
-            html += '<div class="wp-score-area">';
-            html += '<span class="wp-status-badge" style="background:' + meta.bg + ';color:' + meta.color + '">' + esc(meta.label) + '</span>';
-            html += '<span class="rice-badge ' + riceClass(score) + '">' + Math.round(score) + '</span>';
-            html += '</div></div>';
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+        }
 
-            html += '<div class="wp-desc">' + esc(wp.description) + '</div>';
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-            html += '<div class="wp-rice-bars">';
-            html += renderRiceDim("Reach", wp.rice_reach || 0, 5);
-            html += renderRiceDim("Impact", wp.rice_impact || 0, 5);
-            html += renderRiceDim("Confidence", wp.rice_confidence || 0, 100);
-            html += renderRiceDim("Effort", wp.rice_effort || 1, 5);
-            html += '</div>';
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-            html += '<div class="wp-connections">';
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
 
-            if (tickets.length > 0) {
-                html += '<div class="conn-group"><span class="conn-label">Jira Tickets</span><div class="conn-items">';
-                tickets.forEach(function (t) {
-                    html += '<a class="conn-chip chip-ticket" href="' + esc(t.jira_url) + '" target="_blank" title="' + esc(t.jira_summary) + '">' + esc(t.jira_key) + (t.jira_status ? ' · ' + esc(t.jira_status) : '') + '</a>';
-                });
-                html += '</div></div>';
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .brand span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            background: var(--accent-light);
+            color: var(--accent);
+        }
+
+        .content {
+            padding: 48px 0;
+        }
+
+        .intro {
+            margin-bottom: 40px;
+        }
+
+        .intro h2 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .intro p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .doc-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .doc-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .doc-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .doc-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-light);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        .doc-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .doc-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .doc-info p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .doc-meta {
+            margin-left: auto;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .doc-meta .date {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .doc-meta .badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            margin-top: 4px;
+        }
+
+        .badge-draft { background: #f1f5f9; color: #475569; }
+        .badge-pending_review { background: #fef3c7; color: #92400e; }
+        .badge-needs_changes { background: #fee2e2; color: #991b1b; }
+        .badge-approved { background: #d1fae5; color: #065f46; }
+        .badge-in_development { background: #dbeafe; color: #1e40af; }
+        .badge-in_review { background: #ede9fe; color: #5b21b6; }
+        .badge-deployed { background: #d1fae5; color: #065f46; }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-inner">
+                <div class="brand">
+                    <div class="brand-icon">A</div>
+                    <h1>Appello <span>Work Packages</span></h1>
+                </div>
+                <nav class="nav-links">
+                    <a href="./" class="nav-link active">Work Packages</a>
+                    <a href="./pipeline.html" class="nav-link">Pipeline</a>
+                    <a href="./roadmap.html" class="nav-link">Roadmap</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="container">
+            <div class="intro">
+                <h2>Work Packages</h2>
+                <p>Review and approve work packages shared by your Appello team.</p>
+            </div>
+
+            <div class="doc-grid" id="doc-list">
+                <div class="loading-spinner">Loading work packages...</div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            &copy; 2026 Appello. All rights reserved.
+        </div>
+    </footer>
+
+    <script src="./feedback-config.js"></script>
+    <script>
+    (function () {
+        var cfg = window.FEEDBACK_CONFIG;
+        if (!cfg) return;
+
+        var API = cfg.supabaseUrl + "/rest/v1";
+        var headers = {
+            apikey: cfg.supabaseKey,
+            Authorization: "Bearer " + cfg.supabaseKey
+        };
+
+        var STATUS_LABELS = {
+            draft: "Draft",
+            pending_review: "Pending Review",
+            needs_changes: "Needs Changes",
+            approved: "Approved",
+            in_development: "In Development",
+            in_review: "In Review",
+            deployed: "Deployed"
+        };
+
+        var DOC_ICON = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" style="width:24px;height:24px;color:#2563eb"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>';
+
+        function formatDate(iso) {
+            var d = new Date(iso);
+            return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        }
+
+        function esc(s) {
+            var d = document.createElement("div");
+            d.textContent = s;
+            return d.innerHTML;
+        }
+
+        function renderCards(packages) {
+            var grid = document.getElementById("doc-list");
+            if (!packages.length) {
+                grid.innerHTML = '<div class="empty-state"><h3>No work packages yet</h3><p>Work packages will appear here once created.</p></div>';
+                return;
             }
+            grid.innerHTML = packages.map(function (wp) {
+                var statusLabel = STATUS_LABELS[wp.status] || wp.status;
+                var badgeClass = "badge badge-" + wp.status;
+                return '<a href="' + esc(wp.spec_url) + '" class="doc-card">' +
+                    '<div class="doc-icon">' + DOC_ICON + '</div>' +
+                    '<div class="doc-info">' +
+                        '<h3>' + esc(wp.title) + '</h3>' +
+                        '<p>' + esc(wp.description) + '</p>' +
+                    '</div>' +
+                    '<div class="doc-meta">' +
+                        '<div class="date">' + formatDate(wp.created_at) + '</div>' +
+                        '<div class="' + badgeClass + '">' + esc(statusLabel) + '</div>' +
+                    '</div>' +
+                '</a>';
+            }).join("");
+        }
 
-            if (prs.length > 0) {
-                html += '<div class="conn-group"><span class="conn-label">Pull Requests</span><div class="conn-items">';
-                prs.forEach(function (p) {
-                    var cls = "chip-pr-" + (p.pr_status || "open");
-                    html += '<a class="conn-chip ' + cls + '" href="' + esc(p.pr_url) + '" target="_blank">#' + p.pr_number + ' · ' + esc(p.pr_status) + '</a>';
-                });
-                html += '</div></div>';
-            }
+        fetch(API + "/work_packages?select=*&order=created_at.desc", { headers: headers })
+            .then(function (r) { return r.json(); })
+            .then(function (data) {
+                if (Array.isArray(data)) {
+                    renderCards(data);
+                } else {
+                    renderFallback();
+                }
+            })
+            .catch(function () {
+                renderFallback();
+            });
 
-            if (customers.length > 0) {
-                html += '<div class="conn-group"><span class="conn-label">Customer Demand</span><div class="conn-items">';
-                customers.forEach(function (c) {
-                    html += '<span class="conn-chip chip-customer">' + esc(c) + '</span>';
-                });
-                html += '</div></div>';
-            }
-
-            html += '</div>';
-
-            html += '<div class="wp-links">';
-            html += '<a class="wp-link" href="' + esc(wp.spec_url) + '" target="_blank">Design Spec</a>';
-            if (wp.implementation_plan_url) html += '<a class="wp-link" href="' + esc(wp.implementation_plan_url) + '" target="_blank">Plan</a>';
-            if (wp.canvas_url) html += '<a class="wp-link" href="' + esc(wp.canvas_url) + '" target="_blank">Canvas</a>';
-            html += '</div>';
-
-            html += '</div>';
-            return html;
-        }).join("");
-    }
-
-    function renderRiceDim(label, value, max) {
-        var pct = Math.min((value / max) * 100, 100);
-        var color = riceBarColor(value, max);
-        return '<div class="rice-dim"><span class="rice-dim-label">' + label + ' ' + value + (max === 100 ? '%' : '/' + max) + '</span>' +
-            '<div class="rice-dim-bar"><div class="rice-dim-fill" style="width:' + pct + '%;background:' + color + '"></div></div></div>';
-    }
-
-    var currentSort = "rice";
-
-    loadAll().then(function (results) {
-        var packages = Array.isArray(results[0]) ? results[0] : [];
-        var tickets = Array.isArray(results[1]) ? results[1] : [];
-        var prs = Array.isArray(results[2]) ? results[2] : [];
-
-        allData.packages = packages;
-        allData.ticketsByWp = groupBy(tickets, "work_package_id");
-        allData.prsByWp = groupBy(prs, "work_package_id");
-
-        updateStats(packages, tickets, prs);
-        renderGrid(packages, allData.ticketsByWp, allData.prsByWp, currentSort);
-    }).catch(function () {
-        document.getElementById("wp-grid").innerHTML = '<div class="loading">Factory offline. Check Supabase connection.</div>';
-    });
-
-    document.querySelectorAll(".sort-btn").forEach(function (btn) {
-        btn.addEventListener("click", function () {
-            document.querySelectorAll(".sort-btn").forEach(function (b) { b.classList.remove("active"); });
-            btn.classList.add("active");
-            currentSort = btn.dataset.sort;
-            if (allData.packages) renderGrid(allData.packages, allData.ticketsByWp, allData.prsByWp, currentSort);
-        });
-    });
-})();
-</script>
+        function renderFallback() {
+            var grid = document.getElementById("doc-list");
+            grid.innerHTML =
+                '<a href="./docs/safety-incident-management.html" class="doc-card">' +
+                    '<div class="doc-icon">' + DOC_ICON + '</div>' +
+                    '<div class="doc-info"><h3>Safety & Incident Management — Design Specification</h3><p>Comprehensive safety incident tracking, OSHA compliance, investigation workflows, and corrective actions</p></div>' +
+                    '<div class="doc-meta"><div class="date">Mar 11, 2026</div><div class="badge badge-pending_review">Pending Review</div></div>' +
+                '</a>' +
+                '<a href="./docs/personnel-qr-codes.html" class="doc-card">' +
+                    '<div class="doc-icon">' + DOC_ICON + '</div>' +
+                    '<div class="doc-info"><h3>Personnel QR Codes — Design Specification</h3><p>Scannable QR stickers for personnel showing certifications, emergency contacts, and compliance status</p></div>' +
+                    '<div class="doc-meta"><div class="date">Mar 11, 2026</div><div class="badge badge-pending_review">Pending Review</div></div>' +
+                '</a>';
+        }
+    })();
+    </script>
 </body>
 </html>

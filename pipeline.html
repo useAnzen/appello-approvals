@@ -1,147 +1,305 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Appello — Pipeline</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #0d1117;
-  --surface: #161b22;
-  --surface-2: #1c2333;
-  --surface-3: #242d3d;
-  --border: #30363d;
-  --text: #e6edf3;
-  --text-muted: #8b949e;
-  --accent-orange: #f0883e;
-  --accent-blue: #58a6ff;
-  --accent-green: #3fb950;
-  --accent-red: #f85149;
-  --accent-purple: #bc8cff;
-  --accent-yellow: #d29922;
-  --accent-cyan: #39d2c0;
-  --font: 'DM Sans', sans-serif;
-  --mono: 'Space Mono', monospace;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appello — Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f1f5f9;
+            --surface: #ffffff;
+            --border: #e2e6ea;
+            --text-primary: #1a2332;
+            --text-secondary: #5a6577;
+            --text-muted: #94a3b8;
+            --accent: #2563eb;
+            --accent-light: #eff4ff;
+        }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { background: var(--bg); color: var(--text); font-family: var(--font); min-height: 100vh; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-.header {
-  padding: 32px 48px 20px;
-  border-bottom: 1px solid var(--border);
-  background: linear-gradient(180deg, #161b2288 0%, var(--bg) 100%);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.header-left h1 { font-family: var(--mono); font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
-.header-left h1 span { color: var(--accent-orange); }
-.header-left .sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.header-left .sub strong { color: var(--accent-blue); }
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
 
-.nav {
-  display: flex; gap: 0; padding: 0 48px; border-bottom: 1px solid var(--border);
-  background: var(--surface); position: sticky; top: 0; z-index: 100;
-}
-.nav a {
-  padding: 12px 24px; font-size: 13px; font-weight: 500; color: var(--text-muted);
-  text-decoration: none; border-bottom: 2px solid transparent; transition: all 0.2s;
-}
-.nav a:hover { color: var(--text); }
-.nav a.active { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-.board {
-  display: flex; gap: 12px; padding: 24px; overflow-x: auto;
-  min-height: calc(100vh - 130px); align-items: flex-start;
-}
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
 
-.column { min-width: 260px; max-width: 300px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
 
-.col-header {
-  display: flex; align-items: center; gap: 8px; padding: 8px 4px;
-}
-.col-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.col-title { font-family: var(--mono); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); }
-.col-count { font-family: var(--mono); font-size: 10px; font-weight: 700; background: var(--surface-3); color: var(--text-muted); padding: 1px 7px; border-radius: 10px; margin-left: auto; }
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
 
-.card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-  padding: 14px; cursor: pointer; transition: border-color 0.2s; position: relative;
-}
-.card:hover { border-color: var(--accent-blue); }
+        .brand h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
 
-.card-title { font-size: 13px; font-weight: 700; margin-bottom: 4px; line-height: 1.35; }
-.card-desc { font-size: 11px; color: var(--text-muted); line-height: 1.45; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .brand h1 span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 14px;
+            margin-left: 8px;
+        }
 
-.card-rice {
-  font-family: var(--mono); font-size: 10px; font-weight: 700; padding: 2px 8px;
-  border-radius: 4px; position: absolute; top: 12px; right: 12px;
-}
-.card-rice.high { background: #3fb95022; color: var(--accent-green); }
-.card-rice.mid { background: #d2992222; color: var(--accent-yellow); }
-.card-rice.low { background: #f8514922; color: var(--accent-red); }
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
 
-.card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
-.card-tag {
-  font-size: 9px; font-weight: 600; padding: 2px 6px; border-radius: 3px;
-  display: inline-flex; align-items: center; gap: 3px;
-}
-.tag-ticket { background: #58a6ff22; color: var(--accent-blue); }
-.tag-pr-open { background: #d2992222; color: var(--accent-yellow); }
-.tag-pr-merged { background: #3fb95022; color: var(--accent-green); }
-.tag-pr-closed { background: #f8514922; color: var(--accent-red); }
-.tag-feedback { background: #bc8cff22; color: var(--accent-purple); }
-.tag-customer { background: var(--surface-3); color: var(--text-muted); }
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
 
-.card-links { display: flex; gap: 6px; padding-top: 8px; border-top: 1px solid #1e252f; }
-.card-link { font-size: 10px; font-weight: 600; color: var(--accent-blue); text-decoration: none; }
-.card-link:hover { text-decoration: underline; }
+        .nav-link:hover { background: var(--accent-light); color: var(--accent); }
+        .nav-link.active { background: var(--accent-light); color: var(--accent); }
 
-.card-expanded { margin-top: 10px; padding-top: 10px; border-top: 1px solid #1e252f; display: none; }
-.card.open .card-expanded { display: block; }
-.detail-section { margin-bottom: 8px; }
-.detail-label { font-family: var(--mono); font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-muted); margin-bottom: 4px; }
-.detail-item { font-size: 11px; color: var(--text); padding: 3px 0; display: flex; align-items: center; gap: 6px; }
-.detail-item a { color: var(--accent-blue); text-decoration: none; font-weight: 600; }
-.detail-item a:hover { text-decoration: underline; }
-.detail-badge { font-size: 9px; font-weight: 600; padding: 1px 6px; border-radius: 3px; }
+        .board {
+            display: flex;
+            gap: 16px;
+            padding: 24px;
+            overflow-x: auto;
+            min-height: calc(100vh - 90px);
+            align-items: flex-start;
+        }
 
-.dot-draft { background: var(--text-muted); }
-.dot-pending { background: var(--accent-yellow); }
-.dot-changes { background: var(--accent-red); }
-.dot-approved { background: var(--accent-green); }
-.dot-dev { background: var(--accent-blue); }
-.dot-review { background: var(--accent-purple); }
-.dot-deployed { background: var(--accent-green); }
+        .column {
+            min-width: 280px;
+            max-width: 320px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
 
-.loading { text-align: center; padding: 80px 24px; color: var(--text-muted); font-size: 14px; width: 100%; }
+        .column-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 4px;
+        }
 
-@media (max-width: 768px) {
-  .header { padding: 20px 16px 14px; }
-  .board { padding: 16px; }
-  .column { min-width: 240px; }
-}
-</style>
+        .column-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .column-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-secondary);
+        }
+
+        .column-count {
+            font-size: 11px;
+            font-weight: 600;
+            background: var(--bg);
+            color: var(--text-muted);
+            padding: 1px 7px;
+            border-radius: 10px;
+            margin-left: auto;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.08);
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            line-height: 1.35;
+        }
+
+        .card-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.45;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .card-tag {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .tag-ticket { background: #dbeafe; color: #1e40af; }
+        .tag-pr-open { background: #fef3c7; color: #92400e; }
+        .tag-pr-merged { background: #d1fae5; color: #065f46; }
+        .tag-pr-closed { background: #fee2e2; color: #991b1b; }
+        .tag-feedback { background: #f3e8ff; color: #6b21a8; }
+
+        .card-links {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .card-link {
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .card-link:hover { text-decoration: underline; }
+
+        .card-expanded {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #f1f5f9;
+            display: none;
+        }
+
+        .card.open .card-expanded { display: block; }
+
+        .detail-section {
+            margin-bottom: 10px;
+        }
+
+        .detail-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .detail-item {
+            font-size: 12px;
+            color: var(--text-primary);
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .detail-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .detail-item a:hover { text-decoration: underline; }
+
+        .detail-badge {
+            font-size: 10px;
+            font-weight: 600;
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 80px 24px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .dot-draft { background: #94a3b8; }
+        .dot-pending { background: #f59e0b; }
+        .dot-changes { background: #ef4444; }
+        .dot-approved { background: #10b981; }
+        .dot-dev { background: #3b82f6; }
+        .dot-review { background: #8b5cf6; }
+        .dot-deployed { background: #059669; }
+    </style>
 </head>
 <body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="./" class="brand">
+                <div class="brand-icon">A</div>
+                <h1>Appello <span>Pipeline</span></h1>
+            </a>
+            <nav class="nav-links">
+                <a href="./" class="nav-link">Work Packages</a>
+                <a href="./pipeline.html" class="nav-link active">Pipeline</a>
+                <a href="./roadmap.html" class="nav-link">Roadmap</a>
+            </nav>
+        </div>
+    </header>
 
-<div class="header">
-  <div class="header-left">
-    <h1><span>APPELLO</span> PIPELINE</h1>
-    <div class="sub" id="pipeline-sub">Loading...</div>
-  </div>
-</div>
+    <div class="board" id="board">
+        <div class="loading">Loading pipeline...</div>
+    </div>
 
-<nav class="nav">
-  <a href="./">Work Packages</a>
-  <a href="./pipeline.html" class="active">Pipeline</a>
-</nav>
-
-<div class="board" id="board">
-  <div class="loading">Initializing pipeline...</div>
-</div>
-
-<script src="./feedback-config.js"></script>
-<script src="./pipeline.js"></script>
+    <script src="./feedback-config.js"></script>
+    <script src="./pipeline.js"></script>
 </body>
 </html>

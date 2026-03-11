@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appello — Releases</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fafbfc;
+            --surface: #ffffff;
+            --border: #e2e6ea;
+            --text-primary: #1a2332;
+            --text-secondary: #5a6577;
+            --text-muted: #94a3b8;
+            --accent: #2563eb;
+            --accent-light: #eff4ff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 24px 0;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .brand h1 {
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .brand h1 span {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            transition: all 0.15s;
+        }
+
+        .nav-link:hover { background: var(--accent-light); color: var(--accent); }
+        .nav-link.active { background: var(--accent-light); color: var(--accent); }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .content {
+            padding: 48px 0;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+        }
+
+        .page-header h2 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        .btn {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .btn-primary { background: var(--accent); color: #fff; }
+        .btn-primary:hover { background: #1d4ed8; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        .btn-danger { background: #ef4444; color: #fff; }
+        .btn-danger:hover { background: #dc2626; }
+        .btn-secondary { background: #e2e8f0; color: var(--text-primary); }
+        .btn-secondary:hover { background: #cbd5e1; }
+
+        .release-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .release-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: border-color 0.15s;
+        }
+
+        .release-card:hover {
+            border-color: var(--accent);
+        }
+
+        .release-info { flex: 1; }
+
+        .release-info h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .release-info .meta {
+            font-size: 13px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 16px;
+        }
+
+        .release-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .badge-planned { background: #f1f5f9; color: #475569; }
+        .badge-active { background: #dbeafe; color: #1e40af; }
+        .badge-released { background: #d1fae5; color: #065f46; }
+
+        .release-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.visible { display: flex; }
+
+        .modal {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 32px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            font-family: inherit;
+            font-size: 14px;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.15s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-light);
+        }
+
+        .form-group textarea { resize: vertical; min-height: 60px; }
+
+        .modal-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: flex-end;
+            margin-top: 24px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 24px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 2000;
+            display: none;
+            transition: opacity 0.2s;
+        }
+
+        .toast.ok { display: block; background: #d1fae5; color: #065f46; }
+        .toast.err { display: block; background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-inner">
+            <a href="./" class="brand">
+                <div class="brand-icon">A</div>
+                <h1>Appello <span>Releases</span></h1>
+            </a>
+            <nav class="nav-links">
+                <a href="./" class="nav-link">Work Packages</a>
+                <a href="./pipeline.html" class="nav-link">Pipeline</a>
+                <a href="./roadmap.html" class="nav-link">Roadmap</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="content">
+        <div class="container">
+            <div class="page-header">
+                <div>
+                    <h2>Releases</h2>
+                    <p>Manage release milestones for the product roadmap.</p>
+                </div>
+                <button class="btn btn-primary" id="btn-new-release">New Release</button>
+            </div>
+
+            <div class="release-list" id="release-list">
+                <div class="loading">Loading releases...</div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal">
+            <h3 id="modal-title">New Release</h3>
+            <div class="form-group">
+                <label for="rel-name">Name</label>
+                <input id="rel-name" type="text" placeholder='e.g. "v1.33" or "Q2 2026"'>
+            </div>
+            <div class="form-group">
+                <label for="rel-desc">Description</label>
+                <textarea id="rel-desc" placeholder="What's included in this release?"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="rel-target-date">Target Date</label>
+                <input id="rel-target-date" type="date">
+            </div>
+            <div class="form-group">
+                <label for="rel-actual-date">Actual Date</label>
+                <input id="rel-actual-date" type="date">
+            </div>
+            <div class="form-group">
+                <label for="rel-status">Status</label>
+                <select id="rel-status">
+                    <option value="planned">Planned</option>
+                    <option value="active">Active</option>
+                    <option value="released">Released</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="rel-sort">Sort Order</label>
+                <input id="rel-sort" type="number" value="0" min="0">
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="btn-cancel">Cancel</button>
+                <button class="btn btn-primary" id="btn-save">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="./feedback-config.js"></script>
+    <script>
+    (function () {
+        var cfg = window.FEEDBACK_CONFIG;
+        if (!cfg) return;
+
+        var API = cfg.supabaseUrl + "/rest/v1";
+        var headersRead = {
+            apikey: cfg.supabaseKey,
+            Authorization: "Bearer " + cfg.supabaseKey
+        };
+        var headersWrite = {
+            apikey: cfg.supabaseKey,
+            Authorization: "Bearer " + cfg.supabaseKey,
+            "Content-Type": "application/json",
+            Prefer: "return=representation"
+        };
+
+        var releases = [];
+        var editingId = null;
+
+        function esc(s) {
+            var d = document.createElement("div");
+            d.textContent = s || "";
+            return d.innerHTML;
+        }
+
+        function toast(msg, ok) {
+            var el = document.getElementById("toast");
+            el.textContent = msg;
+            el.className = "toast " + (ok ? "ok" : "err");
+            setTimeout(function () { el.className = "toast"; }, 3000);
+        }
+
+        function formatDate(s) {
+            if (!s) return "—";
+            var d = new Date(s + "T00:00:00");
+            return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
+        }
+
+        function loadReleases() {
+            fetch(API + "/releases?select=*&order=sort_order.asc,target_date.asc", { headers: headersRead })
+                .then(function (r) { return r.json(); })
+                .then(function (data) {
+                    releases = Array.isArray(data) ? data : [];
+                    renderList();
+                })
+                .catch(function () {
+                    document.getElementById("release-list").innerHTML =
+                        '<div class="loading">Failed to load releases.</div>';
+                });
+        }
+
+        function renderList() {
+            var list = document.getElementById("release-list");
+            if (releases.length === 0) {
+                list.innerHTML =
+                    '<div class="empty-state">' +
+                    '<h3>No releases yet</h3>' +
+                    '<p>Create a release milestone to start organizing your roadmap.</p>' +
+                    '</div>';
+                return;
+            }
+
+            list.innerHTML = releases.map(function (rel) {
+                var badgeClass = "release-badge badge-" + rel.status;
+                var statusLabel = { planned: "Planned", active: "Active", released: "Released" }[rel.status] || rel.status;
+                return '<div class="release-card" data-id="' + esc(rel.id) + '">' +
+                    '<div class="release-info">' +
+                    '<h3>' + esc(rel.name) + '</h3>' +
+                    '<div class="meta">' +
+                    '<span>Target: ' + formatDate(rel.target_date) + '</span>' +
+                    (rel.actual_date ? '<span>Actual: ' + formatDate(rel.actual_date) + '</span>' : '') +
+                    '<span>Order: ' + (rel.sort_order || 0) + '</span>' +
+                    '</div>' +
+                    '</div>' +
+                    '<span class="' + badgeClass + '">' + esc(statusLabel) + '</span>' +
+                    '<div class="release-actions">' +
+                    '<button class="btn btn-sm btn-secondary btn-edit" data-id="' + esc(rel.id) + '">Edit</button>' +
+                    '<button class="btn btn-sm btn-danger btn-delete" data-id="' + esc(rel.id) + '">Delete</button>' +
+                    '</div>' +
+                    '</div>';
+            }).join("");
+
+            list.querySelectorAll(".btn-edit").forEach(function (btn) {
+                btn.addEventListener("click", function () { openEdit(btn.dataset.id); });
+            });
+
+            list.querySelectorAll(".btn-delete").forEach(function (btn) {
+                btn.addEventListener("click", function () { deleteRelease(btn.dataset.id); });
+            });
+        }
+
+        function openModal(title) {
+            document.getElementById("modal-title").textContent = title;
+            document.getElementById("modal-overlay").classList.add("visible");
+        }
+
+        function closeModal() {
+            document.getElementById("modal-overlay").classList.remove("visible");
+            editingId = null;
+            document.getElementById("rel-name").value = "";
+            document.getElementById("rel-desc").value = "";
+            document.getElementById("rel-target-date").value = "";
+            document.getElementById("rel-actual-date").value = "";
+            document.getElementById("rel-status").value = "planned";
+            document.getElementById("rel-sort").value = "0";
+        }
+
+        function openNew() {
+            editingId = null;
+            openModal("New Release");
+        }
+
+        function openEdit(id) {
+            var rel = releases.find(function (r) { return r.id === id; });
+            if (!rel) return;
+            editingId = id;
+            document.getElementById("rel-name").value = rel.name;
+            document.getElementById("rel-desc").value = rel.description || "";
+            document.getElementById("rel-target-date").value = rel.target_date || "";
+            document.getElementById("rel-actual-date").value = rel.actual_date || "";
+            document.getElementById("rel-status").value = rel.status || "planned";
+            document.getElementById("rel-sort").value = rel.sort_order || 0;
+            openModal("Edit Release");
+        }
+
+        function saveRelease() {
+            var name = document.getElementById("rel-name").value.trim();
+            if (!name) { toast("Name is required", false); return; }
+
+            var body = {
+                name: name,
+                description: document.getElementById("rel-desc").value.trim(),
+                target_date: document.getElementById("rel-target-date").value || null,
+                actual_date: document.getElementById("rel-actual-date").value || null,
+                status: document.getElementById("rel-status").value,
+                sort_order: parseInt(document.getElementById("rel-sort").value) || 0,
+                updated_at: new Date().toISOString()
+            };
+
+            var url = editingId
+                ? API + "/releases?id=eq." + editingId
+                : API + "/releases";
+            var method = editingId ? "PATCH" : "POST";
+
+            fetch(url, {
+                method: method,
+                headers: headersWrite,
+                body: JSON.stringify(body)
+            })
+            .then(function (r) {
+                if (!r.ok) throw new Error();
+                closeModal();
+                toast(editingId ? "Release updated" : "Release created", true);
+                loadReleases();
+            })
+            .catch(function () { toast("Failed to save release", false); });
+        }
+
+        function deleteRelease(id) {
+            if (!confirm("Delete this release? Work packages will be unassigned but not deleted.")) return;
+
+            fetch(API + "/releases?id=eq." + id, {
+                method: "DELETE",
+                headers: headersWrite
+            })
+            .then(function (r) {
+                if (!r.ok) throw new Error();
+                toast("Release deleted", true);
+                loadReleases();
+            })
+            .catch(function () { toast("Failed to delete release", false); });
+        }
+
+        document.getElementById("btn-new-release").addEventListener("click", openNew);
+        document.getElementById("btn-cancel").addEventListener("click", closeModal);
+        document.getElementById("btn-save").addEventListener("click", saveRelease);
+        document.getElementById("modal-overlay").addEventListener("click", function (e) {
+            if (e.target === this) closeModal();
+        });
+
+        loadReleases();
+    })();
+    </script>
+</body>
+</html>

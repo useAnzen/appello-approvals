@@ -1,0 +1,528 @@
+:root {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --border: #e2e6ea;
+    --text-primary: #1a2332;
+    --text-secondary: #5a6577;
+    --text-muted: #94a3b8;
+    --accent: #2563eb;
+    --accent-light: #eff4ff;
+
+    --status-draft: #94a3b8;
+    --status-pending: #f59e0b;
+    --status-changes: #ef4444;
+    --status-approved: #10b981;
+    --status-dev: #3b82f6;
+    --status-review: #8b5cf6;
+    --status-deployed: #059669;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* ── Header (shared pattern) ───────────────────────────────── */
+.header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.brand-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.brand h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+}
+
+.brand h1 span {
+    color: var(--text-secondary);
+    font-weight: 400;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 8px;
+}
+
+.nav-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    transition: all 0.15s;
+}
+
+.nav-link:hover { background: var(--accent-light); color: var(--accent); }
+.nav-link.active { background: var(--accent-light); color: var(--accent); }
+
+/* ── Toolbar ───────────────────────────────────────────────── */
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 24px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.toolbar label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.toolbar select {
+    font-family: inherit;
+    font-size: 12px;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--text-primary);
+    outline: none;
+}
+
+.toolbar select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-light);
+}
+
+.toolbar .sep {
+    width: 1px;
+    height: 24px;
+    background: var(--border);
+    flex-shrink: 0;
+}
+
+.btn {
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary { background: #e2e8f0; color: var(--text-primary); }
+.btn-secondary:hover { background: #cbd5e1; }
+
+/* ── Gantt container ───────────────────────────────────────── */
+.gantt-wrapper {
+    padding: 24px;
+    overflow-x: auto;
+    min-height: calc(100vh - 180px);
+}
+
+.loading {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* ── Custom Gantt (built from scratch) ─────────────────────── */
+.gantt-chart {
+    position: relative;
+    min-width: 100%;
+}
+
+.gantt-grid {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface);
+}
+
+/* Left panel: labels */
+.gantt-labels {
+    border-right: 1px solid var(--border);
+    background: #fafbfc;
+}
+
+.gantt-label-header {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.gantt-label-row {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    border-bottom: 1px solid #f1f5f9;
+    gap: 8px;
+    cursor: default;
+    transition: background 0.1s;
+}
+
+.gantt-label-row:hover {
+    background: var(--accent-light);
+}
+
+.gantt-label-row.release-row {
+    background: #f8fafc;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.gantt-label-row.wp-row {
+    padding-left: 28px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.gantt-label-row .status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.gantt-label-row .label-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.gantt-label-row .agentc2-badge {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    background: #8b5cf6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.gantt-label-row .agentc2-badge svg {
+    width: 10px;
+    height: 10px;
+    fill: #fff;
+}
+
+/* Right panel: timeline */
+.gantt-timeline {
+    position: relative;
+    overflow-x: auto;
+}
+
+.gantt-time-header {
+    height: 48px;
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+
+.gantt-time-col {
+    min-width: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border-right: 1px solid #f1f5f9;
+}
+
+.gantt-time-col.month-start {
+    border-right: 1px solid var(--border);
+}
+
+.gantt-time-col.today {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.gantt-time-col .month-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-secondary);
+    position: absolute;
+    top: 4px;
+    letter-spacing: 0.04em;
+}
+
+.gantt-bars {
+    position: relative;
+}
+
+.gantt-bar-row {
+    height: 44px;
+    position: relative;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.gantt-bar-row.release-row {
+    background: #fafbfc;
+}
+
+/* Today line */
+.gantt-today-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--accent);
+    z-index: 4;
+    opacity: 0.6;
+}
+
+/* Milestone diamond */
+.gantt-milestone {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(45deg);
+    width: 14px;
+    height: 14px;
+    background: var(--accent);
+    border: 2px solid var(--surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    z-index: 3;
+}
+
+/* Planned bar (background) */
+.gantt-bar-planned {
+    position: absolute;
+    top: 12px;
+    height: 20px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    z-index: 1;
+    min-width: 6px;
+}
+
+/* Actual progress bar (foreground) */
+.gantt-bar-actual {
+    position: absolute;
+    top: 12px;
+    height: 20px;
+    border-radius: 4px;
+    z-index: 2;
+    min-width: 4px;
+    display: flex;
+    overflow: hidden;
+}
+
+.gantt-bar-actual .phase-segment {
+    height: 100%;
+    min-width: 2px;
+}
+
+.gantt-bar-actual .phase-segment:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.gantt-bar-actual .phase-segment:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.gantt-bar-actual .phase-segment:only-child {
+    border-radius: 4px;
+}
+
+/* Overshoot indicator */
+.gantt-bar-planned.overshoot {
+    background: repeating-linear-gradient(
+        -45deg,
+        #fecaca,
+        #fecaca 4px,
+        #fee2e2 4px,
+        #fee2e2 8px
+    );
+}
+
+/* Phase colors */
+.phase-draft { background: var(--status-draft); }
+.phase-pending_review { background: var(--status-pending); }
+.phase-needs_changes { background: var(--status-changes); }
+.phase-approved { background: var(--status-approved); }
+.phase-in_development { background: var(--status-dev); }
+.phase-in_review { background: var(--status-review); }
+.phase-deployed { background: var(--status-deployed); }
+
+/* Dependency arrows */
+.gantt-dep-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.gantt-dep-svg path {
+    fill: none;
+    stroke: var(--text-muted);
+    stroke-width: 1.5;
+    opacity: 0.5;
+}
+
+.gantt-dep-svg polygon {
+    fill: var(--text-muted);
+    opacity: 0.5;
+}
+
+/* Tooltip */
+.gantt-tooltip {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    background: #1e293b;
+    color: #e2e8f0;
+    font-size: 12px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+    max-width: 320px;
+    pointer-events: none;
+    line-height: 1.5;
+}
+
+.gantt-tooltip.visible { display: block; }
+
+.gantt-tooltip .tt-title {
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 4px;
+}
+
+.gantt-tooltip .tt-dates {
+    font-size: 11px;
+    color: #94a3b8;
+    margin-bottom: 4px;
+}
+
+.gantt-tooltip .tt-status {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-top: 2px;
+}
+
+.gantt-tooltip .tt-agentc2 {
+    font-size: 11px;
+    color: #c4b5fd;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Legend */
+.gantt-legend {
+    display: flex;
+    gap: 16px;
+    padding: 12px 0;
+    flex-wrap: wrap;
+}
+
+.gantt-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.gantt-legend-item .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+}
+
+.gantt-legend-item .swatch-planned {
+    background: #e2e8f0;
+    border: 1px solid var(--border);
+}
+
+/* Empty state */
+.gantt-empty {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--text-muted);
+}
+
+.gantt-empty h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.gantt-empty p {
+    font-size: 14px;
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
