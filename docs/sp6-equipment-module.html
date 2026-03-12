@@ -8,27 +8,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #f1f3f7;
-    --bg-dark: #1e293b;
-    --accent-dark: #1d4ed8;
-    --orange: #f59e0b;
-    --orange-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --success: #10b981;
-    --success-light: #d1fae5;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-light: #ede9fe;
+    --bg-panel: rgb(243, 244, 246);
+    --bg-dark: rgb(42, 55, 71);
+    --accent-dark: rgb(59, 118, 238);
+    --orange: rgb(251, 146, 60);
+    --orange-light: rgb(255, 237, 213);
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --purple: rgb(139, 92, 246);
+    --purple-light: rgb(221, 214, 254);
     --text: var(--text-primary);
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -419,88 +420,118 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     <h2>Current Equipment Detail Page</h2>
     <p class="desc">The existing Equipment detail page is a pure asset tracker. It stores descriptive metadata and assignment data but has no financial fields. This is the baseline we're enhancing.</p>
 
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">/equipment/[id] — current state</div></div>
-        <div class="wireframe-body">
-            <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
-                <span class="mono" style="font-size:0.7rem; color:var(--text-muted);">EQ-0042</span>
-                <h3 style="margin:0;">CAT 320 Excavator</h3>
-                <span class="badge green">Active</span>
-            </div>
-
-            <div class="wf-detail-tabs">
-                <div class="wf-detail-tab active">Overview</div>
-                <div class="wf-detail-tab">Form Submissions</div>
-                <div class="wf-detail-tab">Assigned To</div>
-                <div class="wf-detail-tab">Location</div>
-                <div class="wf-detail-tab">Expenses</div>
-                <div class="wf-detail-tab">Account Payable</div>
-            </div>
-
-            <div class="wf-form">
-                <div class="wf-form-row col3">
-                    <div class="wf-field">
-                        <label>Equipment Name</label>
-                        <div class="input">CAT 320 Excavator</div>
-                    </div>
-                    <div class="wf-field">
-                        <label>Category</label>
-                        <div class="input select">Heavy Equipment</div>
-                    </div>
-                    <div class="wf-field">
-                        <label>Year</label>
-                        <div class="input">2021</div>
-                    </div>
-                </div>
-                <div class="wf-form-row col3">
-                    <div class="wf-field">
-                        <label>Date Purchased</label>
-                        <div class="input">Jun 15, 2021</div>
-                    </div>
-                    <div class="wf-field">
-                        <label>Price</label>
-                        <div class="input">$285,000.00</div>
-                    </div>
-                    <div class="wf-field">
-                        <label>Status</label>
-                        <div class="input select">Active</div>
-                    </div>
-                </div>
-                <div class="wf-form-row col3">
-                    <div class="wf-field">
-                        <label>In-Service Date</label>
-                        <div class="input">Jul 1, 2021</div>
-                    </div>
-                    <div class="wf-field">
-                        <label>Last Inspection</label>
-                        <div class="input">Feb 10, 2026</div>
-                    </div>
-                    <div class="wf-field">
-                        <label>Next Inspection</label>
-                        <div class="input">Aug 10, 2026</div>
-                    </div>
-                </div>
-                <div class="wf-field">
-                    <label>Description</label>
-                    <div class="input textarea">30-ton hydraulic excavator. Equipped with 1.2m³ bucket. GPS tracking enabled.</div>
+    <div class="app-shell" style="margin-top:1rem;">
+        <div class="shell-navbar">
+            <div class="nav-logo"><div class="nav-logo-icon">A</div> Appello</div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">&#128269; Search...</div>
+            <div class="nav-avatar">CS</div>
+        </div>
+        <div class="shell-body" style="min-height:380px;">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item">Dashboard</div>
+                    <div class="sidebar-item">Projects</div>
+                    <div class="sidebar-item">Jobs</div>
+                    <div class="sidebar-item active">Equipment</div>
+                    <div class="sidebar-item">Timesheets</div>
+                    <div class="sidebar-item">Reports</div>
                 </div>
             </div>
+            <div class="shell-main" style="padding:0;">
+                <div class="detail-page-header">
+                    <div class="dph-breadcrumbs">
+                        <a>Equipment</a> <span class="ph-sep">/</span> EQ-0042
+                    </div>
+                    <div class="dph-top">
+                        <div class="dph-title-area">
+                            <span class="dph-title">CAT 320 Excavator</span>
+                            <span class="a-badge a-badge-success">Active</span>
+                        </div>
+                        <div class="dph-actions">
+                            <button class="a-btn a-btn-secondary a-btn-sm">QR Code</button>
+                            <button class="a-btn a-btn-primary a-btn-sm">Edit</button>
+                        </div>
+                    </div>
+                    <div class="dph-tabs">
+                        <div class="tab-item active">Overview</div>
+                        <div class="tab-item">Form Submissions</div>
+                        <div class="tab-item">Assigned To</div>
+                        <div class="tab-item">Location</div>
+                        <div class="tab-item">Expenses</div>
+                        <div class="tab-item">Account Payable</div>
+                    </div>
+                </div>
+                <div class="detail-page-body">
+                    <div class="a-card">
+                        <div class="a-card-body">
+                            <div class="a-form-row col3" style="margin-bottom:14px;">
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Equipment Name</label>
+                                    <div class="a-input">CAT 320 Excavator</div>
+                                </div>
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Category</label>
+                                    <div class="a-input select">Heavy Equipment</div>
+                                </div>
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Year</label>
+                                    <div class="a-input">2021</div>
+                                </div>
+                            </div>
+                            <div class="a-form-row col3" style="margin-bottom:14px;">
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Date Purchased</label>
+                                    <div class="a-input">Jun 15, 2021</div>
+                                </div>
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Price</label>
+                                    <div class="a-input">$285,000.00</div>
+                                </div>
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Status</label>
+                                    <div class="a-input select">Active</div>
+                                </div>
+                            </div>
+                            <div class="a-form-row col3" style="margin-bottom:14px;">
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>In-Service Date</label>
+                                    <div class="a-input">Jul 1, 2021</div>
+                                </div>
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Last Inspection</label>
+                                    <div class="a-input">Feb 10, 2026</div>
+                                </div>
+                                <div class="a-form-group" style="margin-bottom:0;">
+                                    <label>Next Inspection</label>
+                                    <div class="a-input">Aug 10, 2026</div>
+                                </div>
+                            </div>
+                            <div class="a-form-group" style="margin-bottom:0;">
+                                <label>Description</label>
+                                <div class="a-input textarea">30-ton hydraulic excavator. Equipped with 1.2m³ bucket. GPS tracking enabled.</div>
+                            </div>
+                        </div>
+                    </div>
 
-            <div style="display:flex; gap:8px; margin-top:1.5rem; padding:12px; background:var(--danger-light); border:1px solid var(--danger); border-radius:8px;">
-                <span style="font-size:1rem;">⚠</span>
-                <div style="font-size:0.75rem; color:#991b1b;">
-                    <strong>Missing Fields (not in schema):</strong>
-                    <code style="font-size:0.68rem;">costRatePerHour</code>,
-                    <code style="font-size:0.68rem;">billableRatePerHour</code>,
-                    <code style="font-size:0.68rem;">runningHours</code>
-                    — No financial data. No timesheet integration. No hours tracking.
+                    <div style="display:flex; gap:8px; margin-top:1rem; padding:12px; background:var(--danger-light); border:1px solid var(--danger); border-radius:8px;">
+                        <span style="font-size:1rem;">⚠</span>
+                        <div style="font-size:0.75rem; color:#991b1b;">
+                            <strong>Missing Fields (not in schema):</strong>
+                            <code style="font-size:0.68rem;">costRatePerHour</code>,
+                            <code style="font-size:0.68rem;">billableRatePerHour</code>,
+                            <code style="font-size:0.68rem;">runningHours</code>
+                            — No financial data. No timesheet integration. No hours tracking.
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="dev-note">
-        <strong>Verified:</strong> Current <code>Equipment</code> model confirmed in <code>schema.prisma</code>. Fields: <code>name</code>, <code>year</code>, <code>description</code>, <code>datePurchased</code>, <code>priceOfEquipment</code>, <code>equipmentCategoryId</code>, inspection dates, <code>statusId</code>, <code>companyId</code>, assignments, attributes, questions, assets. No financial fields exist.
+        <strong>Verified:</strong> Current <code>Equipment</code> model confirmed in <code>apps/api/prisma/schema.prisma</code>. Fields: <code>name</code>, <code>year</code>, <code>description</code>, <code>datePurchased</code>, <code>priceOfEquipment</code>, <code>equipmentCategoryId</code>, inspection dates, <code>statusId</code>, <code>companyId</code>, assignments, attributes, questions, assets. No financial fields exist.
+        <br><strong>Frontend paths:</strong> List page: <code>apps/frontend/src/pages/equipment/index.tsx</code> · Detail page: <code>apps/frontend/src/pages/equipment/[id]/index.tsx</code> · Tabs: <code>apps/frontend/src/components/DetailsPage/EquipmentDetailPage/index.tsx</code> · Edit form: <code>EquipmentAddEditForm</code> opened via <code>useFlyout()</code> from <code>@useanzen/ui</code> · QR code: <code>apps/frontend/src/components/DownloadablePDF/EquipmentQRCode.tsx</code>
     </div>
 </div>
 
@@ -653,7 +684,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </table>
 
     <div class="dev-note">
-        <strong>Dev:</strong> Add three new columns to <code>Equipment</code> table: <code>costRatePerHour Decimal? @db.Decimal(10, 2)</code>, <code>billableRatePerHour Decimal? @db.Decimal(10, 2)</code>, <code>runningHours Decimal @default(0) @db.Decimal(10, 2)</code>. Update the Equipment add/edit form components to include currency inputs for rates and a read-only display for running hours. Running hours is updated via the approval flow, not user input.
+        <strong>Dev:</strong> Add three new columns to <code>Equipment</code> table in <code>apps/api/prisma/schema.prisma</code>: <code>costRatePerHour Decimal? @db.Decimal(10, 2)</code>, <code>billableRatePerHour Decimal? @db.Decimal(10, 2)</code>, <code>runningHours Decimal @default(0) @db.Decimal(10, 2)</code>. Update <code>EquipmentAddEditForm</code> (opened via <code>useFlyout()</code>) to include currency inputs for rates and a read-only display for running hours. Running hours display goes on the detail header in <code>apps/frontend/src/pages/equipment/[id]/index.tsx</code>. Running hours is updated via the approval flow, not user input.
     </div>
 </div>
 
@@ -1128,7 +1159,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             </div>
 
             <div class="dev-note">
-                <strong>Dev:</strong> Query <code>EquipmentTimeEntry</code> where <code>equipmentId = [current equipment]</code>, ordered by <code>date DESC</code>. Use pagination (cursor-based or offset). Status badges: <span style="color:var(--orange);">Pending (orange)</span>, <span style="color:var(--success);">Approved (green)</span>, <span style="color:var(--danger);">Rejected (red)</span>. KPI row aggregates from approved entries only. Table shows all entries regardless of status.
+                <strong>Dev:</strong> Register new tab in <code>apps/frontend/src/components/DetailsPage/EquipmentDetailPage/index.tsx</code>. Query <code>EquipmentTimeEntry</code> where <code>equipmentId = [current equipment]</code>, ordered by <code>date DESC</code>. Use pagination (cursor-based or offset). Status badges: <span style="color:var(--orange);">Pending (orange)</span>, <span style="color:var(--success);">Approved (green)</span>, <span style="color:var(--danger);">Rejected (red)</span>. KPI row aggregates from approved entries only. Table shows all entries regardless of status.
             </div>
         </div>
     </div>
@@ -1187,11 +1218,39 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                         <td><span class="badge green">Small</span></td>
                     </tr>
                     <tr>
-                        <td><span class="badge orange">Frontend</span></td>
-                        <td><code style="font-family:var(--mono); font-size:0.68rem;">Equipment detail page components</code></td>
-                        <td>Add rate input fields (cost, billable) to Equipment add/edit form. Add running hours display to detail header. Add "Hours Log" tab.</td>
-                        <td><span class="badge blue">P1+P2</span></td>
+                        <td><span class="badge orange">Frontend — List</span></td>
+                        <td><code style="font-family:var(--mono); font-size:0.68rem;">apps/frontend/src/pages/equipment/index.tsx</code></td>
+                        <td>Equipment list page. No changes needed for P1/P2 — exists as-is.</td>
+                        <td><span class="badge gray">—</span></td>
+                        <td><span class="badge gray">None</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge orange">Frontend — Detail</span></td>
+                        <td><code style="font-family:var(--mono); font-size:0.68rem;">apps/frontend/src/pages/equipment/[id]/index.tsx</code></td>
+                        <td>Equipment detail page. Add running hours display to detail header.</td>
+                        <td><span class="badge blue">P1</span></td>
+                        <td><span class="badge green">Small</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge orange">Frontend — Tabs</span></td>
+                        <td><code style="font-family:var(--mono); font-size:0.68rem;">apps/frontend/src/components/DetailsPage/EquipmentDetailPage/index.tsx</code></td>
+                        <td>Equipment tab configuration. Add "Hours Log" tab with <code>EquipmentHoursLog</code> component.</td>
+                        <td><span class="badge purple">P2</span></td>
                         <td><span class="badge orange">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge orange">Frontend — Form</span></td>
+                        <td><code style="font-family:var(--mono); font-size:0.68rem;">EquipmentAddEditForm via useFlyout() from @useanzen/ui</code></td>
+                        <td>Add rate input fields (cost, billable) to Equipment add/edit flyout form.</td>
+                        <td><span class="badge blue">P1</span></td>
+                        <td><span class="badge orange">Medium</span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge orange">Frontend — QR</span></td>
+                        <td><code style="font-family:var(--mono); font-size:0.68rem;">apps/frontend/src/components/DownloadablePDF/EquipmentQRCode.tsx</code></td>
+                        <td>Existing QR code component. No changes needed for P1/P2.</td>
+                        <td><span class="badge gray">—</span></td>
+                        <td><span class="badge gray">None</span></td>
                     </tr>
                     <tr>
                         <td><span class="badge orange">Timesheet</span></td>

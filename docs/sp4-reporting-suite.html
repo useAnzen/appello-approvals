@@ -9,27 +9,28 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #f1f3f7;
-    --bg-dark: #1e293b;
-    --accent-dark: #1d4ed8;
-    --orange: #f59e0b;
-    --orange-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --success: #10b981;
-    --success-light: #d1fae5;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-light: #ede9fe;
+    --bg-panel: rgb(243, 244, 246);
+    --bg-dark: rgb(42, 55, 71);
+    --accent-dark: rgb(59, 118, 238);
+    --orange: rgb(251, 146, 60);
+    --orange-light: rgb(255, 237, 213);
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --purple: rgb(139, 92, 246);
+    --purple-light: rgb(221, 214, 254);
     --text: var(--text-primary);
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -65,7 +66,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 }
 .wireframe-header .dots { display: flex; gap: 5px; }
 .wireframe-header .dot { width: 8px; height: 8px; border-radius: 50%; }
-.wireframe-header .dot.r { background: #ef4444; } .wireframe-header .dot.y { background: #f59e0b; } .wireframe-header .dot.g { background: #10b981; }
+.wireframe-header .dot.r { background: rgb(211, 35, 40); } .wireframe-header .dot.y { background: rgb(228, 170, 46); } .wireframe-header .dot.g { background: rgb(44, 175, 87); }
 .wireframe-header .title { font-size: 0.7rem; font-weight: 500; color: var(--text-muted); margin-left: auto; font-family: var(--mono); }
 .wireframe-body { padding: 1.5rem; }
 
@@ -193,88 +194,125 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
         <span style="font-size:0.72rem; color:var(--text-muted);">Requested by <strong>David Smith</strong>, Estimator/PM at Rival Insulation</span>
     </div>
 
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">/reports/sales-by-job-type</div></div>
-        <div class="wireframe-body">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <h3 style="margin:0;">Sales by Job Type</h3>
-                <div style="display:flex; gap:6px;">
-                    <div class="wf-btn secondary" style="font-size:0.7rem;">Export CSV</div>
-                    <div class="wf-btn secondary" style="font-size:0.7rem;">Export PDF</div>
+    <div class="app-shell">
+        <div class="shell-navbar">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">A</div>
+                Appello
+            </div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search…</div>
+            <div class="nav-avatar">CS</div>
+        </div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item">📊 Dashboard</div>
+                    <div class="sidebar-item">📁 Projects</div>
+                    <div class="sidebar-item">🔨 Jobs</div>
+                    <div class="sidebar-item">📝 Estimates</div>
+                    <div class="sidebar-item">🧾 Invoices</div>
+                    <div class="sidebar-item">⏱ Timesheets</div>
+                    <div class="sidebar-item">💰 Expenses</div>
+                    <div class="sidebar-item active">📈 Reports</div>
+                    <div class="sidebar-item">👥 Workforce</div>
+                    <div class="sidebar-item">⚙️ Settings</div>
                 </div>
             </div>
+            <div class="shell-main">
+                <div class="page-heading">
+                    <div class="ph-breadcrumbs">
+                        <a href="#">Home</a>
+                        <span class="ph-sep">/</span>
+                        <a href="#">Reports</a>
+                        <span class="ph-sep">/</span>
+                        Sales by Job Type
+                    </div>
+                    <div class="ph-row">
+                        <div class="ph-title">Sales by Job Type</div>
+                        <div class="ph-actions">
+                            <div class="a-btn a-btn-secondary a-btn-sm">Export CSV</div>
+                            <div class="a-btn a-btn-secondary a-btn-sm">Export PDF</div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="filter-bar">
-                <div class="filter-chip select">Date Range: Jan 1 – Dec 31, 2025</div>
-                <div class="filter-chip select">Job Type: All</div>
-                <div class="filter-chip select">Status: All</div>
-                <div class="filter-chip" style="border-color:var(--accent); color:var(--accent); cursor:pointer;">Clear Filters</div>
-            </div>
+                <div class="a-card">
+                    <div class="a-card-body">
+                        <div class="filter-bar">
+                            <div class="filter-chip select">Date Range: Jan 1 – Dec 31, 2025</div>
+                            <div class="filter-chip select">Job Type: All</div>
+                            <div class="filter-chip select">Status: All</div>
+                            <div class="filter-chip" style="border-color:var(--accent); color:var(--accent); cursor:pointer;">Clear Filters</div>
+                        </div>
 
-            <table class="wf-table">
-                <thead>
-                    <tr>
-                        <th>Job Type</th>
-                        <th>Type</th>
-                        <th class="right">Quantity</th>
-                        <th class="right">Bid Amount</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr style="background:var(--bg);">
-                        <td rowspan="2"><strong>Automotive</strong></td>
-                        <td><span class="badge blue">Estimate</span></td>
-                        <td class="right mono">12</td>
-                        <td class="right mono">$1,450,000</td>
-                    </tr>
-                    <tr style="background:var(--bg);">
-                        <td><span class="badge green">Change Order</span></td>
-                        <td class="right mono">5</td>
-                        <td class="right mono">$185,400</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2"><strong>Apartments</strong></td>
-                        <td><span class="badge blue">Estimate</span></td>
-                        <td class="right mono">8</td>
-                        <td class="right mono">$2,340,000</td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge green">Change Order</span></td>
-                        <td class="right mono">3</td>
-                        <td class="right mono">$92,500</td>
-                    </tr>
-                    <tr style="background:var(--bg);">
-                        <td rowspan="2"><strong>Hospitals</strong></td>
-                        <td><span class="badge blue">Estimate</span></td>
-                        <td class="right mono">4</td>
-                        <td class="right mono">$3,870,000</td>
-                    </tr>
-                    <tr style="background:var(--bg);">
-                        <td><span class="badge green">Change Order</span></td>
-                        <td class="right mono">7</td>
-                        <td class="right mono">$412,300</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2"><strong>Industrial</strong></td>
-                        <td><span class="badge blue">Estimate</span></td>
-                        <td class="right mono">15</td>
-                        <td class="right mono">$5,120,000</td>
-                    </tr>
-                    <tr>
-                        <td><span class="badge green">Change Order</span></td>
-                        <td class="right mono">9</td>
-                        <td class="right mono">$678,200</td>
-                    </tr>
-                    <tr class="total-row">
-                        <td colspan="2"><strong>Total</strong></td>
-                        <td class="right mono">63</td>
-                        <td class="right mono">$14,148,400</td>
-                    </tr>
-                </tbody>
-            </table>
+                        <table class="wf-table">
+                            <thead>
+                                <tr>
+                                    <th>Job Type</th>
+                                    <th>Type</th>
+                                    <th class="right">Quantity</th>
+                                    <th class="right">Bid Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="background:var(--bg);">
+                                    <td rowspan="2"><strong>Automotive</strong></td>
+                                    <td><span class="badge blue">Estimate</span></td>
+                                    <td class="right mono">12</td>
+                                    <td class="right mono">$1,450,000</td>
+                                </tr>
+                                <tr style="background:var(--bg);">
+                                    <td><span class="badge green">Change Order</span></td>
+                                    <td class="right mono">5</td>
+                                    <td class="right mono">$185,400</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2"><strong>Apartments</strong></td>
+                                    <td><span class="badge blue">Estimate</span></td>
+                                    <td class="right mono">8</td>
+                                    <td class="right mono">$2,340,000</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge green">Change Order</span></td>
+                                    <td class="right mono">3</td>
+                                    <td class="right mono">$92,500</td>
+                                </tr>
+                                <tr style="background:var(--bg);">
+                                    <td rowspan="2"><strong>Hospitals</strong></td>
+                                    <td><span class="badge blue">Estimate</span></td>
+                                    <td class="right mono">4</td>
+                                    <td class="right mono">$3,870,000</td>
+                                </tr>
+                                <tr style="background:var(--bg);">
+                                    <td><span class="badge green">Change Order</span></td>
+                                    <td class="right mono">7</td>
+                                    <td class="right mono">$412,300</td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="2"><strong>Industrial</strong></td>
+                                    <td><span class="badge blue">Estimate</span></td>
+                                    <td class="right mono">15</td>
+                                    <td class="right mono">$5,120,000</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="badge green">Change Order</span></td>
+                                    <td class="right mono">9</td>
+                                    <td class="right mono">$678,200</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td colspan="2"><strong>Total</strong></td>
+                                    <td class="right mono">63</td>
+                                    <td class="right mono">$14,148,400</td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-            <div class="dev-note">
-                <strong>Dev:</strong> Clone <code>sales-by-customer-type.tsx</code>. Use existing <code>EstimateChangeOrderListFeed</code> query — it already returns <code>jobTypeId</code> and <code>jobTypeName</code>. Group by <code>jobTypeName</code> in the PivotTable component. No backend changes required.
+                        <div class="dev-note">
+                            <strong>Dev:</strong> Clone <code>apps/frontend/src/pages/reports/sales-by-customer.tsx</code>. Use existing <code>EstimateChangeOrderListFeed</code> query — it already returns <code>jobTypeId</code> and <code>jobTypeName</code>. Group by <code>jobTypeName</code> in the PivotTable component. No backend changes required.
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -287,7 +325,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                     <span class="badge green">Exists</span> <code style="font-size:0.68rem;">EstimateChangeOrderListFeed</code> query with <code style="font-size:0.68rem;">jobTypeId</code>, <code style="font-size:0.68rem;">jobTypeName</code>
                 </div>
                 <div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--bg-white); border:1px solid var(--border); border-radius:8px; font-size:0.78rem;">
-                    <span class="badge green">Exists</span> <code style="font-size:0.68rem;">sales-by-customer-type.tsx</code> — clone and modify groupBy
+                    <span class="badge green">Exists</span> <code style="font-size:0.68rem;">apps/frontend/src/pages/reports/sales-by-customer.tsx</code> — clone and modify groupBy
                 </div>
                 <div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--bg-white); border:1px solid var(--border); border-radius:8px; font-size:0.78rem;">
                     <span class="badge green">Exists</span> PivotTable component for grouping + aggregation
@@ -353,7 +391,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                 </div>
                 <div class="kpi">
                     <div class="kpi-label">Regular</div>
-                    <div class="kpi-value" style="color:#2563eb; font-size:1.3rem;">48,400</div>
+                    <div class="kpi-value" style="color:var(--accent-dark); font-size:1.3rem;">48,400</div>
                 </div>
                 <div class="kpi">
                     <div class="kpi-label">Overtime</div>
@@ -730,7 +768,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             <div style="text-align:center; padding:12px; font-size:0.72rem; color:var(--text-muted);">Showing 7 of 42 changes · <span style="color:var(--accent); cursor:pointer; font-weight:600;">Load More</span></div>
 
             <div class="dev-note">
-                <strong>Dev:</strong> NO backend work needed. Audit model exists at <code>schema.prisma</code> line 661. Generated hook <code>useGetAuditDataForEntityQuery</code> is ready. Just add tab to <code>JobDetailsPage/index.tsx</code> (line ~138) and create <code>JobAuditLog.tsx</code> component. Query with <code>entityType: "Job"</code> and <code>entityId</code> from route params.
+                <strong>Dev:</strong> NO backend work needed. Existing <code>Audit</code> Prisma model with <code>getAuditDataForEntity</code> query. Generated hook <code>useGetAuditDataForEntityQuery</code> is ready. Just add tab to <code>apps/frontend/src/components/DetailsPage/JobDetailsPage/index.tsx</code> and create <code>JobAuditLog.tsx</code> component. Query with <code>entityType: "Job"</code> and <code>entityId</code> from route params.
             </div>
         </div>
     </div>
@@ -741,7 +779,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             <div class="cc-header exists">What Already Exists</div>
             <div class="cc-body">
                 <strong>Prisma Schema</strong><br>
-                <code>Audit</code> model at <code>schema.prisma:661</code> — stores <code>entityType</code>, <code>entityId</code>, <code>fieldName</code>, <code>oldValue</code>, <code>newValue</code>, <code>changedByUserId</code>, <code>createdAt</code>
+                <code>Audit</code> model in <code>apps/api/prisma/schema.prisma</code> — stores <code>entityType</code>, <code>entityId</code>, <code>fieldName</code>, <code>oldValue</code>, <code>newValue</code>, <code>changedByUserId</code>, <code>createdAt</code>
                 <br><br>
                 <strong>GraphQL Layer</strong><br>
                 <code>getAuditDataForEntity</code> query — accepts <code>entityType</code> + <code>entityId</code>, returns full audit trail with user details
@@ -757,7 +795,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             <div class="cc-header new">What's New (This Ticket)</div>
             <div class="cc-body">
                 <strong>1. Tab Registration</strong><br>
-                Add <code>"Audit Log"</code> tab to <code>JobDetailsPage/index.tsx</code> tab array (~line 138)
+                Add <code>"Audit Log"</code> tab to <code>apps/frontend/src/components/DetailsPage/JobDetailsPage/index.tsx</code>
                 <br><br>
                 <strong>2. JobAuditLog Component</strong><br>
                 New file: <code>JobAuditLog.tsx</code> — timeline component that calls <code>useGetAuditDataForEntityQuery</code> and renders changes chronologically
@@ -829,12 +867,12 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             <span class="badge green">Exists</span> <code style="font-size:0.68rem;">PivotTable</code> component — supports <code style="font-size:0.68rem;">groupBy</code>, <code style="font-size:0.68rem;">groupByName</code>, <code style="font-size:0.68rem;">pivotFrom</code>, <code style="font-size:0.68rem;">pivotFields</code>
         </div>
         <div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--bg-white); border:1px solid var(--border); border-radius:8px; font-size:0.78rem;">
-            <span class="badge green">Exists</span> Template to clone: <code style="font-size:0.68rem;">apps/frontend/src/pages/reports/sales-by-customer-type.tsx</code>
+            <span class="badge green">Exists</span> Template to clone: <code style="font-size:0.68rem;">apps/frontend/src/pages/reports/sales-by-customer.tsx</code>
         </div>
     </div>
 
     <h4>Step 1: Create the report page</h4>
-    <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.5rem;">Create <code style="font-size:0.72rem;">apps/frontend/src/pages/reports/sales-by-job-type.tsx</code> by cloning <code style="font-size:0.72rem;">sales-by-customer-type.tsx</code>:</p>
+    <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.5rem;">Create <code style="font-size:0.72rem;">apps/frontend/src/pages/reports/sales-by-job-type.tsx</code> by cloning <code style="font-size:0.72rem;">apps/frontend/src/pages/reports/sales-by-customer.tsx</code>:</p>
     <div class="wireframe">
         <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">PivotTable Configuration</div></div>
         <div class="wireframe-body" style="padding:1rem;">
@@ -858,12 +896,12 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 
     <h4 style="margin-top:1rem;">Step 2: Register in reports structure</h4>
     <div class="dev-note">
-        Add to <code>apps/frontend/src/lib/static-data/reportsStructure.ts</code>: add <code>"sales-by-job-type"</code> to the <code>ReportID</code> type, add entry in Sales category.
+        Reports index: <code>apps/frontend/src/pages/reports/index.tsx</code>. Reports config: <code>apps/frontend/src/lib/static-data/reportsStructure.ts</code> — add <code>"sales-by-job-type"</code> to the <code>ReportID</code> type, add entry in Sales category.
     </div>
 
     <h4 style="margin-top:1rem;">Step 3: Add permission if needed</h4>
     <div class="dev-note">
-        Check how <code>salesByCustomerType</code> is defined and follow the same pattern.
+        Check how <code>salesByCustomerType</code> is defined in <code>apps/frontend/src/lib/static-data/reportsStructure.ts</code> and follow the same pattern.
     </div>
 
     <h4 style="margin-top:1rem;">Testing</h4>
@@ -912,7 +950,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 
     <h4 style="margin-top:1rem;">Step 3: Register in reports structure</h4>
     <div class="dev-note">
-        Add under a "Labor" or "Timesheet" category in <code>reportsStructure.ts</code>.
+        Add under a "Labor" or "Timesheet" category in <code>apps/frontend/src/lib/static-data/reportsStructure.ts</code>.
     </div>
 
     <h4 style="margin-top:1rem;">Step 4: Employee drill-down (optional)</h4>
@@ -1013,7 +1051,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     <table class="wf-table" style="font-size:0.72rem; margin-bottom:1.5rem;">
         <thead><tr><th>Component</th><th>Location</th><th>Status</th></tr></thead>
         <tbody>
-            <tr><td><strong>Prisma Model</strong></td><td><code style="font-size:0.65rem;">schema.prisma</code> line 661</td><td><span class="badge green">Exists</span> — <code style="font-size:0.62rem;">Audit { referenceModel, referenceId, operationType, beforeData, afterData, modifiedByUserId, createdAt }</code></td></tr>
+            <tr><td><strong>Prisma Model</strong></td><td><code style="font-size:0.65rem;">apps/api/prisma/schema.prisma</code> — <code style="font-size:0.62rem;">Audit</code></td><td><span class="badge green">Exists</span> — <code style="font-size:0.62rem;">Audit { referenceModel, referenceId, operationType, beforeData, afterData, modifiedByUserId, createdAt }</code></td></tr>
             <tr><td><strong>Model Class</strong></td><td><code style="font-size:0.65rem;">apps/api/src/models/Audit.ts</code></td><td><span class="badge green">Exists</span></td></tr>
             <tr><td><strong>GraphQL Resolver</strong></td><td><code style="font-size:0.65rem;">apps/api/src/graphql/models/Audit.ts</code></td><td><span class="badge green">Exists</span> — Registered in schema.ts</td></tr>
             <tr><td><strong>GraphQL Query</strong></td><td><code style="font-size:0.65rem;">apps/frontend/src/graphql/queries/audit.query.graphql</code></td><td><span class="badge green">Exists</span> — <code style="font-size:0.62rem;">GetAuditDataForEntity</code> defined</td></tr>
@@ -1023,7 +1061,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </table>
 
     <h4>Step 1: Add Audit Log tab to Job detail</h4>
-    <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.5rem;">Add tab entry to <code style="font-size:0.72rem;">apps/frontend/src/components/DetailsPage/JobDetailsPage/index.tsx</code> (line ~138):</p>
+    <p style="font-size:0.78rem; color:var(--text-secondary); margin-bottom:0.5rem;">Add tab entry to <code style="font-size:0.72rem;">apps/frontend/src/components/DetailsPage/JobDetailsPage/index.tsx</code>:</p>
     <div class="wireframe">
         <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">Tab Registration Code</div></div>
         <div class="wireframe-body" style="padding:1rem;">
@@ -1036,7 +1074,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
         </div>
     </div>
     <div class="dev-note" style="margin-top:0.5rem;">
-        Add to BOTH tab arrays (rate_type-training branch at line ~99 AND main branch at line ~138).
+        Job detail page: <code>apps/frontend/src/pages/jobs/[id]/index.tsx</code>. Job tabs: <code>apps/frontend/src/components/DetailsPage/JobDetailsPage/index.tsx</code>.
     </div>
 
     <h4 style="margin-top:1.5rem;">Step 2: Create JobAuditLog component</h4>
@@ -1108,15 +1146,15 @@ document.addEventListener("DOMContentLoaded", function() {
             datasets: [{
                 label: "Regular",
                 data: [3800,3500,3900,4100,4200,4300,4400,4500,4200,4000,3800,3700],
-                backgroundColor: "#2563eb"
+                backgroundColor: "rgb(59, 118, 238)"
             },{
                 label: "Overtime",
                 data: [350,380,320,400,420,380,350,300,340,360,350,340],
-                backgroundColor: "#f59e0b"
+                backgroundColor: "rgb(228, 170, 46)"
             },{
                 label: "Double Time",
                 data: [50,20,30,40,60,50,30,20,40,50,50,60],
-                backgroundColor: "#ef4444"
+                backgroundColor: "rgb(211, 35, 40)"
             }]
         },
         options: {

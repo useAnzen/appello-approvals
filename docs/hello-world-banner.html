@@ -8,15 +8,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #fafbfc;
+    --bg-panel: rgb(243, 244, 246);
     --text: var(--text-primary);
     --text-secondary: #5a6577;
     --text-muted: #94a3b8;
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
 }
 
@@ -120,64 +129,124 @@ p.desc { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.25re
     <p class="desc">A dismissible banner that appears at the top of the dashboard content area. Supports different variants (info, success, welcome) and optional action buttons. Persists dismiss state to localStorage.</p>
 
     <h3>Info Banner (Default)</h3>
-    <div class="wireframe">
-        <div class="wireframe-header">
-            <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-            <div class="title">dashboard — info banner</div>
+    <div class="app-shell">
+        <div class="shell-navbar">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">A</div>
+                Appello
+            </div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search…</div>
+            <div class="nav-avatar">CS</div>
         </div>
-        <div class="wireframe-body" style="background: #f8fafc; padding: 2rem;">
-            <div class="wf-banner info">
-                <div class="wf-banner-icon">📢</div>
-                <div class="wf-banner-content">
-                    <div class="wf-banner-title">Welcome to Appello v1.33!</div>
-                    <div class="wf-banner-text">We've added Safety & Incident Management, Personnel QR Codes, and improved the Schedule of Values experience. Check out the release notes for full details.</div>
-                    <div class="wf-banner-actions">
-                        <button class="wf-banner-btn primary">View Release Notes</button>
-                        <button class="wf-banner-btn secondary">Dismiss</button>
-                    </div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item active"><span class="sidebar-icon">📊</span> Dashboard</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">📈</span> Reports</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">⚙️</span> Operations</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">👥</span> Workforce</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">🤝</span> CRM</div>
                 </div>
-                <button class="wf-banner-close">✕</button>
+            </div>
+            <div class="shell-main">
+                <div class="wf-banner info" style="margin-bottom: 16px;">
+                    <div class="wf-banner-icon">📢</div>
+                    <div class="wf-banner-content">
+                        <div class="wf-banner-title">Welcome to Appello v1.33!</div>
+                        <div class="wf-banner-text">We've added Safety & Incident Management, Personnel QR Codes, and improved the Schedule of Values experience. Check out the release notes for full details.</div>
+                        <div class="wf-banner-actions">
+                            <button class="wf-banner-btn primary">View Release Notes</button>
+                            <button class="wf-banner-btn secondary">Dismiss</button>
+                        </div>
+                    </div>
+                    <button class="wf-banner-close">✕</button>
+                </div>
+                <div class="a-kpi-grid">
+                    <div class="a-kpi"><div class="kpi-label">Active Jobs</div><div class="kpi-value blue">12</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Open Estimates</div><div class="kpi-value">8</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Pending Approvals</div><div class="kpi-value green">3</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Revenue MTD</div><div class="kpi-value">$245K</div></div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="dev-note"><strong>Dev:</strong> Component: <code>WelcomeBanner.tsx</code> in <code>apps/frontend/src/components/</code>. Dismiss key stored in <code>localStorage</code> as <code>appello_banner_dismissed_{bannerId}</code>. Banner config fetched from a new <code>SystemBanner</code> model or hardcoded per release.</div>
+    <div class="dev-note"><strong>Dev:</strong> Dashboard page: <code>apps/frontend/src/pages/index.tsx</code> renders the <code>Dashboard</code> component. The banner renders within the <code>Dashboard</code> component at the top of the content area. Component: <code>WelcomeBanner.tsx</code> in <code>apps/frontend/src/components/</code>. Dismiss key stored in <code>localStorage</code> as <code>appello_banner_dismissed_{bannerId}</code>.</div>
 
     <h3>Welcome Variant (First Login)</h3>
-    <div class="wireframe">
-        <div class="wireframe-header">
-            <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-            <div class="title">dashboard — welcome banner</div>
+    <div class="app-shell">
+        <div class="shell-navbar">
+            <div class="nav-logo"><div class="nav-logo-icon">A</div> Appello</div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search…</div>
+            <div class="nav-avatar">SJ</div>
         </div>
-        <div class="wireframe-body" style="background: #f8fafc; padding: 2rem;">
-            <div class="wf-banner welcome">
-                <div class="wf-banner-icon">👋</div>
-                <div class="wf-banner-content">
-                    <div class="wf-banner-title">Hello, Sarah! Welcome to Appello</div>
-                    <div class="wf-banner-text">Your workspace is ready. Start by exploring your dashboard or take a quick tour to get familiar with the platform.</div>
-                    <div class="wf-banner-actions">
-                        <button class="wf-banner-btn primary">Take a Tour</button>
-                        <button class="wf-banner-btn secondary">Skip</button>
-                    </div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item active"><span class="sidebar-icon">📊</span> Dashboard</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">📈</span> Reports</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">⚙️</span> Operations</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">👥</span> Workforce</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">🤝</span> CRM</div>
                 </div>
-                <button class="wf-banner-close">✕</button>
+            </div>
+            <div class="shell-main">
+                <div class="wf-banner welcome" style="margin-bottom: 16px;">
+                    <div class="wf-banner-icon">👋</div>
+                    <div class="wf-banner-content">
+                        <div class="wf-banner-title">Hello, Sarah! Welcome to Appello</div>
+                        <div class="wf-banner-text">Your workspace is ready. Start by exploring your dashboard or take a quick tour to get familiar with the platform.</div>
+                        <div class="wf-banner-actions">
+                            <button class="wf-banner-btn primary">Take a Tour</button>
+                            <button class="wf-banner-btn secondary">Skip</button>
+                        </div>
+                    </div>
+                    <button class="wf-banner-close">✕</button>
+                </div>
+                <div class="a-kpi-grid">
+                    <div class="a-kpi"><div class="kpi-label">Active Jobs</div><div class="kpi-value blue">0</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Open Estimates</div><div class="kpi-value">0</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Pending Approvals</div><div class="kpi-value">0</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Revenue MTD</div><div class="kpi-value">$0</div></div>
+                </div>
             </div>
         </div>
     </div>
 
     <h3>Success Variant (Post-Action)</h3>
-    <div class="wireframe">
-        <div class="wireframe-header">
-            <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-            <div class="title">dashboard — success banner</div>
+    <div class="app-shell">
+        <div class="shell-navbar">
+            <div class="nav-logo"><div class="nav-logo-icon">A</div> Appello</div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search…</div>
+            <div class="nav-avatar">CS</div>
         </div>
-        <div class="wireframe-body" style="background: #f8fafc; padding: 2rem;">
-            <div class="wf-banner success">
-                <div class="wf-banner-icon">✓</div>
-                <div class="wf-banner-content">
-                    <div class="wf-banner-title">Setup Complete</div>
-                    <div class="wf-banner-text">Your company profile, departments, and initial team members have been configured. You're ready to start creating projects and jobs.</div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item active"><span class="sidebar-icon">📊</span> Dashboard</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">📈</span> Reports</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">⚙️</span> Operations</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">👥</span> Workforce</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">🤝</span> CRM</div>
                 </div>
-                <button class="wf-banner-close">✕</button>
+            </div>
+            <div class="shell-main">
+                <div class="wf-banner success" style="margin-bottom: 16px;">
+                    <div class="wf-banner-icon">✓</div>
+                    <div class="wf-banner-content">
+                        <div class="wf-banner-title">Setup Complete</div>
+                        <div class="wf-banner-text">Your company profile, departments, and initial team members have been configured. You're ready to start creating projects and jobs.</div>
+                    </div>
+                    <button class="wf-banner-close">✕</button>
+                </div>
+                <div class="a-kpi-grid">
+                    <div class="a-kpi"><div class="kpi-label">Active Jobs</div><div class="kpi-value blue">12</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Open Estimates</div><div class="kpi-value">8</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Pending Approvals</div><div class="kpi-value green">3</div></div>
+                    <div class="a-kpi"><div class="kpi-label">Revenue MTD</div><div class="kpi-value">$245K</div></div>
+                </div>
             </div>
         </div>
     </div>
@@ -227,7 +296,7 @@ p.desc { color: var(--text-secondary); font-size: 0.88rem; margin-bottom: 1.25re
             </div>
         </div>
     </div>
-    <div class="dev-note"><strong>Dev:</strong> Same component renders responsively. On mobile, actions stack vertically if more than one. Close button has 44px minimum touch target.</div>
+    <div class="dev-note"><strong>Dev:</strong> Dashboard page: <code>apps/frontend/src/pages/index.tsx</code> using <code>Dashboard</code> component. The banner renders within the Dashboard component at the top of the content area. Same component renders responsively. On mobile, actions stack vertically if more than one. Close button has 44px minimum touch target.</div>
 </div>
 
 <hr class="section-divider">

@@ -9,27 +9,28 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #f1f3f7;
-    --bg-dark: #1e293b;
-    --accent-dark: #1d4ed8;
-    --orange: #f59e0b;
-    --orange-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --success: #10b981;
-    --success-light: #d1fae5;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-light: #ede9fe;
+    --bg-panel: rgb(243, 244, 246);
+    --bg-dark: rgb(42, 55, 71);
+    --accent-dark: rgb(59, 118, 238);
+    --orange: rgb(251, 146, 60);
+    --orange-light: rgb(255, 237, 213);
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --purple: rgb(139, 92, 246);
+    --purple-light: rgb(221, 214, 254);
     --text: var(--text-primary);
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -409,88 +410,139 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     <p class="desc">Route: <code>/safety-incidents</code> — Standard TableFeed list view with Kanban toggle. Follows the same pattern as Equipment list, RFI list.</p>
 
     <h3>Table View</h3>
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">/safety-incidents</div></div>
-        <div class="wireframe-body">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <div style="display:flex; gap:6px; align-items:center;">
-                    <h3 style="margin:0;">Safety Incidents</h3>
-                    <span class="badge gray">37 total</span>
+    <div class="app-shell">
+        <div class="shell-navbar">
+            <div class="nav-logo"><div class="nav-logo-icon">A</div> Appello</div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search...</div>
+            <div class="a-bell">🔔<span class="bell-dot"></span></div>
+            <div class="nav-avatar">CS</div>
+        </div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item">📊 Dashboard</div>
+                    <div class="sidebar-item">📋 Reports</div>
                 </div>
-                <div style="display:flex; gap:6px;">
-                    <div class="wf-btn secondary" style="font-size:0.7rem;">☰ Table</div>
-                    <div class="wf-btn secondary" style="font-size:0.7rem;">▦ Kanban</div>
-                    <div class="wf-btn primary" style="font-size:0.7rem;">+ Report Incident</div>
+                <div class="sidebar-section">
+                    <div class="sidebar-label">Operations</div>
+                    <div class="sidebar-item">📁 Jobs</div>
+                    <div class="sidebar-item">📝 Estimates</div>
+                    <div class="sidebar-item">🔧 Equipment</div>
+                    <div class="sidebar-item active">⚠ Safety</div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-label">People</div>
+                    <div class="sidebar-item">👥 Workforce</div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-label">Sales</div>
+                    <div class="sidebar-item">🏢 CRM</div>
                 </div>
             </div>
-            <div style="display:flex; gap:6px; margin-bottom:12px;">
-                <div class="input select" style="font-size:0.7rem; padding:4px 8px; min-height:28px; border:1px solid var(--border); border-radius:5px; background:var(--bg);">Status: All</div>
-                <div class="input select" style="font-size:0.7rem; padding:4px 8px; min-height:28px; border:1px solid var(--border); border-radius:5px; background:var(--bg);">Type: All</div>
-                <div class="input select" style="font-size:0.7rem; padding:4px 8px; min-height:28px; border:1px solid var(--border); border-radius:5px; background:var(--bg);">Severity: All</div>
-                <div class="input" style="font-size:0.7rem; padding:4px 8px; min-height:28px; border:1px solid var(--border); border-radius:5px; background:var(--bg); flex:1;">🔍 Search incidents...</div>
+            <div class="shell-main">
+                <div class="page-heading">
+                    <div class="ph-breadcrumbs">
+                        <a href="#">Operations</a>
+                        <span class="ph-sep">›</span>
+                        <span>Safety Incidents</span>
+                    </div>
+                    <div class="ph-row">
+                        <div class="ph-title">Safety Incidents</div>
+                        <div class="ph-actions">
+                            <div class="a-btn a-btn-primary">+ Report Incident</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="a-list-table-views">
+                    <div class="a-ltv-toolbar">
+                        <div class="a-ltv-search"><span class="search-icon">🔍</span> Search incidents...</div>
+                        <div class="toolbar-spacer"></div>
+                        <div class="a-ltv-view-toggle">
+                            <div class="vt-item active">☰ Table</div>
+                            <div class="vt-item">▦ Kanban</div>
+                        </div>
+                    </div>
+                    <div class="a-ltv-filters">
+                        <div class="a-filter-chip"><span class="chip-label">Status:</span> All</div>
+                        <div class="a-filter-chip"><span class="chip-label">Type:</span> All</div>
+                        <div class="a-filter-chip"><span class="chip-label">Severity:</span> All</div>
+                    </div>
+                    <table class="a-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Severity</th>
+                                <th>Status</th>
+                                <th>Job</th>
+                                <th>Reported By</th>
+                                <th>Date</th>
+                                <th>Recordable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="cell-mono">INC-047</td>
+                                <td><strong class="cell-link">Falling debris near scaffold — Bay 4</strong></td>
+                                <td><span class="a-badge a-badge-info">Near Miss</span></td>
+                                <td><span class="a-badge a-badge-warning">Medium</span></td>
+                                <td><span class="a-badge a-badge-orange">Reported</span></td>
+                                <td>Sarnia Refinery</td>
+                                <td>J. Rodriguez</td>
+                                <td class="cell-mono">Mar 1</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td class="cell-mono">INC-046</td>
+                                <td><strong class="cell-link">Minor laceration during insulation removal</strong></td>
+                                <td><span class="a-badge a-badge-orange">First Aid</span></td>
+                                <td><span class="a-badge a-badge-success">Low</span></td>
+                                <td><span class="a-badge a-badge-info">Under Review</span></td>
+                                <td>Dow Chemical</td>
+                                <td>K. Patel</td>
+                                <td class="cell-mono">Feb 28</td>
+                                <td>No</td>
+                            </tr>
+                            <tr>
+                                <td class="cell-mono">INC-045</td>
+                                <td><strong class="cell-link">Excellent PPE compliance on night shift</strong></td>
+                                <td><span class="a-badge a-badge-success">Observation</span></td>
+                                <td><span class="a-badge a-badge-success">Low</span></td>
+                                <td><span class="a-badge a-badge-success">Closed</span></td>
+                                <td>NOVA Chemicals</td>
+                                <td>N. Newman</td>
+                                <td class="cell-mono">Feb 27</td>
+                                <td>—</td>
+                            </tr>
+                            <tr>
+                                <td class="cell-mono">INC-044</td>
+                                <td><strong class="cell-link">Eye irritation requiring medical flush</strong></td>
+                                <td><span class="a-badge a-badge-danger">Medical Tx</span></td>
+                                <td><span class="a-badge a-badge-danger">High</span></td>
+                                <td><span class="a-badge a-badge-violet">Investigating</span></td>
+                                <td>Sarnia Refinery</td>
+                                <td>M. Thompson</td>
+                                <td class="cell-mono">Feb 25</td>
+                                <td><strong style="color:var(--danger);">Yes</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="a-ltv-pagination">
+                        <span>Showing 1–4 of 37</span>
+                        <div class="pg-pages">
+                            <span class="pg-item active">1</span>
+                            <span class="pg-item">2</span>
+                            <span class="pg-item">3</span>
+                            <span class="pg-item">…</span>
+                            <span class="pg-item">10</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="dev-note" style="margin-top:8px;"><strong>Dev:</strong> Use existing <code>ListTableViews</code> / <code>configureColumns</code> pattern. Column config in <code>configureColumns.ts</code>. Route: <code>/safety-incidents</code>. Permission: <code>incident___view</code>.</div>
             </div>
-            <table class="wf-table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Type</th>
-                        <th>Severity</th>
-                        <th>Status</th>
-                        <th>Job</th>
-                        <th>Reported By</th>
-                        <th>Date</th>
-                        <th>Recordable</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="mono">INC-047</td>
-                        <td><strong>Falling debris near scaffold — Bay 4</strong></td>
-                        <td><span class="badge blue">Near Miss</span></td>
-                        <td><span class="badge orange">Medium</span></td>
-                        <td><span class="badge orange">Reported</span></td>
-                        <td>Sarnia Refinery</td>
-                        <td>J. Rodriguez</td>
-                        <td class="mono">Mar 1</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td class="mono">INC-046</td>
-                        <td><strong>Minor laceration during insulation removal</strong></td>
-                        <td><span class="badge orange">First Aid</span></td>
-                        <td><span class="badge green">Low</span></td>
-                        <td><span class="badge blue">Under Review</span></td>
-                        <td>Dow Chemical</td>
-                        <td>K. Patel</td>
-                        <td class="mono">Feb 28</td>
-                        <td>No</td>
-                    </tr>
-                    <tr>
-                        <td class="mono">INC-045</td>
-                        <td><strong>Excellent PPE compliance on night shift</strong></td>
-                        <td><span class="badge green">Observation</span></td>
-                        <td><span class="badge green">Low</span></td>
-                        <td><span class="badge green">Closed</span></td>
-                        <td>NOVA Chemicals</td>
-                        <td>N. Newman</td>
-                        <td class="mono">Feb 27</td>
-                        <td>—</td>
-                    </tr>
-                    <tr>
-                        <td class="mono">INC-044</td>
-                        <td><strong>Eye irritation requiring medical flush</strong></td>
-                        <td><span class="badge red">Medical Tx</span></td>
-                        <td><span class="badge red">High</span></td>
-                        <td><span class="badge purple">Investigating</span></td>
-                        <td>Sarnia Refinery</td>
-                        <td>M. Thompson</td>
-                        <td class="mono">Feb 25</td>
-                        <td><strong style="color:var(--danger);">Yes</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="dev-note"><strong>Dev:</strong> Use existing TableFeed/configureColumns pattern. Column config in <code>configureColumns.ts</code>. Route: <code>/safety-incidents</code>. Permission: <code>incident___view</code>.</div>
         </div>
     </div>
 
@@ -788,7 +840,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                             <div class="wf-btn primary">Submit Investigation</div>
                         </div>
                     </div>
-                    <div class="dev-note"><strong>Dev:</strong> This is a standard SafetyForm. Pre-built as a template on instance setup. Completed form = Feedback record, linked to incident via <code>feedbackId</code>. All existing form features work: conditional logic, PDF export, repeatable sections.</div>
+                    <div class="dev-note"><strong>Dev:</strong> This is a standard SafetyForm. Pre-built as a template on instance setup. Completed form = Feedback record, linked to incident via <code>feedbackId</code>. All existing form features work: conditional logic, PDF export, repeatable sections. Safety forms live at <code>apps/frontend/src/pages/safety-inspection-forms/</code>. Form engine: <code>apps/frontend/src/components/DetailsPage/SafetyFormDetailsPage/</code>. Builder: <code>SafetyFormBuilder</code> component. Rendering: <code>QAForm</code> at <code>apps/frontend/src/components/QuestionnairesPreviewTemplate/QAForm.tsx</code>. The investigation workflow should reuse the existing <code>SafetyFormWorkflow</code> component.</div>
                 </div>
             </div>
         </div>

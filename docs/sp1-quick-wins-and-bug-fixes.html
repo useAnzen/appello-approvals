@@ -8,27 +8,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #f1f3f7;
-    --bg-dark: #1e293b;
-    --accent-dark: #1d4ed8;
-    --orange: #f59e0b;
-    --orange-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --success: #10b981;
-    --success-light: #d1fae5;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-light: #ede9fe;
+    --bg-panel: rgb(243, 244, 246);
+    --bg-dark: rgb(42, 55, 71);
+    --accent-dark: rgb(59, 118, 238);
+    --orange: rgb(251, 146, 60);
+    --orange-light: rgb(255, 237, 213);
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --purple: rgb(139, 92, 246);
+    --purple-light: rgb(221, 214, 254);
     --text: var(--text-primary);
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -433,7 +434,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     <div class="dev-note">
         <strong>Dev:</strong> Two changes required:<br>
         <strong>1.</strong> <code>apps/api/src/graphql/models/NotificationStatus.ts</code> — Add ownership guard: verify <code>NotificationStatus.userId === context.user.id</code> before allowing status mutation in <code>editNotificationStatus</code> resolver.<br>
-        <strong>2.</strong> <code>apps/api/src/models/Notification.ts</code> ~line 439 — Add <code>cascadeSetAsRead</code> call when a user views the leave request detail page. This should mark only the viewing user's NotificationStatus records for that reference as read.
+        <strong>2.</strong> <code>apps/api/src/models/Notification.ts</code> ~line 439 — Add <code>cascadeSetAsRead</code> call when a user views the leave request detail page (<code>apps/frontend/src/pages/leave-submissions.tsx</code>). This should mark only the viewing user's NotificationStatus records for that reference as read.
     </div>
 </div>
 
@@ -452,42 +453,60 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
         <div class="spec-meta-item"><span class="label">Customer</span> <strong>Rival Insulation</strong></div>
     </div>
 
-    <!-- Dashboard Wireframe -->
+    <!-- Dashboard Wireframe (Appello App Shell) -->
     <h3>Dashboard — Affected Metric</h3>
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">/ (Main Dashboard)</div></div>
-        <div class="wireframe-body">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h3 style="margin:0;">Company Dashboard</h3>
-                <div style="display:flex; gap:6px; align-items:center;">
-                    <div style="font-size:0.7rem; color:var(--text-muted);">Period:</div>
-                    <div class="wf-btn secondary" style="font-size:0.68rem;">This Month ▾</div>
+    <div class="app-shell">
+        <div class="shell-navbar">
+            <div class="nav-logo"><div class="nav-logo-icon">A</div> Appello</div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search…</div>
+            <div class="nav-avatar">CS</div>
+        </div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item active"><span class="sidebar-icon">📊</span> Dashboard</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">📋</span> Reports</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">⚙️</span> Operations</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">👥</span> Workforce</div>
+                    <div class="sidebar-item"><span class="sidebar-icon">🤝</span> CRM</div>
                 </div>
             </div>
-            <div class="kpi-grid">
-                <div class="kpi blue">
-                    <div class="kpi-label">Active Jobs</div>
-                    <div class="kpi-value">24</div>
-                    <div class="kpi-sub">Currently in progress</div>
+            <div class="shell-main">
+                <div class="page-heading">
+                    <div class="ph-row">
+                        <div class="ph-title">Company Dashboard</div>
+                        <div class="ph-actions">
+                            <div class="a-btn a-btn-secondary a-btn-sm">This Month ▾</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="kpi buggy">
-                    <div class="kpi-label">Total In-Progress Value</div>
-                    <div class="kpi-value" style="color:var(--danger);">$4.2M</div>
-                    <div class="kpi-sub" style="color:var(--danger);">⚠ Includes archived jobs!</div>
+                <div class="a-kpi-grid">
+                    <div class="a-kpi">
+                        <div class="kpi-label">Active Jobs</div>
+                        <div class="kpi-value blue">24</div>
+                        <div class="kpi-sub">Currently in progress</div>
+                    </div>
+                    <div class="a-kpi" style="border:2px solid var(--danger); position:relative;">
+                        <div style="position:absolute; top:-8px; right:-8px; background:var(--danger); color:white; font-size:0.55rem; font-weight:700; padding:2px 6px; border-radius:4px; font-family:var(--mono);">BUG</div>
+                        <div class="kpi-label">Total In-Progress Value</div>
+                        <div class="kpi-value red">$4.2M</div>
+                        <div class="kpi-sub" style="color:var(--danger);">⚠ Includes archived jobs!</div>
+                    </div>
+                    <div class="a-kpi">
+                        <div class="kpi-label">Jobs Won (Month)</div>
+                        <div class="kpi-value green">7</div>
+                        <div class="kpi-sub">+3 from last month</div>
+                    </div>
+                    <div class="a-kpi">
+                        <div class="kpi-label">Pending Estimates</div>
+                        <div class="kpi-value amber">12</div>
+                        <div class="kpi-sub">$2.1M pipeline</div>
+                    </div>
                 </div>
-                <div class="kpi green">
-                    <div class="kpi-label">Jobs Won (Month)</div>
-                    <div class="kpi-value">7</div>
-                    <div class="kpi-sub">+3 from last month</div>
+                <div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--danger-light); border:1px solid var(--danger); border-radius:6px; font-size:0.75rem; color:var(--danger);">
+                    ⚠ <strong>Bug:</strong> The "Total In-Progress Value" metric ($4.2M) is inflated because the query includes archived jobs. The correct value after fix is approximately <strong>$3.6M</strong>.
                 </div>
-                <div class="kpi amber">
-                    <div class="kpi-label">Pending Estimates</div>
-                    <div class="kpi-value">12</div>
-                    <div class="kpi-sub">$2.1M pipeline</div>
-                </div>
-            </div>
-            <div style="display:flex; align-items:center; gap:8px; padding:10px 12px; background:var(--danger-light); border:1px solid var(--danger); border-radius:6px; font-size:0.75rem; color:#991b1b; margin-top:4px;">
-                ⚠ <strong>Bug:</strong> The "Total In-Progress Value" metric ($4.2M) is inflated because the query includes archived jobs. The correct value after fix is approximately <strong>$3.6M</strong>.
             </div>
         </div>
     </div>
@@ -556,7 +575,8 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </div>
 
     <div class="dev-note">
-        <strong>Dev:</strong> <code>apps/api/src/models/MetricOption.ts</code> — function <code>getTotalValueOfAllJobsInProgress</code> (lines ~226–242). Add <code>AND j.isArchived = 0</code> to the WHERE clause. Also audit other metric queries in this file for the same missing filter.
+        <strong>Dev:</strong> <code>apps/api/src/models/MetricOption.ts</code> — function <code>getTotalValueOfAllJobsInProgress</code> (lines ~226–242). Add <code>AND j.isArchived = 0</code> to the WHERE clause. Also audit other metric queries in this file for the same missing filter.<br>
+        <strong>Frontend:</strong> Dashboard renders via <code>apps/frontend/src/pages/index.tsx</code> using the <code>Dashboard</code> component.
     </div>
 </div>
 
@@ -652,49 +672,49 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 
     <!-- State Persistence Table -->
     <h3 style="margin-top:2rem;">State Persistence — Current vs. Proposed</h3>
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">ListTableContext state persistence</div></div>
-        <div class="wireframe-body">
-            <table class="wf-table">
-                <thead>
-                    <tr><th>State Property</th><th>Persisted Today?</th><th>After Fix</th><th>Storage Mechanism</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Column Filters</strong></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td class="mono" style="font-size:0.68rem;">ListTableContext (URL params)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Sort Order</strong></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td class="mono" style="font-size:0.68rem;">ListTableContext (URL params)</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Table View Config</strong></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td class="mono" style="font-size:0.68rem;">ListTableContext (URL params)</td>
-                    </tr>
-                    <tr style="background: var(--danger-light);">
-                        <td><strong>Page Number</strong></td>
-                        <td><span class="badge red">✗ No — resets to 1</span></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td class="mono" style="font-size:0.68rem;">ListTableContext (URL params)</td>
-                    </tr>
-                    <tr style="background: var(--danger-light);">
-                        <td><strong>Search Text</strong></td>
-                        <td><span class="badge red">✗ No — clears</span></td>
-                        <td><span class="badge green">✓ Yes</span></td>
-                        <td class="mono" style="font-size:0.68rem;">ListTableContext (URL params)</td>
-                    </tr>
-                </tbody>
-            </table>
-            <div style="margin-top:12px; padding:10px 14px; background:var(--info-light); border:1px solid var(--info); border-radius:6px; font-size:0.75rem; color:#1d4ed8;">
-                <strong>Approach:</strong> Persist <code style="font-size:0.68rem;">page</code> and <code style="font-size:0.68rem;">search</code> in URL query params alongside existing filter state. On back-navigation, restore from URL params.
-            </div>
+    <div class="a-list-table-views">
+        <div class="a-ltv-toolbar">
+            <div class="a-ltv-search"><span class="search-icon">🔍</span> ListTableContext state persistence</div>
+        </div>
+        <table class="a-table">
+            <thead>
+                <tr><th>State Property</th><th>Persisted Today?</th><th>After Fix</th><th>Storage Mechanism</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Column Filters</strong></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td class="cell-mono">ListTableContext (URL params)</td>
+                </tr>
+                <tr>
+                    <td><strong>Sort Order</strong></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td class="cell-mono">ListTableContext (URL params)</td>
+                </tr>
+                <tr>
+                    <td><strong>Table View Config</strong></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td class="cell-mono">ListTableContext (URL params)</td>
+                </tr>
+                <tr style="background: var(--danger-light);">
+                    <td><strong>Page Number</strong></td>
+                    <td><span class="a-badge a-badge-danger">✗ No — resets to 1</span></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td class="cell-mono">ListTableContext (URL params)</td>
+                </tr>
+                <tr style="background: var(--danger-light);">
+                    <td><strong>Search Text</strong></td>
+                    <td><span class="a-badge a-badge-danger">✗ No — clears</span></td>
+                    <td><span class="a-badge a-badge-success">✓ Yes</span></td>
+                    <td class="cell-mono">ListTableContext (URL params)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="margin:12px 16px; padding:10px 14px; background:var(--info-light); border:1px solid var(--info); border-radius:6px; font-size:0.75rem; color:var(--info);">
+            <strong>Approach:</strong> Persist <code style="font-size:0.68rem;">page</code> and <code style="font-size:0.68rem;">search</code> in URL query params alongside existing filter state. On back-navigation, restore from URL params.
         </div>
     </div>
 
@@ -712,10 +732,10 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </div>
 
     <div class="dev-note">
-        <strong>Dev:</strong> Changes in the shared ListTable framework — affects all list views globally:<br>
+        <strong>Dev:</strong> Changes in the shared ListTable framework (<code>packages/ui/src/context/ListTableContext/</code>) — affects all list views globally:<br>
         <strong>1.</strong> <code>packages/ui/src/components/ListTable/Table.tsx</code> — Persist current page number to URL params on page change.<br>
         <strong>2.</strong> <code>packages/ui/src/components/ListTable/ListTable.tsx</code> — Persist search text to URL params on search input change (debounced).<br>
-        <strong>3.</strong> <code>packages/ui/src/context/ListTableContext.tsx</code> — On mount, read <code>page</code> and <code>search</code> from URL params and restore state.
+        <strong>3.</strong> <code>packages/ui/src/context/ListTableContext/</code> — On mount, read <code>page</code> and <code>search</code> from URL params and restore state.
     </div>
 </div>
 
@@ -937,10 +957,10 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </div>
 
     <div class="dev-note">
-        <strong>Dev:</strong> The <code>NoteReferences</code> table is already a polymorphic join table — adding a second entry is architecturally consistent. Key considerations:<br>
+        <strong>Dev:</strong> The <code>NoteReferences</code> polymorphic join table (<code>noteId</code>, <code>referenceModel</code>, <code>referenceId</code>) already supports Equipment — adding a second entry is architecturally consistent. Key considerations:<br>
         <strong>1.</strong> The note creation mutation needs an optional <code>equipmentId</code> parameter.<br>
         <strong>2.</strong> The Equipment dropdown should only show equipment from <code>EquipmentAssignment</code> for the current Job.<br>
-        <strong>3.</strong> <code>NoteFeed.sql</code> — check for note duplication if a note has multiple NoteReferences. May need <code>DISTINCT</code> or grouping to prevent the same note appearing twice on the Job Notes tab.
+        <strong>3.</strong> <code>apps/api/prisma/views/NoteFeed.sql</code> — check for note duplication if a note has multiple NoteReferences. May need <code>DISTINCT</code> or grouping to prevent the same note appearing twice on the Job Notes tab.
     </div>
 </div>
 

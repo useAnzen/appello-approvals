@@ -8,20 +8,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #fafbfc;
+    --bg-panel: rgb(243, 244, 246);
     --text: var(--text-primary);
-    --text-secondary: #5a6577;
-    --text-muted: #94a3b8;
-    --border-strong: #cbd5e1;
-    --info: #2563eb;
-    --info-light: #eff6ff;
-    --font: "Inter", -apple-system, sans-serif;
-    --mono: "JetBrains Mono", monospace;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+    --border-strong: #d1d5db;
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
+    --mono: "JetBrains Mono", "Fira Mono", monospace;
     --radius-xl: 16px;
-    --shadow-lg: 0 8px 24px rgba(0,0,0,0.08);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
 }
 
 .topnav { display: none; }
@@ -384,12 +385,15 @@ tr:last-child td { border-bottom: none; }
         </div>
 
         <div class="dev-note">
-            <div class="dn-title">Dev Notes</div>
-            <strong>File:</strong> <code>apps/frontend/src/components/DownloadablePDF/PersonnelQRCode.tsx</code><br>
+            <div class="dn-title">Dev Notes — Existing Template (Equipment QR)</div>
+            <strong>Reference implementation:</strong> <code>apps/frontend/src/components/DownloadablePDF/EquipmentQRCode.tsx</code><br>
+            <strong>New file:</strong> <code>apps/frontend/src/components/DownloadablePDF/PersonnelQRCode.tsx</code> (create alongside the existing Equipment file)<br>
             <strong>Pattern:</strong> Clone <code>EquipmentQRCode.tsx</code> and replace equipment fields with personnel fields.<br>
+            <strong>Existing export button pattern:</strong> <code>ExportButton</code> component with <code>reportType: "equipment-qr-code"</code> — replicate as <code>"personnel-qr-code"</code><br>
+            <strong>Existing PDF generation:</strong> <code>generateEquipmentQRCodePdfDoc</code> in <code>apps/frontend/src/pages/api/pdf-export.ts</code> — add <code>generatePersonnelQRCodePdfDoc</code> case<br>
+            <strong>Library:</strong> <code>react-qr-code</code> already in <code>apps/frontend/package.json</code> — no new dependency needed<br>
             <strong>QR URL:</strong> <code>${NEXT_PUBLIC_OSA_URL}/guest/personnel/${userId}?token=${jwt}&openInApp=true</code><br>
-            <strong>JWT expiry:</strong> <code>exp: "never"</code> (stickers are physical, permanent objects)<br>
-            <strong>Trigger:</strong> ExportButton on user detail page → <code>/api/pdf-export</code> with <code>reportType: "personnel-qr-code"</code>
+            <strong>JWT expiry:</strong> <code>exp: "never"</code> (stickers are physical, permanent objects)
         </div>
     </div>
 
@@ -543,9 +547,10 @@ tr:last-child td { border-bottom: none; }
                 </div>
 
                 <div class="dev-note" style="margin-top: 1.5rem;">
-                    <div class="dn-title">Dev Notes</div>
-                    <strong>File:</strong> <code>apps/mobile/src/components/Personnel/PersonnelPublicProfile.tsx</code><br>
-                    <strong>Route:</strong> <code>apps/mobile/src/pages/guest/personnel/[id].tsx</code><br>
+                    <div class="dn-title">Dev Notes — Existing Template (Equipment Guest Page)</div>
+                    <strong>Existing guest page:</strong> <code>/guest/equipment/[id]</code> — uses JWT token pattern. Personnel should follow the EXACT same approach at <code>/guest/personnel/[id]</code><br>
+                    <strong>New file:</strong> <code>apps/mobile/src/components/Personnel/PersonnelPublicProfile.tsx</code><br>
+                    <strong>New route:</strong> <code>apps/mobile/src/pages/guest/personnel/[id].tsx</code> (clone structure from <code>guest/equipment/[id].tsx</code>)<br>
                     <strong>Layout:</strong> Uses <code>GuestLayout</code> (minimal header: logo + "Sign in" link)<br>
                     <strong>Data source:</strong> All data from JWT payload — no API calls from guest page<br>
                     <strong>Auth redirect:</strong> If user has valid auth cookie → redirect to <code>/admin/users/[id]</code><br>
@@ -574,49 +579,89 @@ tr:last-child td { border-bottom: none; }
         <h2>4. Desktop — Export Button Placement</h2>
         <p class="desc">On the user detail page, a new QR code export button is added to the action bar. When clicked, it generates and downloads the PDF sticker.</p>
 
-        <div class="desktop-frame">
-            <div class="desktop-titlebar">
-                <div class="dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
-                <span style="font-size: 0.72rem; color: var(--text-muted); margin-left: 8px;">Appello — Users — Michael Rodriguez</span>
-            </div>
-            <div class="desktop-layout">
-                <div class="desktop-sidebar">
-                    <div class="ds-item">Dashboard</div>
-                    <div class="ds-item">Jobs</div>
-                    <div class="ds-item active">Users</div>
-                    <div class="ds-item">Equipment</div>
-                    <div class="ds-item">Forms</div>
-                    <div class="ds-item">Reports</div>
+        <div class="app-shell">
+            <div class="shell-navbar">
+                <div class="nav-logo">
+                    <div class="nav-logo-icon">A</div>
+                    Appello
                 </div>
-                <div class="desktop-main">
-                    <div class="detail-header">
-                        <div class="detail-avatar">MR</div>
-                        <div class="detail-info">
-                            <div class="di-name">Michael Rodriguez</div>
-                            <div class="di-meta">Lead Insulator &middot; EMP-2847 &middot; Active</div>
+                <div class="nav-spacer"></div>
+                <div class="nav-search">
+                    <svg class="search-icon" width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
+                    Search...
+                </div>
+                <div class="nav-avatar">CS</div>
+            </div>
+            <div class="shell-body">
+                <div class="shell-sidebar">
+                    <div class="sidebar-section">
+                        <div class="sidebar-item">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+                            Dashboard
                         </div>
-                        <div class="action-bar">
-                            <button class="wf-btn wf-btn-outline">Edit</button>
-                            <button class="wf-btn wf-btn-outline" style="position: relative;">
-                                Export ▾
-                            </button>
-                            <div class="annotation" data-tip="NEW — Download QR Code Sticker">
-                                <button class="wf-btn wf-btn-qr" style="position: relative;">
-                                    <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zm-2 7a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zm8-12a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z" clip-rule="evenodd"/><path d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zm-1 7a1 1 0 011 1v1h1a1 1 0 110 2h-2a1 1 0 01-1-1v-2a1 1 0 011-1zm6 0a1 1 0 100 2 1 1 0 000-2zm-4 4a1 1 0 011-1h3a1 1 0 110 2h-3a1 1 0 01-1-1zm-2-7a1 1 0 10-2 0v5a1 1 0 102 0V8z"/></svg>
-                                </button>
+                        <div class="sidebar-item">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 6V5a3 3 0 013-3h2a3 3 0 013 3v1h2a2 2 0 012 2v3.57A22.952 22.952 0 0110 13a22.95 22.95 0 01-8-1.43V8a2 2 0 012-2h2zm2-1a1 1 0 011-1h2a1 1 0 011 1v1H8V5zm1 5a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1z" clip-rule="evenodd"/><path d="M2 13.692V16a2 2 0 002 2h12a2 2 0 002-2v-2.308A24.974 24.974 0 0110 15a24.98 24.98 0 01-8-1.308z"/></svg>
+                            Jobs
+                        </div>
+                        <div class="sidebar-item">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
+                            Projects
+                        </div>
+                        <div class="sidebar-item active">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/></svg>
+                            Workforce
+                        </div>
+                        <div class="sidebar-item">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z" clip-rule="evenodd"/></svg>
+                            Equipment
+                        </div>
+                        <div class="sidebar-item">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clip-rule="evenodd"/></svg>
+                            Forms
+                        </div>
+                        <div class="sidebar-item">
+                            <svg class="sidebar-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"/></svg>
+                            Reports
+                        </div>
+                    </div>
+                </div>
+                <div class="shell-main">
+                    <div class="detail-page-header">
+                        <div class="dph-breadcrumbs">
+                            <a href="#">Workforce</a>
+                            <span class="ph-sep">/</span>
+                            <a href="#">Users</a>
+                            <span class="ph-sep">/</span>
+                            <span>Michael Rodriguez</span>
+                        </div>
+                        <div class="dph-top">
+                            <div class="dph-title-area">
+                                <div class="a-avatar xl" style="background: var(--accent); color: white;">MR</div>
+                                <div>
+                                    <div class="dph-title">Michael Rodriguez</div>
+                                    <div class="dph-subtitle">Lead Insulator &middot; EMP-2847 &middot; <span class="a-badge a-badge-success">Active</span></div>
+                                </div>
+                            </div>
+                            <div class="dph-actions">
+                                <button class="a-btn a-btn-secondary">Edit</button>
+                                <button class="a-btn a-btn-secondary">Export ▾</button>
+                                <div class="annotation" data-tip="NEW — Download QR Code Sticker">
+                                    <button class="a-btn a-btn-primary" style="background: #1a1a1a; gap: 6px;">
+                                        <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm2 2V5h1v1H5zm-2 7a1 1 0 011-1h3a1 1 0 011 1v3a1 1 0 01-1 1H4a1 1 0 01-1-1v-3zm2 2v-1h1v1H5zm8-12a1 1 0 00-1 1v3a1 1 0 001 1h3a1 1 0 001-1V4a1 1 0 00-1-1h-3zm1 2v1h1V5h-1z" clip-rule="evenodd"/><path d="M11 4a1 1 0 10-2 0v1a1 1 0 002 0V4zm-1 7a1 1 0 011 1v1h1a1 1 0 110 2h-2a1 1 0 01-1-1v-2a1 1 0 011-1zm6 0a1 1 0 100 2 1 1 0 000-2zm-4 4a1 1 0 011-1h3a1 1 0 110 2h-3a1 1 0 01-1-1zm-2-7a1 1 0 10-2 0v5a1 1 0 102 0V8z"/></svg>
+                                        QR
+                                    </button>
+                                </div>
                             </div>
                         </div>
+                        <div class="dph-tabs">
+                            <div class="tab-item active">Overview</div>
+                            <div class="tab-item">Certifications</div>
+                            <div class="tab-item">Timesheets</div>
+                            <div class="tab-item">HR Documents</div>
+                            <div class="tab-item">Settings</div>
+                        </div>
                     </div>
-
-                    <div style="display: flex; gap: 8px; border-bottom: 1px solid var(--border); margin-bottom: 16px;">
-                        <div style="padding: 8px 16px; font-size: 0.82rem; font-weight: 600; border-bottom: 2px solid var(--accent); color: var(--accent);">Overview</div>
-                        <div style="padding: 8px 16px; font-size: 0.82rem; color: var(--text-muted);">Certifications</div>
-                        <div style="padding: 8px 16px; font-size: 0.82rem; color: var(--text-muted);">Timesheets</div>
-                        <div style="padding: 8px 16px; font-size: 0.82rem; color: var(--text-muted);">HR Documents</div>
-                        <div style="padding: 8px 16px; font-size: 0.82rem; color: var(--text-muted);">Settings</div>
-                    </div>
-
-                    <div style="color: var(--text-muted); font-size: 0.82rem; text-align: center; padding: 40px;">
+                    <div class="detail-page-body" style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 40px;">
                         User detail content renders here...
                     </div>
                 </div>
@@ -624,7 +669,8 @@ tr:last-child td { border-bottom: none; }
         </div>
 
         <div class="dev-note">
-            <div class="dn-title">Dev Notes</div>
+            <div class="dn-title">Dev Notes — Existing Template (Equipment Export Button)</div>
+            <strong>Reference:</strong> See how <code>ExportButton</code> is used in <code>equipment/[id]/index.tsx</code> with <code>reportType: "equipment-qr-code"</code> — replicate this pattern<br>
             <strong>File:</strong> <code>apps/frontend/src/pages/users/[id]/index.tsx</code><br>
             <strong>Component:</strong> Add <code>ExportButton</code> to action area alongside existing Edit/Export buttons<br>
             <strong>Props:</strong> <code>customIcon={&lt;QrcodeIcon /&gt;}</code>, <code>apiLink="/api/pdf-export"</code>, <code>filters={{ reportType: "personnel-qr-code", id: router.query.id }}</code><br>
@@ -715,7 +761,11 @@ tr:last-child td { border-bottom: none; }
         </div>
 
         <div class="dev-note">
-            <div class="dn-title">Dev Notes — Data Sources</div>
+            <div class="dn-title">Dev Notes — Data Sources & Existing Pattern</div>
+            <strong>Existing QR implementation to follow:</strong> <code>apps/frontend/src/components/DownloadablePDF/EquipmentQRCode.tsx</code><br>
+            <strong>Existing PDF handler:</strong> <code>generateEquipmentQRCodePdfDoc</code> in <code>apps/frontend/src/pages/api/pdf-export.ts</code><br>
+            <strong>Existing guest page:</strong> <code>/guest/equipment/[id]</code> with JWT token pattern — personnel guest page at <code>/guest/personnel/[id]</code> should be identical in structure<br>
+            <hr style="border-color: #333; margin: 8px 0;">
             <strong>User fields</strong> (firstName, lastName, position, employeeNumber): <code>prisma.user</code><br>
             <strong>Phone:</strong> Resolved from <code>DocumentAttributeValue</code> (slug: "user-phone" or "phone")<br>
             <strong>Emergency contact + allergies:</strong> <code>prisma.employeeData</code> (linked via user)<br>

@@ -8,27 +8,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #f1f3f7;
-    --bg-dark: #1e293b;
-    --accent-dark: #1d4ed8;
-    --orange: #f59e0b;
-    --orange-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --success: #10b981;
-    --success-light: #d1fae5;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-light: #ede9fe;
+    --bg-panel: rgb(243, 244, 246);
+    --bg-dark: rgb(42, 55, 71);
+    --accent-dark: rgb(59, 118, 238);
+    --orange: rgb(251, 146, 60);
+    --orange-light: rgb(255, 237, 213);
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --purple: rgb(139, 92, 246);
+    --purple-light: rgb(221, 214, 254);
     --text: var(--text-primary);
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -256,88 +257,149 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     <h2>Form Report with Date Range</h2>
     <p class="desc">Add a date range picker to the existing Form Submission Report page. The underlying table component already supports this — the report page just doesn't wire it up.</p>
 
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">/overview/form-submission-report</div></div>
-        <div class="wireframe-body">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-                <h3 style="margin:0;">Form Submission Report</h3>
-                <div class="wf-btn secondary" style="font-size:0.7rem;">Export CSV</div>
+    <div class="app-shell" style="margin-top:1rem;">
+        <!-- Navbar -->
+        <div class="shell-navbar">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">A</div>
+                Appello
             </div>
-
-            <div class="filter-bar">
-                <div class="filter-chip select">Form Type: All</div>
-                <div class="filter-chip select">Project: All</div>
-                <div class="filter-chip select">Job: All</div>
-                <div class="filter-chip select">Status: All</div>
-                <div class="filter-chip select">Submitted By: All</div>
-                <div class="filter-chip highlight" style="border-width:2px;">📅 Date Range: Mar 1 – Mar 11, 2026 <span style="font-weight:700; margin-left:2px; cursor:pointer;">×</span></div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search…</div>
+            <div class="nav-avatar">NN</div>
+        </div>
+        <!-- Body -->
+        <div class="shell-body">
+            <!-- Sidebar -->
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-label">General</div>
+                    <div class="sidebar-item">📊 Dashboard</div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-label">Operations</div>
+                    <div class="sidebar-item">📁 Projects</div>
+                    <div class="sidebar-item">🔧 Jobs</div>
+                    <div class="sidebar-item active">📝 Forms</div>
+                    <div class="sidebar-item">📄 Estimates</div>
+                </div>
+                <div class="sidebar-section">
+                    <div class="sidebar-label">Finance</div>
+                    <div class="sidebar-item">💰 Invoices</div>
+                    <div class="sidebar-item">📊 Reports</div>
+                </div>
             </div>
+            <!-- Main Content -->
+            <div class="shell-main">
+                <div class="page-heading">
+                    <div class="ph-breadcrumbs">
+                        <a>Overview</a> <span class="ph-sep">›</span> Form Submission Report
+                    </div>
+                    <div class="ph-row">
+                        <div class="ph-title">Form Submission Report</div>
+                        <div class="ph-actions">
+                            <div class="a-btn a-btn-secondary a-btn-sm">Export CSV</div>
+                        </div>
+                    </div>
+                </div>
 
-            <table class="wf-table">
-                <thead>
-                    <tr>
-                        <th>Form Name</th>
-                        <th>Job</th>
-                        <th>Submitted By</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                        <th class="right">Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Job Hazard Assessment</strong></td>
-                        <td>Sarnia Refinery — Unit 4</td>
-                        <td>Chris Tremberth</td>
-                        <td class="mono">Mar 11, 2026</td>
-                        <td><span class="badge green">Pass</span></td>
-                        <td class="right"><span style="color:var(--accent); font-size:0.72rem; font-weight:600; cursor:pointer;">View PDF</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Toolbox Talk</strong></td>
-                        <td>NOVA Chemicals Coker</td>
-                        <td>Brad Viers</td>
-                        <td class="mono">Mar 10, 2026</td>
-                        <td><span class="badge green">Pass</span></td>
-                        <td class="right"><span style="color:var(--accent); font-size:0.72rem; font-weight:600; cursor:pointer;">View PDF</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Aerial Boom Inspection</strong></td>
-                        <td>Dow Chemical Bay 7</td>
-                        <td>David Smith</td>
-                        <td class="mono">Mar 8, 2026</td>
-                        <td><span class="badge red">Fail</span></td>
-                        <td class="right"><span style="color:var(--accent); font-size:0.72rem; font-weight:600; cursor:pointer;">View PDF</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>End of Shift Safety Sign Off</strong></td>
-                        <td>Stellantis Windsor — HVAC</td>
-                        <td>Sophia Kiafoulis</td>
-                        <td class="mono">Mar 7, 2026</td>
-                        <td><span class="badge green">Pass</span></td>
-                        <td class="right"><span style="color:var(--accent); font-size:0.72rem; font-weight:600; cursor:pointer;">View PDF</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Job Hazard Assessment</strong></td>
-                        <td>Sunnybrook Hospital Wing C</td>
-                        <td>Nick Newman</td>
-                        <td class="mono">Mar 5, 2026</td>
-                        <td><span class="badge green">Pass</span></td>
-                        <td class="right"><span style="color:var(--accent); font-size:0.72rem; font-weight:600; cursor:pointer;">View PDF</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Toolbox Talk</strong></td>
-                        <td>King West Towers</td>
-                        <td>Eric Krekelberg</td>
-                        <td class="mono">Mar 3, 2026</td>
-                        <td><span class="badge green">Pass</span></td>
-                        <td class="right"><span style="color:var(--accent); font-size:0.72rem; font-weight:600; cursor:pointer;">View PDF</span></td>
-                    </tr>
-                </tbody>
-            </table>
+                <div class="a-list-table-views">
+                    <!-- Toolbar -->
+                    <div class="a-ltv-toolbar">
+                        <div class="a-ltv-search"><span class="search-icon">🔍</span> Search forms…</div>
+                        <div class="toolbar-spacer"></div>
+                        <div class="a-ltv-view-toggle">
+                            <div class="vt-item active">Table</div>
+                            <div class="vt-item">Cards</div>
+                        </div>
+                    </div>
+                    <!-- Filter chips -->
+                    <div class="a-ltv-filters">
+                        <div class="a-filter-chip"><span class="chip-label">Form Type:</span> All</div>
+                        <div class="a-filter-chip"><span class="chip-label">Project:</span> All</div>
+                        <div class="a-filter-chip"><span class="chip-label">Job:</span> All</div>
+                        <div class="a-filter-chip"><span class="chip-label">Status:</span> All</div>
+                        <div class="a-filter-chip"><span class="chip-label">Submitted By:</span> All</div>
+                        <div class="a-filter-chip" style="border-color:var(--warning); background:var(--warning-light); color:var(--on-warning-light); font-weight:600;">📅 Date Range: Mar 1 – Mar 11, 2026 <span class="chip-x" style="font-weight:700;">×</span></div>
+                    </div>
+                    <!-- Table -->
+                    <table class="a-table">
+                        <thead>
+                            <tr>
+                                <th>Form Name</th>
+                                <th>Job</th>
+                                <th>Submitted By</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th style="text-align:right;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Job Hazard Assessment</strong></td>
+                                <td>Sarnia Refinery — Unit 4</td>
+                                <td>Chris Tremberth</td>
+                                <td class="cell-mono">Mar 11, 2026</td>
+                                <td><span class="a-badge a-badge-success">Pass</span></td>
+                                <td style="text-align:right;"><span class="cell-link" style="font-size:0.78rem;">View PDF</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Toolbox Talk</strong></td>
+                                <td>NOVA Chemicals Coker</td>
+                                <td>Brad Viers</td>
+                                <td class="cell-mono">Mar 10, 2026</td>
+                                <td><span class="a-badge a-badge-success">Pass</span></td>
+                                <td style="text-align:right;"><span class="cell-link" style="font-size:0.78rem;">View PDF</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Aerial Boom Inspection</strong></td>
+                                <td>Dow Chemical Bay 7</td>
+                                <td>David Smith</td>
+                                <td class="cell-mono">Mar 8, 2026</td>
+                                <td><span class="a-badge a-badge-danger">Fail</span></td>
+                                <td style="text-align:right;"><span class="cell-link" style="font-size:0.78rem;">View PDF</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>End of Shift Safety Sign Off</strong></td>
+                                <td>Stellantis Windsor — HVAC</td>
+                                <td>Sophia Kiafoulis</td>
+                                <td class="cell-mono">Mar 7, 2026</td>
+                                <td><span class="a-badge a-badge-success">Pass</span></td>
+                                <td style="text-align:right;"><span class="cell-link" style="font-size:0.78rem;">View PDF</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Job Hazard Assessment</strong></td>
+                                <td>Sunnybrook Hospital Wing C</td>
+                                <td>Nick Newman</td>
+                                <td class="cell-mono">Mar 5, 2026</td>
+                                <td><span class="a-badge a-badge-success">Pass</span></td>
+                                <td style="text-align:right;"><span class="cell-link" style="font-size:0.78rem;">View PDF</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Toolbox Talk</strong></td>
+                                <td>King West Towers</td>
+                                <td>Eric Krekelberg</td>
+                                <td class="cell-mono">Mar 3, 2026</td>
+                                <td><span class="a-badge a-badge-success">Pass</span></td>
+                                <td style="text-align:right;"><span class="cell-link" style="font-size:0.78rem;">View PDF</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- Pagination -->
+                    <div class="a-ltv-pagination">
+                        <span>Showing 1–6 of 24</span>
+                        <div class="pg-pages">
+                            <div class="pg-item active">1</div>
+                            <div class="pg-item">2</div>
+                            <div class="pg-item">3</div>
+                            <div class="pg-item">4</div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="dev-note">
-                <strong>Dev:</strong> <code>FormSubmissionTable</code> already accepts a <code>dateRange</code> prop but the Form Report page component doesn't pass it. Add a <code>DateRangePicker</code> to the report page and wire its value to the table's <code>dateRange</code> prop. No backend or query changes required.
+                <div class="dev-note" style="margin-top:1rem;">
+                    <strong>Dev:</strong> Page file: <code>apps/frontend/src/pages/safety-inspection-forms/index.tsx</code>. The <code>FormSubmissionTable</code> component already accepts a <code>dateRange</code> prop but the Form Report page does not pass it — the prop exists but is not wired up. Add a <code>DateRangePicker</code> to the report page and wire its value to the table's <code>dateRange</code> prop. No backend or query changes required.
+                </div>
             </div>
         </div>
     </div>
@@ -424,7 +486,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             </table>
 
             <div class="dev-note">
-                <strong>Dev:</strong> Add checkbox column using existing table selection patterns from <code>ListTableViews</code>. Track selected IDs in local state with <code>useState&lt;Set&lt;string&gt;&gt;</code>. "Select All" checkbox in header toggles all visible rows. "Export Selected" button is disabled when <code>selectedIds.size === 0</code>.
+                <strong>Dev:</strong> Add checkbox column to <code>FormSubmissionTable</code> using existing table selection patterns from <code>ListTableViews</code>. Track selected IDs in local state with <code>useState&lt;Set&lt;string&gt;&gt;</code>. "Select All" checkbox in header toggles all visible rows. "Export Selected" button is disabled when <code>selectedIds.size === 0</code>. Page file: <code>apps/frontend/src/pages/safety-inspection-forms/index.tsx</code>.
             </div>
         </div>
     </div>
@@ -493,7 +555,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </div>
 
     <div class="dev-note" style="margin-top:1rem;">
-        <strong>Dev:</strong> For each selected form, call <code>/api/pdf-export</code> with <code>reportType: "safetyForm"</code> sequentially. Collect the PDF blobs, then merge using <code>pdf-merger-js</code> (already available in <code>ExportButton</code>). Download the combined file as <code>forms-export-YYYY-MM-DD.pdf</code>. Apply settings from <code>PdfFormSubmissionSettingsPanel</code> to each individual PDF request.
+        <strong>Dev:</strong> For each selected form, call <code>apps/frontend/src/pages/api/pdf-export.ts</code> with <code>reportType: "safetyForm"</code> sequentially. Collect the PDF blobs, then merge using <code>pdf-merger-js</code> (already in <code>apps/frontend/package.json</code>, used by <code>packages/ui/src/components/ExportButton/</code>). Download the combined file as <code>forms-export-YYYY-MM-DD.pdf</code>. Apply settings from <code>PdfFormSubmissionSettingsPanel</code> (already exists) to each individual PDF request.
     </div>
 </div>
 
@@ -556,7 +618,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             </div>
 
             <div class="dev-note">
-                <strong>Dev:</strong> There is NO <code>@react-pdf/renderer</code> in the production pipeline. All PDF generation goes through HTML → PSPDFKit API. The <code>pdf-merger-js</code> library is already imported and used in <code>ExportButton</code> — reuse the same pattern for batch form export. No changes to <code>pdf-export.ts</code> are needed; it already supports <code>reportType: "safetyForm"</code>.
+                <strong>Dev:</strong> There is NO <code>@react-pdf/renderer</code> in the production pipeline. All PDF generation goes through HTML → PSPDFKit/Nutrient API via <code>apps/frontend/src/pages/api/pdf-export.ts</code>. The <code>pdf-merger-js</code> library is already in <code>apps/frontend/package.json</code> and used in <code>packages/ui/src/components/ExportButton/</code> — reuse the same pattern for batch form export. No changes to <code>pdf-export.ts</code> are needed; it already supports <code>reportType: "safetyForm"</code>.
             </div>
         </div>
     </div>
@@ -650,7 +712,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             </div>
 
             <div class="dev-note" style="margin-top:1rem;">
-                <strong>Dev:</strong> <code>PdfFormSubmissionSettingsPanel</code> already exists and is functional for single exports. For batch export, show this panel once before initiating the batch — apply the same settings to every form in the batch. Pass settings as query params to each <code>/api/pdf-export</code> call.
+                <strong>Dev:</strong> <code>PdfFormSubmissionSettingsPanel</code> already exists and is functional for single exports. For batch export, show this panel once before initiating the batch — apply the same settings to every form in the batch. Pass settings as query params to each <code>apps/frontend/src/pages/api/pdf-export.ts</code> call. Export button component: <code>packages/ui/src/components/ExportButton/</code>.
             </div>
         </div>
     </div>
@@ -680,7 +742,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code style="font-size:0.68rem;">Form Report page component</code></td>
+                        <td><code style="font-size:0.68rem;">apps/frontend/src/pages/safety-inspection-forms/index.tsx</code></td>
                         <td><span class="badge blue">Modify</span></td>
                         <td>Add <code style="font-size:0.68rem;">DateRangePicker</code> and wire <code style="font-size:0.68rem;">dateRange</code> prop to <code style="font-size:0.68rem;">FormSubmissionTable</code></td>
                         <td class="right"><span class="badge green">Small</span></td>
@@ -688,11 +750,11 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                     <tr>
                         <td><code style="font-size:0.68rem;">FormSubmissionTable</code></td>
                         <td><span class="badge gray">Wire</span></td>
-                        <td>Pass <code style="font-size:0.68rem;">dateRange</code> prop through — component already accepts it</td>
-                        <td class="right"><span class="badge green" style="background:#d1fae5; color:#065f46;">Trivial</span></td>
+                        <td>Pass <code style="font-size:0.68rem;">dateRange</code> prop through — prop already exists but is not wired up</td>
+                        <td class="right"><span class="badge green" style="background:var(--success-light); color:#065f46;">Trivial</span></td>
                     </tr>
                     <tr>
-                        <td><code style="font-size:0.68rem;">Form list component</code></td>
+                        <td><code style="font-size:0.68rem;">FormSubmissionTable</code></td>
                         <td><span class="badge blue">Modify</span></td>
                         <td>Add checkbox column, selection state, "Select All" header, selected count badge</td>
                         <td class="right"><span class="badge orange">Medium</span></td>
@@ -700,19 +762,25 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                     <tr>
                         <td><code style="font-size:0.68rem;">BatchExportButton</code></td>
                         <td><span class="badge purple">New</span></td>
-                        <td>New component: sequential PDF fetch, <code style="font-size:0.68rem;">pdf-merger-js</code> merge, progress modal, download trigger</td>
+                        <td>New component: sequential PDF fetch, <code style="font-size:0.68rem;">pdf-merger-js</code> (<code style="font-size:0.68rem;">apps/frontend/package.json</code>) merge, progress modal, download trigger</td>
                         <td class="right"><span class="badge orange">Medium</span></td>
                     </tr>
                     <tr>
-                        <td><code style="font-size:0.68rem;">pdf-export.ts</code></td>
+                        <td><code style="font-size:0.68rem;">apps/frontend/src/pages/api/pdf-export.ts</code></td>
                         <td><span class="badge gray">None</span></td>
-                        <td>No changes needed — already supports <code style="font-size:0.68rem;">reportType: "safetyForm"</code></td>
+                        <td>No changes needed — already supports <code style="font-size:0.68rem;">reportType: "safetyForm"</code> via PSPDFKit/Nutrient pipeline</td>
                         <td class="right"><span class="badge gray">None</span></td>
                     </tr>
                     <tr>
                         <td><code style="font-size:0.68rem;">PdfFormSubmissionSettingsPanel</code></td>
                         <td><span class="badge gray">None</span></td>
                         <td>No changes — reuse as-is for both single and batch export flows</td>
+                        <td class="right"><span class="badge gray">None</span></td>
+                    </tr>
+                    <tr>
+                        <td><code style="font-size:0.68rem;">packages/ui/src/components/ExportButton/</code></td>
+                        <td><span class="badge gray">None</span></td>
+                        <td>Reference only — reuse <code style="font-size:0.68rem;">pdf-merger-js</code> pattern from this component</td>
                         <td class="right"><span class="badge gray">None</span></td>
                     </tr>
                 </tbody>
@@ -729,7 +797,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
             </div>
 
             <div class="dev-note" style="margin-top:0.75rem;">
-                <strong>Dev:</strong> Start with the date range picker (quick win), then add row selection, then build the batch export button. The <code>pdf-merger-js</code> pattern from <code>ExportButton</code> can be copied almost directly. Test with 5–10 forms to validate merge performance. Forms with many photos will produce larger PDFs — consider a file size warning for batches &gt; 20 forms.
+                <strong>Dev:</strong> Start with the date range picker in <code>apps/frontend/src/pages/safety-inspection-forms/index.tsx</code> (quick win — <code>FormSubmissionTable</code> already has the <code>dateRange</code> prop, just not wired up), then add row selection, then build the batch export button. The <code>pdf-merger-js</code> pattern from <code>packages/ui/src/components/ExportButton/</code> can be copied almost directly. PDF generation goes through <code>apps/frontend/src/pages/api/pdf-export.ts</code> via PSPDFKit/Nutrient. Test with 5–10 forms to validate merge performance. Forms with many photos will produce larger PDFs — consider a file size warning for batches &gt; 20 forms.
             </div>
         </div>
     </div>

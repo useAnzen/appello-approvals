@@ -8,27 +8,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../shared.css">
 <link rel="stylesheet" href="../detail.css">
+<link rel="stylesheet" href="../appello-wireframe-kit.css">
 <style>
 :root {
     --bg-white: #ffffff;
-    --bg-panel: #f1f3f7;
-    --bg-dark: #1e293b;
-    --accent-dark: #1d4ed8;
-    --orange: #f59e0b;
-    --orange-light: #fef3c7;
-    --danger: #ef4444;
-    --danger-light: #fee2e2;
-    --success: #10b981;
-    --success-light: #d1fae5;
-    --warning: #f59e0b;
-    --warning-light: #fef3c7;
-    --info: #3b82f6;
-    --info-light: #dbeafe;
-    --purple: #8b5cf6;
-    --purple-light: #ede9fe;
+    --bg-panel: rgb(243, 244, 246);
+    --bg-dark: rgb(42, 55, 71);
+    --accent-dark: rgb(59, 118, 238);
+    --orange: rgb(251, 146, 60);
+    --orange-light: rgb(255, 237, 213);
+    --danger: rgb(211, 35, 40);
+    --danger-light: rgb(253, 222, 222);
+    --success: rgb(44, 175, 87);
+    --success-light: rgb(216, 252, 229);
+    --warning: rgb(228, 170, 46);
+    --warning-light: rgb(253, 248, 192);
+    --info: rgb(59, 130, 246);
+    --info-light: rgb(191, 219, 254);
+    --purple: rgb(139, 92, 246);
+    --purple-light: rgb(221, 214, 254);
     --text: var(--text-primary);
-    --border-strong: #cbd5e1;
-    --font: "Inter", -apple-system, sans-serif;
+    --border-strong: #d1d5db;
+    --font: "Inter var", "Inter", -apple-system, sans-serif;
     --mono: "JetBrains Mono", monospace;
     --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
 }
@@ -347,7 +348,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 <div class="section" id="timesheet-matrix">
     <div class="section-tag">Interface 1</div>
     <h2>Timesheet Matrix — Current vs. Enhanced Filters</h2>
-    <p class="desc">Route: <code>/timesheets</code> — The Timesheet Matrix is the primary approval interface. Adding User Group and Project Lead filters allows managers to slice the matrix to only the workers relevant to their scope.</p>
+    <p class="desc">Route: <code>/timesheets</code> (<code>apps/frontend/src/pages/timesheets/index.tsx</code>) — The Timesheet Matrix is the primary approval interface. Adding User Group and Project Lead filters allows managers to slice the matrix to only the workers relevant to their scope.</p>
 
     <h3>Before &amp; After</h3>
     <div class="comparison-card" style="margin-bottom: 2rem;">
@@ -390,126 +391,158 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </div>
 
     <h3>Enhanced Timesheet Matrix — Wireframe</h3>
-    <div class="wireframe">
-        <div class="wireframe-header"><div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div><div class="title">/timesheets — User Group: "Field Crew A" selected</div></div>
-        <div class="wireframe-body">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                <h3 style="margin: 0; font-size: 1rem;">Timesheet Matrix</h3>
-                <div style="display: flex; gap: 6px;">
-                    <div class="wf-btn secondary" style="font-size: 0.7rem;">Export CSV</div>
-                    <div class="wf-btn primary" style="font-size: 0.7rem;">Approve Selected</div>
+    <div class="app-shell" style="min-height: 540px;">
+        <div class="shell-navbar">
+            <div class="nav-logo"><div class="nav-logo-icon">A</div> Appello</div>
+            <div class="nav-spacer"></div>
+            <div class="nav-search">🔍 Search...</div>
+            <div class="nav-avatar">JM</div>
+        </div>
+        <div class="shell-body">
+            <div class="shell-sidebar">
+                <div class="sidebar-section">
+                    <div class="sidebar-item">📊 Dashboard</div>
+                    <div class="sidebar-item">📋 Reports</div>
+                    <div class="sidebar-item">🔧 Operations</div>
+                    <div class="sidebar-item active">👥 Workforce</div>
+                    <div class="sidebar-item" style="padding-left: 34px; font-size: 12px;">⏱ Timesheets</div>
+                    <div class="sidebar-item" style="padding-left: 34px; font-size: 12px;">📅 Scheduling</div>
+                    <div class="sidebar-item">💼 CRM</div>
                 </div>
             </div>
+            <div class="shell-main">
+                <div class="page-heading">
+                    <div class="ph-breadcrumbs">
+                        <a href="#">Home</a> <span class="ph-sep">/</span>
+                        <a href="#">Workforce</a> <span class="ph-sep">/</span>
+                        <span>Timesheets</span>
+                    </div>
+                    <div class="ph-row">
+                        <div class="ph-title">Timesheet Matrix</div>
+                        <div class="ph-actions">
+                            <div class="a-btn a-btn-secondary a-btn-sm">Export CSV</div>
+                            <div class="a-btn a-btn-primary a-btn-sm">Approve Selected</div>
+                        </div>
+                    </div>
+                </div>
 
-            <div class="filter-bar">
-                <div class="filter-chip">User: All</div>
-                <div class="filter-chip">Emp Agreement: All</div>
-                <div class="filter-chip">Trade Level: All</div>
-                <div class="filter-chip">Date: Mar 3 – Mar 9</div>
-                <div class="filter-chip">Status: All</div>
-                <div class="filter-chip">Job: All</div>
-                <div class="filter-chip">Project: All</div>
-                <div class="filter-chip active new" style="position: relative;">User Group: Field Crew A</div>
-                <div class="filter-chip new">Project Lead: All</div>
-            </div>
+                <div class="a-card">
+                    <div class="a-ltv-toolbar">
+                        <div class="a-ltv-search"><span class="search-icon">🔍</span> Search workers...</div>
+                        <div class="toolbar-spacer"></div>
+                        <div class="filter-chip">User ▾</div>
+                        <div class="filter-chip">Emp Agreement ▾</div>
+                        <div class="filter-chip">Trade Level ▾</div>
+                        <div class="filter-chip">Date: Mar 3 – Mar 9 ▾</div>
+                        <div class="filter-chip">Status ▾</div>
+                        <div class="filter-chip">Job ▾</div>
+                        <div class="filter-chip">Project ▾</div>
+                        <div class="filter-chip new">User Group ▾</div>
+                        <div class="filter-chip new">Project Lead ▾</div>
+                    </div>
+                    <div class="a-ltv-filters">
+                        <div class="a-filter-chip"><span class="chip-label">User Group:</span> Field Crew A <span class="chip-x">✕</span></div>
+                    </div>
 
-            <div style="overflow-x: auto;">
-                <table class="matrix-grid">
-                    <thead>
-                        <tr>
-                            <th style="text-align: left;">
-                                <input type="checkbox" style="margin-right: 4px;" checked> Worker
-                            </th>
-                            <th>Mon 3</th>
-                            <th>Tue 4</th>
-                            <th>Wed 5</th>
-                            <th>Thu 6</th>
-                            <th>Fri 7</th>
-                            <th>Sat 8</th>
-                            <th>Sun 9</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><input type="checkbox" style="margin-right: 4px;" checked> <strong>Ben Fenske</strong></td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td><strong>40.0</strong></td>
-                            <td><span class="status-pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" style="margin-right: 4px;" checked> <strong>Jared Crotwell</strong></td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">10.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">4.0</td>
-                            <td>—</td>
-                            <td><strong class="hrs-warn">46.0</strong></td>
-                            <td><span class="status-pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" style="margin-right: 4px;" checked> <strong>Nick Newman</strong></td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">6.0</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td><strong>38.0</strong></td>
-                            <td><span class="status-approved">Approved</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" style="margin-right: 4px;"> <strong>Mike Thompson</strong></td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td><strong>40.0</strong></td>
-                            <td><span class="status-pending">Pending</span></td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" style="margin-right: 4px;"> <strong>Jake Rodriguez</strong></td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td>—</td>
-                            <td class="hrs">8.0</td>
-                            <td class="hrs">8.0</td>
-                            <td>—</td>
-                            <td>—</td>
-                            <td><strong>32.0</strong></td>
-                            <td><span class="status-pending">Pending</span></td>
-                        </tr>
-                        <tr class="total-row">
-                            <td style="font-weight: 700;">Total (5 of 5 workers)</td>
-                            <td>40.0</td>
-                            <td>40.0</td>
-                            <td>34.0</td>
-                            <td>40.0</td>
-                            <td>38.0</td>
-                            <td>4.0</td>
-                            <td>0.0</td>
-                            <td><strong>196.0</strong></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                    <div style="overflow-x: auto;">
+                        <table class="matrix-grid">
+                            <thead>
+                                <tr>
+                                    <th style="text-align: left;">
+                                        <input type="checkbox" style="margin-right: 4px;" checked> Worker
+                                    </th>
+                                    <th>Mon 3</th>
+                                    <th>Tue 4</th>
+                                    <th>Wed 5</th>
+                                    <th>Thu 6</th>
+                                    <th>Fri 7</th>
+                                    <th>Sat 8</th>
+                                    <th>Sun 9</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><input type="checkbox" style="margin-right: 4px;" checked> <strong>Ben Fenske</strong></td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td><strong>40.0</strong></td>
+                                    <td><span class="status-pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" style="margin-right: 4px;" checked> <strong>Jared Crotwell</strong></td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">10.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">4.0</td>
+                                    <td>—</td>
+                                    <td><strong class="hrs-warn">46.0</strong></td>
+                                    <td><span class="status-pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" style="margin-right: 4px;" checked> <strong>Nick Newman</strong></td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">6.0</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td><strong>38.0</strong></td>
+                                    <td><span class="status-approved">Approved</span></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" style="margin-right: 4px;"> <strong>Mike Thompson</strong></td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td><strong>40.0</strong></td>
+                                    <td><span class="status-pending">Pending</span></td>
+                                </tr>
+                                <tr>
+                                    <td><input type="checkbox" style="margin-right: 4px;"> <strong>Jake Rodriguez</strong></td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td>—</td>
+                                    <td class="hrs">8.0</td>
+                                    <td class="hrs">8.0</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td><strong>32.0</strong></td>
+                                    <td><span class="status-pending">Pending</span></td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td style="font-weight: 700;">Total (5 of 5 workers)</td>
+                                    <td>40.0</td>
+                                    <td>40.0</td>
+                                    <td>34.0</td>
+                                    <td>40.0</td>
+                                    <td>38.0</td>
+                                    <td>4.0</td>
+                                    <td>0.0</td>
+                                    <td><strong>196.0</strong></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-            <div class="dev-note">
-                <strong>Dev:</strong> Filter bar uses existing <code>TimesheetApprovalGrid</code> filter infrastructure. New dropdowns populate from <code>timeSheetMatrixViewFacets</code> queries. Matrix data from <code>timesheetMatrixView.ts</code> with new <code>userGroupId</code> and <code>projectLeadId</code> WHERE clause parameters.
+                <div class="dev-note" style="margin-top: 12px;">
+                    <strong>Dev:</strong> Timesheet page: <code>apps/frontend/src/pages/timesheets/index.tsx</code>. Matrix component: <code>apps/frontend/src/components/Timesheets/TimesheetApprovalGrid.tsx</code>. Filters use <code>ListFilterDropdown</code> and <code>SelectedFilterBadge</code> components. Facet data from <code>timeSheetMatrixViewFacets</code> query. New dropdowns for <code>userGroupId</code> and <code>projectLeadId</code> added to existing filter infrastructure.
+                </div>
             </div>
         </div>
     </div>
@@ -551,7 +584,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
 <div class="section" id="job-schedule">
     <div class="section-tag green">Interface 2</div>
     <h2>Job Schedule — Current vs. Enhanced Filters</h2>
-    <p class="desc">Route: <code>/scheduling</code> — The Job Schedule currently applies User Group and Project Lead filters client-side, loading ALL data first. Moving to server-side filtering dramatically reduces payload and improves load time.</p>
+    <p class="desc">Route: <code>/scheduling</code> (<code>apps/frontend/src/pages/schedule/index.tsx</code>) — The Job Schedule currently applies User Group and Project Lead filters client-side, loading ALL data first. Moving to server-side filtering dramatically reduces payload and improves load time.</p>
 
     <div class="perf-callout">
         <div class="icon">⚡</div>
@@ -660,7 +693,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
     </div>
 
     <div class="dev-note" style="margin-top: 1rem;">
-        <strong>Dev:</strong> In <code>SchedulingContext.tsx</code>, replace <code>useMemo</code>-based client-side filtering with query variables passed to the <code>jobScheduleList</code> GraphQL query. Remove the <code>useMemo</code> filter logic and wire filter state directly to query variables. Filter selection triggers refetch, not re-render.
+        <strong>Dev:</strong> Job Schedule page: <code>apps/frontend/src/pages/schedule/index.tsx</code>. In <code>SchedulingContext.tsx</code>, replace <code>useMemo</code>-based client-side filtering with query variables passed to the <code>jobScheduleList</code> GraphQL query. Remove the <code>useMemo</code> filter logic and wire filter state directly to query variables. Filter selection triggers refetch, not re-render.
     </div>
 </div>
 
@@ -771,7 +804,7 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                     </tr>
                     <tr>
                         <td><span class="badge orange">Frontend Filters</span></td>
-                        <td><code style="font-family: var(--mono); font-size: 0.72rem;">apps/frontend/src/components/.../TimesheetApprovalGrid.tsx</code></td>
+                        <td><code style="font-family: var(--mono); font-size: 0.72rem;">apps/frontend/src/components/Timesheets/TimesheetApprovalGrid.tsx</code></td>
                         <td>Add two filter dropdown components for User Group and Project Lead. Wire to query variables.</td>
                         <td><span class="badge orange">Medium</span></td>
                     </tr>
@@ -1042,8 +1075,8 @@ p.desc { font-size: 0.88rem; color: var(--text-secondary); max-width: 680px; mar
                 </tr>
                 <tr>
                     <td><span class="badge orange">Frontend Filters</span></td>
-                    <td><code style="font-family: var(--mono); font-size: 0.72rem;">TimesheetApprovalGrid.tsx</code></td>
-                    <td>Add filter dropdown configs</td>
+                    <td><code style="font-family: var(--mono); font-size: 0.72rem;">apps/frontend/src/components/Timesheets/TimesheetApprovalGrid.tsx</code></td>
+                    <td>Add <code>ListFilterDropdown</code> configs for User Group and Project Lead. Active selections shown as <code>SelectedFilterBadge</code> chips.</td>
                 </tr>
             </tbody>
         </table>
