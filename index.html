@@ -256,6 +256,54 @@
             color: #3730a3;
         }
 
+        .wp-drag-wrap {
+            position: relative;
+        }
+
+        .wp-drag-wrap.dragging {
+            opacity: 0.4;
+        }
+
+        .wp-drag-wrap.drag-over-above::before,
+        .wp-drag-wrap.drag-over-below::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: 2px;
+            z-index: 10;
+        }
+
+        .wp-drag-wrap.drag-over-above::before { top: -2px; }
+        .wp-drag-wrap.drag-over-below::after { bottom: -2px; }
+
+        .drag-handle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            flex-shrink: 0;
+            cursor: grab;
+            color: var(--text-muted);
+            margin-right: 8px;
+            user-select: none;
+            border-radius: 4px;
+            transition: color 0.15s, background 0.15s;
+        }
+
+        .drag-handle:hover {
+            color: var(--text-secondary);
+            background: #f1f5f9;
+        }
+
+        .drag-handle:active { cursor: grabbing; }
+
+        .sort-manual .drag-handle { display: flex; }
+
+        .sort-manual .wp-row-top { display: flex; align-items: flex-start; }
+
         .filter-bar {
             display: flex;
             align-items: center;
@@ -345,6 +393,7 @@
                 </select>
                 <label>Sort</label>
                 <select id="sort-by">
+                    <option value="sort_order">Manual Order</option>
                     <option value="created_at">Date Created</option>
                     <option value="rice">RICE Score</option>
                     <option value="priority">Priority</option>
@@ -501,7 +550,13 @@
                 return !wp.parent_work_package_id;
             });
 
-            if (sortBy === "rice") {
+            if (sortBy === "sort_order") {
+                filtered.sort(function (a, b) {
+                    var so = (a.sort_order || 0) - (b.sort_order || 0);
+                    if (so !== 0) return so;
+                    return new Date(b.created_at) - new Date(a.created_at);
+                });
+            } else if (sortBy === "rice") {
                 filtered.sort(function (a, b) {
                     var ra = calcRice(a), rb = calcRice(b);
                     if (ra == null && rb == null) return 0;
@@ -516,12 +571,15 @@
             }
 
             var grid = document.getElementById("doc-list");
+            var isManual = sortBy === "sort_order";
+            grid.classList.toggle("sort-manual", isManual);
+
             if (!filtered.length) {
                 grid.innerHTML = '<div class="empty-state"><h3>No work packages found</h3><p>Try adjusting your filters.</p></div>';
                 return;
             }
 
-            grid.innerHTML = filtered.map(function (wp) {
+            grid.innerHTML = filtered.map(function (wp, idx) {
                 var statusLabel = STATUS_LABELS[wp.status] || wp.status;
                 var href = wp.spec_url || ("./docs/" + wp.slug + ".html");
                 var wpTickets = ticketsByWp[wp.id] || [];
@@ -619,9 +677,14 @@
                     }).join("") + '</div>';
                 }
 
-                return '<div>' +
+                var dragHandle = '<span class="drag-handle" title="Drag to reorder">' +
+                    '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>' +
+                '</span>';
+
+                return '<div class="wp-drag-wrap" data-wp-id="' + wp.id + '" data-wp-idx="' + idx + '" draggable="' + (isManual ? 'true' : 'false') + '">' +
                 '<a href="' + esc(href) + '" class="wp-card">' +
                     '<div class="wp-row-top">' +
+                        dragHandle +
                         '<div class="wp-left">' +
                             '<div class="wp-title">' + esc(wp.title) + "</div>" +
                             '<div class="wp-desc">' + esc(wp.description) + "</div>" +
@@ -639,11 +702,117 @@
                 childHtml +
                 "</div>";
             }).join("");
+
+            if (isManual) initDragAndDrop();
+        }
+
+        var dragSrcEl = null;
+
+        function initDragAndDrop() {
+            var grid = document.getElementById("doc-list");
+            var wraps = grid.querySelectorAll(".wp-drag-wrap");
+
+            wraps.forEach(function (wrap) {
+                wrap.addEventListener("dragstart", function (e) {
+                    dragSrcEl = wrap;
+                    wrap.classList.add("dragging");
+                    e.dataTransfer.effectAllowed = "move";
+                    e.dataTransfer.setData("text/plain", wrap.dataset.wpId);
+                });
+
+                wrap.addEventListener("dragend", function () {
+                    wrap.classList.remove("dragging");
+                    clearDropIndicators();
+                    dragSrcEl = null;
+                });
+
+                wrap.addEventListener("dragover", function (e) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = "move";
+                    if (wrap === dragSrcEl) return;
+                    clearDropIndicators();
+                    var rect = wrap.getBoundingClientRect();
+                    var mid = rect.top + rect.height / 2;
+                    if (e.clientY < mid) {
+                        wrap.classList.add("drag-over-above");
+                    } else {
+                        wrap.classList.add("drag-over-below");
+                    }
+                });
+
+                wrap.addEventListener("dragleave", function () {
+                    wrap.classList.remove("drag-over-above", "drag-over-below");
+                });
+
+                wrap.addEventListener("drop", function (e) {
+                    e.preventDefault();
+                    if (wrap === dragSrcEl || !dragSrcEl) return;
+                    var rect = wrap.getBoundingClientRect();
+                    var mid = rect.top + rect.height / 2;
+                    var insertBefore = e.clientY < mid;
+
+                    if (insertBefore) {
+                        grid.insertBefore(dragSrcEl, wrap);
+                    } else {
+                        grid.insertBefore(dragSrcEl, wrap.nextSibling);
+                    }
+
+                    clearDropIndicators();
+                    persistOrder();
+                });
+            });
+
+            wraps.forEach(function (wrap) {
+                var handle = wrap.querySelector(".drag-handle");
+                if (!handle) return;
+                wrap.setAttribute("draggable", "false");
+                handle.addEventListener("mousedown", function () {
+                    wrap.setAttribute("draggable", "true");
+                });
+                handle.addEventListener("mouseup", function () {
+                    wrap.setAttribute("draggable", "false");
+                });
+                wrap.addEventListener("dragend", function () {
+                    wrap.setAttribute("draggable", "false");
+                });
+            });
+        }
+
+        function clearDropIndicators() {
+            document.querySelectorAll(".drag-over-above, .drag-over-below").forEach(function (el) {
+                el.classList.remove("drag-over-above", "drag-over-below");
+            });
+        }
+
+        function persistOrder() {
+            var wraps = document.querySelectorAll("#doc-list .wp-drag-wrap");
+            var updates = [];
+            wraps.forEach(function (wrap, i) {
+                var wpId = wrap.dataset.wpId;
+                var pkg = allPackages.find(function (p) { return p.id === wpId; });
+                if (pkg) {
+                    pkg.sort_order = i;
+                    updates.push({ id: wpId, sort_order: i });
+                }
+            });
+
+            updates.forEach(function (u) {
+                fetch(API + "/work_packages?id=eq." + u.id, {
+                    method: "PATCH",
+                    headers: {
+                        apikey: cfg.supabaseKey,
+                        Authorization: "Bearer " + cfg.supabaseKey,
+                        "Content-Type": "application/json",
+                        Prefer: "return=minimal"
+                    },
+                    body: JSON.stringify({ sort_order: u.sort_order, updated_at: new Date().toISOString() })
+                });
+            });
         }
 
         function loadAll() {
             return Promise.all([
-                fetch(API + "/work_packages?select=*&order=created_at.desc", { headers: hdrs }).then(function (r) { return r.json(); }),
+                fetch(API + "/work_packages?select=*&order=sort_order.asc,created_at.desc", { headers: hdrs }).then(function (r) { return r.json(); }),
                 fetch(API + "/work_package_tickets?select=*&order=created_at.asc", { headers: hdrs }).then(function (r) { return r.json(); }),
                 fetch(API + "/work_package_prs?select=*&order=created_at.asc", { headers: hdrs }).then(function (r) { return r.json(); }),
                 fetch(API + "/feedback?select=*&order=created_at.desc", { headers: hdrs }).then(function (r) { return r.json(); }),
